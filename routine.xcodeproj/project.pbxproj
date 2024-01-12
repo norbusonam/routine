@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		07FC49512B461D5F003A0E2D /* routineApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07FC49502B461D5F003A0E2D /* routineApp.swift */; };
 		07FC49532B461D5F003A0E2D /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07FC49522B461D5F003A0E2D /* ContentView.swift */; };
-		07FC49552B461D5F003A0E2D /* Item.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07FC49542B461D5F003A0E2D /* Item.swift */; };
 		07FC49572B461D60003A0E2D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 07FC49562B461D60003A0E2D /* Assets.xcassets */; };
 		07FC495A2B461D60003A0E2D /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 07FC49592B461D60003A0E2D /* Preview Assets.xcassets */; };
 /* End PBXBuildFile section */
@@ -18,7 +17,6 @@
 		07FC494D2B461D5F003A0E2D /* routine.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = routine.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		07FC49502B461D5F003A0E2D /* routineApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = routineApp.swift; sourceTree = "<group>"; };
 		07FC49522B461D5F003A0E2D /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
-		07FC49542B461D5F003A0E2D /* Item.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Item.swift; sourceTree = "<group>"; };
 		07FC49562B461D60003A0E2D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		07FC49592B461D60003A0E2D /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		07FC495B2B461D60003A0E2D /* routine.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = routine.entitlements; sourceTree = "<group>"; };
@@ -57,7 +55,6 @@
 			children = (
 				07FC49502B461D5F003A0E2D /* routineApp.swift */,
 				07FC49522B461D5F003A0E2D /* ContentView.swift */,
-				07FC49542B461D5F003A0E2D /* Item.swift */,
 				07FC49562B461D60003A0E2D /* Assets.xcassets */,
 				07FC495B2B461D60003A0E2D /* routine.entitlements */,
 				07FC495C2B461D60003A0E2D /* Info.plist */,
@@ -145,7 +142,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				07FC49532B461D5F003A0E2D /* ContentView.swift in Sources */,
-				07FC49552B461D5F003A0E2D /* Item.swift in Sources */,
 				07FC49512B461D5F003A0E2D /* routineApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
