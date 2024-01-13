@@ -34,6 +34,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		07B9D9512B53411200C5F8F5 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				07FC49522B461D5F003A0E2D /* ContentView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
 		07FC49442B461D5F003A0E2D = {
 			isa = PBXGroup;
 			children = (
@@ -54,7 +62,7 @@
 			isa = PBXGroup;
 			children = (
 				07FC49502B461D5F003A0E2D /* routineApp.swift */,
-				07FC49522B461D5F003A0E2D /* ContentView.swift */,
+				07B9D9512B53411200C5F8F5 /* Views */,
 				07FC49562B461D60003A0E2D /* Assets.xcassets */,
 				07FC495B2B461D60003A0E2D /* routine.entitlements */,
 				07FC495C2B461D60003A0E2D /* Info.plist */,
