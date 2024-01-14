@@ -51,14 +51,13 @@ struct ContentView: View {
                 .overlay(
                     Group {
                         if Calendar.current.isDate(day, inSameDayAs: selectedDate) {
-                        RoundedRectangle(cornerRadius: 12)
-                            .stroke(.purple, lineWidth: 2)
+                            RoundedRectangle(cornerRadius: 12)
+                                .stroke(.purple, lineWidth: 2)
                         }
                     }
-                    .transition(.opacity)
-                    .animation(.snappy(duration: 0.2), value: Calendar.current.isDate(day, inSameDayAs: selectedDate))
+                        .transition(.opacity)
+                        .animation(.snappy(duration: 0.2), value: Calendar.current.isDate(day, inSameDayAs: selectedDate))
                 )
-                
                 Spacer()
             }
         }
