@@ -6,7 +6,6 @@
 //
 
 import SwiftUI
-import SwiftData
 
 func getFirstDayOfTheWeek() -> Date {
     let today = Date()
