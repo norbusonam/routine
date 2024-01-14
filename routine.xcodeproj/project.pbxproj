@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		07B9D9632B53D61D00C5F8F5 /* Routine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07B9D9622B53D61D00C5F8F5 /* Routine.swift */; };
 		07FC49512B461D5F003A0E2D /* routineApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07FC49502B461D5F003A0E2D /* routineApp.swift */; };
 		07FC49532B461D5F003A0E2D /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07FC49522B461D5F003A0E2D /* ContentView.swift */; };
 		07FC49572B461D60003A0E2D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 07FC49562B461D60003A0E2D /* Assets.xcassets */; };
@@ -14,6 +15,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		07B9D9622B53D61D00C5F8F5 /* Routine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Routine.swift; sourceTree = "<group>"; };
 		07FC494D2B461D5F003A0E2D /* routine.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = routine.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		07FC49502B461D5F003A0E2D /* routineApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = routineApp.swift; sourceTree = "<group>"; };
 		07FC49522B461D5F003A0E2D /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -42,6 +44,14 @@
 			path = Views;
 			sourceTree = "<group>";
 		};
+		07B9D9612B53D60C00C5F8F5 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				07B9D9622B53D61D00C5F8F5 /* Routine.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
 		07FC49442B461D5F003A0E2D = {
 			isa = PBXGroup;
 			children = (
@@ -63,6 +73,7 @@
 			children = (
 				07FC49502B461D5F003A0E2D /* routineApp.swift */,
 				07B9D9512B53411200C5F8F5 /* Views */,
+				07B9D9612B53D60C00C5F8F5 /* Models */,
 				07FC49562B461D60003A0E2D /* Assets.xcassets */,
 				07FC495B2B461D60003A0E2D /* routine.entitlements */,
 				07FC495C2B461D60003A0E2D /* Info.plist */,
@@ -151,6 +162,7 @@
 			files = (
 				07FC49532B461D5F003A0E2D /* ContentView.swift in Sources */,
 				07FC49512B461D5F003A0E2D /* routineApp.swift in Sources */,
+				07B9D9632B53D61D00C5F8F5 /* Routine.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
