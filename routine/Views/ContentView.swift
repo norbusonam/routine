@@ -22,43 +22,66 @@ func getFirstLetterOfDay(_ date: Date) -> String {
     return formatter.string(from: date)
 }
 
+func getMonth(_ date: Date) -> String {
+    let formatter = DateFormatter()
+    formatter.dateFormat = "MMMM"
+    return formatter.string(from: date)
+}
+
 func getDayOfMonth(_ date: Date) -> String {
     let calendar = Calendar.current
     let dayOfMonth = calendar.component(.day, from: date)
     return String(dayOfMonth)
 }
 
+func getYear(_ date: Date) -> String {
+    let calendar = Calendar.current
+    let year = calendar.component(.year, from: date)
+    return String(year)
+}
+
 struct ContentView: View {
+    let firstDayOfTheWeek = getFirstDayOfTheWeek()
     @State private var selectedDate = Date.now
     
     var body: some View {
-        HStack {
-            Spacer()
-            ForEach(0..<7, id: \.self) { index in
-                let day = Calendar.current.date(byAdding: .day, value: index, to: getFirstDayOfTheWeek())!
-                Button(action: {
-                    selectedDate = day
-                }) {
-                    VStack(spacing: 10) {
-                        Text(getFirstLetterOfDay(day))
-                            .font(.system(.headline))
-                        Text(getDayOfMonth(day))
-                            .font(.system(.subheadline))
-                    }
-                }
-                .padding(10)
-                .foregroundColor(Calendar.current.isDateInToday(day) ? .purple : .black)
-                .overlay(
-                    Group {
-                        if Calendar.current.isDate(day, inSameDayAs: selectedDate) {
-                            RoundedRectangle(cornerRadius: 12)
-                                .stroke(.purple, lineWidth: 2)
+        VStack(alignment: .leading) {
+            VStack(alignment: .leading) {
+                Text(getYear(firstDayOfTheWeek))
+                    .font(.largeTitle)
+                    .padding(.leading)
+                Text(getMonth(firstDayOfTheWeek))
+                    .font(.callout)
+                    .padding(.leading)
+            }
+            HStack {
+                Spacer()
+                ForEach(0..<7, id: \.self) { index in
+                    let day = Calendar.current.date(byAdding: .day, value: index, to: firstDayOfTheWeek)!
+                    Button(action: {
+                        selectedDate = day
+                    }) {
+                        VStack(spacing: 10) {
+                            Text(getFirstLetterOfDay(day))
+                                .font(.system(.headline))
+                            Text(getDayOfMonth(day))
+                                .font(.system(.subheadline))
                         }
                     }
-                        .transition(.opacity)
-                        .animation(.snappy(duration: 0.2), value: Calendar.current.isDate(day, inSameDayAs: selectedDate))
-                )
-                Spacer()
+                    .padding(10)
+                    .foregroundColor(Calendar.current.isDateInToday(day) ? .purple : .black)
+                    .overlay(
+                        Group {
+                            if Calendar.current.isDate(day, inSameDayAs: selectedDate) {
+                                RoundedRectangle(cornerRadius: 12)
+                                    .stroke(.purple, lineWidth: 2)
+                            }
+                        }
+                            .transition(.opacity)
+                            .animation(.snappy(duration: 0.2), value: Calendar.current.isDate(day, inSameDayAs: selectedDate))
+                    )
+                    Spacer()
+                }
             }
         }
     }
