@@ -19,15 +19,15 @@ enum DaysOfTheWeek {
     case monday, tuesday, wednesday, thursday, friday, saturday, sunday
 }
 
-@Model
-class Routine {
-    var name: String
-    var emoji: Character
-    var type: RoutineType
-    var goal: Int
-    var unit: String
-    var interval: Interval
-    var days: [DaysOfTheWeek]
-    
-    init() { }
-}
+//@Model
+//class Routine {
+//    var name: String
+//    var emoji: Character
+//    var type: RoutineType
+//    var goal: Int
+//    var unit: String
+//    var interval: Interval
+//    var days: [DaysOfTheWeek]
+//    
+//    init() { }
+//}
