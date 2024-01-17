@@ -59,6 +59,12 @@ struct ContentView: View {
             }
             HStack {
                 Spacer()
+                Button {
+                    shiftWeeks(-1)
+                } label: {
+                    Image(systemName: "arrow.left").foregroundColor(.purple)
+                }
+                Spacer()
                 ForEach(0..<7, id: \.self) { index in
                     let day = Calendar.current.date(byAdding: .day, value: index, to: firstDayOfTheWeek)!
                     Button(action: {
@@ -85,19 +91,12 @@ struct ContentView: View {
                     )
                     Spacer()
                 }
-            }
-            HStack {
-                Button {
-                    shiftWeeks(-1)
-                } label: {
-                    Text("prev")
-                }
-                Spacer()
                 Button {
                     shiftWeeks(1)
                 } label: {
-                    Text("next")
+                    Image(systemName: "arrow.right").foregroundColor(.purple)
                 }
+                Spacer()
             }
         }
     }
