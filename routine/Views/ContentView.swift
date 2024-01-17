@@ -98,6 +98,8 @@ struct ContentView: View {
                 }
                 Spacer()
             }
+            .transition(.slide)
+            .animation(.default, value: firstDayOfTheWeek)
         }
     }
 }
