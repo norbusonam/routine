@@ -40,8 +40,12 @@ func getYear(_ date: Date) -> String {
 }
 
 struct ContentView: View {
-    let firstDayOfTheWeek = getFirstDayOfTheWeek()
+    @State private var firstDayOfTheWeek = getFirstDayOfTheWeek()
     @State private var selectedDate = Date.now
+    
+    func shiftWeeks(_ weeks: Int) {
+        firstDayOfTheWeek = Calendar.current.date(byAdding: .day, value: 7 * weeks, to: firstDayOfTheWeek)!
+    }
     
     var body: some View {
         VStack(alignment: .leading) {
@@ -80,6 +84,19 @@ struct ContentView: View {
                             .animation(.snappy(duration: 0.2), value: Calendar.current.isDate(day, inSameDayAs: selectedDate))
                     )
                     Spacer()
+                }
+            }
+            HStack {
+                Button {
+                    shiftWeeks(-1)
+                } label: {
+                    Text("prev")
+                }
+                Spacer()
+                Button {
+                    shiftWeeks(1)
+                } label: {
+                    Text("next")
                 }
             }
         }
