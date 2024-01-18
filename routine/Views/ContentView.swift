@@ -41,21 +41,31 @@ func getYear(_ date: Date) -> String {
 
 struct ContentView: View {
     @State private var firstDayOfTheWeek = getFirstDayOfTheWeek()
+    @State private var lastDayOfTheWeek = Calendar.current.date(byAdding: .day, value: 6, to: getFirstDayOfTheWeek())!
     @State private var selectedDate = Date.now
     
     func shiftWeeks(_ weeks: Int) {
         firstDayOfTheWeek = Calendar.current.date(byAdding: .day, value: 7 * weeks, to: firstDayOfTheWeek)!
+        lastDayOfTheWeek = Calendar.current.date(byAdding: .day, value: 7 * weeks, to: lastDayOfTheWeek)!
     }
     
     var body: some View {
         VStack(alignment: .leading) {
             VStack(alignment: .leading) {
-                Text(getYear(firstDayOfTheWeek))
-                    .font(.largeTitle)
-                    .padding(.leading)
-                Text(getMonth(firstDayOfTheWeek))
-                    .font(.callout)
-                    .padding(.leading)
+                Text(
+                    Calendar.current.isDate(firstDayOfTheWeek, equalTo: lastDayOfTheWeek, toGranularity: .year)
+                    ? getYear(firstDayOfTheWeek)
+                    : getYear(firstDayOfTheWeek) + " - " + getYear(lastDayOfTheWeek)
+                )
+                .font(.largeTitle)
+                .padding(.leading)
+                Text(
+                    Calendar.current.isDate(firstDayOfTheWeek, equalTo: lastDayOfTheWeek, toGranularity: .month)
+                    ? getMonth(firstDayOfTheWeek)
+                    : getMonth(firstDayOfTheWeek) + " - " + getMonth(lastDayOfTheWeek)
+                )
+                .font(.callout)
+                .padding(.leading)
             }
             HStack {
                 Spacer()
