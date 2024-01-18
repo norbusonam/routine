@@ -86,7 +86,6 @@ struct ContentView: View {
                                     .stroke(.purple, lineWidth: 2)
                             }
                         }
-                            .transition(.opacity)
                             .animation(.snappy(duration: 0.2), value: Calendar.current.isDate(day, inSameDayAs: selectedDate))
                     )
                     Spacer()
@@ -98,7 +97,6 @@ struct ContentView: View {
                 }
                 Spacer()
             }
-            .transition(.slide)
             .animation(.default, value: firstDayOfTheWeek)
         }
     }
