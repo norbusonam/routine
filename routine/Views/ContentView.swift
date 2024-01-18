@@ -97,7 +97,7 @@ struct ContentView: View {
                 }
                 Spacer()
             }
-            .animation(.default, value: firstDayOfTheWeek)
+            .animation(.snappy(duration: 0.2), value: firstDayOfTheWeek)
         }
     }
 }
