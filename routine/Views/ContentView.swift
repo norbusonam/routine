@@ -110,10 +110,14 @@ struct ContentView: View {
             .animation(.snappy(duration: 0.2), value: firstDayOfTheWeek)
         }
         ScrollView() {
-            Text("Today")
-            Text("This Week")
-            Text("This Month")
-            Text("This Year")
+            VStack(alignment: .leading) {
+                Text("Today")
+                Text("This Week")
+                Text("This Month")
+                Text("This Year")
+            }
+            .frame(width: UIScreen.main.bounds.width, alignment: .leading)
+            .padding(.leading)
         }
     }
 }
