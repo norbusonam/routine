@@ -109,6 +109,12 @@ struct ContentView: View {
             }
             .animation(.snappy(duration: 0.2), value: firstDayOfTheWeek)
         }
+        ScrollView() {
+            Text("Today")
+            Text("This Week")
+            Text("This Month")
+            Text("This Year")
+        }
     }
 }
 
