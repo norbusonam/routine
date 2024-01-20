@@ -69,12 +69,6 @@ struct ContentView: View {
             }
             HStack {
                 Spacer()
-                Button {
-                    shiftWeeks(-1)
-                } label: {
-                    Image(systemName: "arrow.left").foregroundColor(.purple)
-                }
-                Spacer()
                 ForEach(0..<7, id: \.self) { index in
                     let day = Calendar.current.date(byAdding: .day, value: index, to: firstDayOfTheWeek)!
                     Button(action: {
@@ -100,14 +94,20 @@ struct ContentView: View {
                     )
                     Spacer()
                 }
-                Button {
-                    shiftWeeks(1)
-                } label: {
-                    Image(systemName: "arrow.right").foregroundColor(.purple)
-                }
-                Spacer()
             }
             .animation(.snappy(duration: 0.2), value: firstDayOfTheWeek)
+        }
+        HStack {
+            Button {
+                shiftWeeks(-1)
+            } label: {
+                Image(systemName: "arrow.left").foregroundColor(.purple)
+            }
+            Button {
+                shiftWeeks(1)
+            } label: {
+                Image(systemName: "arrow.right").foregroundColor(.purple)
+            }
         }
         ScrollView() {
             VStack(alignment: .leading) {
