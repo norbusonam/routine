@@ -103,12 +103,14 @@ struct ContentView: View {
             } label: {
                 Image(systemName: "arrow.left").foregroundColor(.purple)
             }
+            .padding()
             Spacer()
             Button {
                 shiftWeeks(1)
             } label: {
                 Image(systemName: "arrow.right").foregroundColor(.purple)
             }
+            .padding()
         }
         ScrollView() {
             VStack(alignment: .leading) {
