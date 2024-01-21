@@ -103,6 +103,7 @@ struct ContentView: View {
             } label: {
                 Image(systemName: "arrow.left").foregroundColor(.purple)
             }
+            Spacer()
             Button {
                 shiftWeeks(1)
             } label: {
