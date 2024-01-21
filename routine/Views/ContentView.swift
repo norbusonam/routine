@@ -67,35 +67,38 @@ struct ContentView: View {
                 .font(.callout)
                 .padding(.leading)
             }
-            HStack {
-                Spacer()
-                ForEach(0..<7, id: \.self) { index in
-                    let day = Calendar.current.date(byAdding: .day, value: index, to: firstDayOfTheWeek)!
-                    Button(action: {
-                        selectedDate = day
-                    }) {
-                        VStack(spacing: 10) {
-                            Text(getFirstLetterOfDay(day))
-                                .font(.system(.headline))
-                            Text(getDayOfMonth(day))
-                                .font(.system(.subheadline))
-                        }
-                    }
-                    .padding(10)
-                    .foregroundColor(Calendar.current.isDateInToday(day) ? .purple : .black)
-                    .overlay(
-                        Group {
-                            if Calendar.current.isDate(day, inSameDayAs: selectedDate) {
-                                RoundedRectangle(cornerRadius: 12)
-                                    .stroke(.purple, lineWidth: 2)
+            TabView {
+                HStack {
+                    Spacer()
+                    ForEach(0..<7, id: \.self) { index in
+                        let day = Calendar.current.date(byAdding: .day, value: index, to: firstDayOfTheWeek)!
+                        Button(action: {
+                            selectedDate = day
+                        }) {
+                            VStack(spacing: 10) {
+                                Text(getFirstLetterOfDay(day))
+                                    .font(.system(.headline))
+                                Text(getDayOfMonth(day))
+                                    .font(.system(.subheadline))
                             }
                         }
-                            .animation(.snappy(duration: 0.2), value: Calendar.current.isDate(day, inSameDayAs: selectedDate))
-                    )
-                    Spacer()
+                        .padding(10)
+                        .foregroundColor(Calendar.current.isDateInToday(day) ? .purple : .black)
+                        .overlay(
+                            Group {
+                                if Calendar.current.isDate(day, inSameDayAs: selectedDate) {
+                                    RoundedRectangle(cornerRadius: 12)
+                                        .stroke(.purple, lineWidth: 2)
+                                }
+                            }
+                                .animation(.snappy(duration: 0.2), value: Calendar.current.isDate(day, inSameDayAs: selectedDate))
+                        )
+                        Spacer()
+                    }
                 }
+                .frame(width: UIScreen.main.bounds.width)
             }
-            .animation(.snappy(duration: 0.2), value: firstDayOfTheWeek)
+            .tabViewStyle(PageTabViewStyle())
         }
         HStack {
             Button {
