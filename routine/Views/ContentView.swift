@@ -42,6 +42,8 @@ func getYear(_ date: Date) -> String {
 struct ContentView: View {
     @State private var firstDayOfTheWeek = getFirstDayOfTheWeek()
     @State private var lastDayOfTheWeek = Calendar.current.date(byAdding: .day, value: 6, to: getFirstDayOfTheWeek())!
+    @State private var weeksBefore = -1
+    @State private var weeksAfter = 1
     @State private var selectedDate = Date.now
     
     var body: some View {
@@ -63,35 +65,38 @@ struct ContentView: View {
                 .padding(.leading)
             }
             TabView {
-                HStack {
-                    Spacer()
-                    ForEach(0..<7, id: \.self) { index in
-                        let day = Calendar.current.date(byAdding: .day, value: index, to: firstDayOfTheWeek)!
-                        Button(action: {
-                            selectedDate = day
-                        }) {
-                            VStack(spacing: 10) {
-                                Text(getFirstLetterOfDay(day))
-                                    .font(.system(.headline))
-                                Text(getDayOfMonth(day))
-                                    .font(.system(.subheadline))
-                            }
-                        }
-                        .padding(10)
-                        .foregroundColor(Calendar.current.isDateInToday(day) ? .purple : .black)
-                        .overlay(
-                            Group {
-                                if Calendar.current.isDate(day, inSameDayAs: selectedDate) {
-                                    RoundedRectangle(cornerRadius: 12)
-                                        .stroke(.purple, lineWidth: 2)
+                ForEach(weeksBefore...weeksAfter, id: \.self) { weeksRelativeToThisWeek in
+                    let firstDayOfWeek = Calendar.current.date(byAdding: .day, value: weeksRelativeToThisWeek * 7, to: firstDayOfTheWeek)!
+                    HStack {
+                        Spacer()
+                        ForEach(0..<7, id: \.self) { index in
+                            let day = Calendar.current.date(byAdding: .day, value: index, to: firstDayOfWeek)!
+                            Button(action: {
+                                selectedDate = day
+                            }) {
+                                VStack(spacing: 10) {
+                                    Text(getFirstLetterOfDay(day))
+                                        .font(.system(.headline))
+                                    Text(getDayOfMonth(day))
+                                        .font(.system(.subheadline))
                                 }
                             }
-                                .animation(.snappy(duration: 0.2), value: Calendar.current.isDate(day, inSameDayAs: selectedDate))
-                        )
-                        Spacer()
+                            .padding(10)
+                            .foregroundColor(Calendar.current.isDateInToday(day) ? .purple : .black)
+                            .overlay(
+                                Group {
+                                    if Calendar.current.isDate(day, inSameDayAs: selectedDate) {
+                                        RoundedRectangle(cornerRadius: 12)
+                                            .stroke(.purple, lineWidth: 2)
+                                    }
+                                }
+                                    .animation(.snappy(duration: 0.2), value: Calendar.current.isDate(day, inSameDayAs: selectedDate))
+                            )
+                            Spacer()
+                        }
                     }
+                    .frame(width: UIScreen.main.bounds.width)
                 }
-                .frame(width: UIScreen.main.bounds.width)
             }
             .tabViewStyle(PageTabViewStyle())
         }
