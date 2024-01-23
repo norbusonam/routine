@@ -44,11 +44,6 @@ struct ContentView: View {
     @State private var lastDayOfTheWeek = Calendar.current.date(byAdding: .day, value: 6, to: getFirstDayOfTheWeek())!
     @State private var selectedDate = Date.now
     
-    func shiftWeeks(_ weeks: Int) {
-        firstDayOfTheWeek = Calendar.current.date(byAdding: .day, value: 7 * weeks, to: firstDayOfTheWeek)!
-        lastDayOfTheWeek = Calendar.current.date(byAdding: .day, value: 7 * weeks, to: lastDayOfTheWeek)!
-    }
-    
     var body: some View {
         VStack(alignment: .leading) {
             VStack(alignment: .leading) {
@@ -99,21 +94,6 @@ struct ContentView: View {
                 .frame(width: UIScreen.main.bounds.width)
             }
             .tabViewStyle(PageTabViewStyle())
-        }
-        HStack {
-            Button {
-                shiftWeeks(-1)
-            } label: {
-                Image(systemName: "arrow.left").foregroundColor(.purple)
-            }
-            .padding()
-            Spacer()
-            Button {
-                shiftWeeks(1)
-            } label: {
-                Image(systemName: "arrow.right").foregroundColor(.purple)
-            }
-            .padding()
         }
         ScrollView() {
             VStack(alignment: .leading) {
