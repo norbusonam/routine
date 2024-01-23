@@ -95,7 +95,6 @@ struct ContentView: View {
                             Spacer()
                         }
                     }
-                    .frame(width: UIScreen.main.bounds.width)
                 }
             }
             .tabViewStyle(PageTabViewStyle())
