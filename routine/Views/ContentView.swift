@@ -44,6 +44,7 @@ struct ContentView: View {
     @State private var lastDayOfTheWeek = Calendar.current.date(byAdding: .day, value: 6, to: getFirstDayOfTheWeek())!
     @State private var weeksBefore = -1
     @State private var weeksAfter = 1
+    @State private var currentWeek = 0
     @State private var selectedDate = Date.now
     
     var body: some View {
@@ -64,7 +65,7 @@ struct ContentView: View {
                 .font(.callout)
                 .padding(.leading)
             }
-            TabView {
+            TabView(selection: $currentWeek) {
                 ForEach(weeksBefore...weeksAfter, id: \.self) { weeksRelativeToThisWeek in
                     let firstDayOfWeek = Calendar.current.date(byAdding: .day, value: weeksRelativeToThisWeek * 7, to: firstDayOfTheWeek)!
                     HStack {
@@ -98,6 +99,13 @@ struct ContentView: View {
                 }
             }
             .tabViewStyle(PageTabViewStyle())
+            .onChange(of: currentWeek, initial: false) {
+                if currentWeek == weeksAfter {
+                    weeksAfter += 1
+                } else if currentWeek == weeksBefore {
+                    weeksBefore -= 1
+                }
+            }
         }
         ScrollView() {
             VStack(alignment: .leading) {
