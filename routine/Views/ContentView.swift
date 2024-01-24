@@ -40,8 +40,8 @@ func getYear(_ date: Date) -> String {
 }
 
 struct ContentView: View {
-    @State private var firstDayOfTheWeek = getFirstDayOfTheWeek()
-    @State private var lastDayOfTheWeek = Calendar.current.date(byAdding: .day, value: 6, to: getFirstDayOfTheWeek())!
+    @State private var firstDayOfCurrentWeek = getFirstDayOfTheWeek()
+    @State private var lastDayOfCurrentWeek = Calendar.current.date(byAdding: .day, value: 6, to: getFirstDayOfTheWeek())!
     @State private var weeksBefore = -1
     @State private var weeksAfter = 1
     @State private var currentWeek = 0
@@ -51,23 +51,23 @@ struct ContentView: View {
         VStack(alignment: .leading) {
             VStack(alignment: .leading) {
                 Text(
-                    Calendar.current.isDate(firstDayOfTheWeek, equalTo: lastDayOfTheWeek, toGranularity: .year)
-                    ? getYear(firstDayOfTheWeek)
-                    : getYear(firstDayOfTheWeek) + " - " + getYear(lastDayOfTheWeek)
+                    Calendar.current.isDate(firstDayOfCurrentWeek, equalTo: lastDayOfCurrentWeek, toGranularity: .year)
+                    ? getYear(firstDayOfCurrentWeek)
+                    : getYear(firstDayOfCurrentWeek) + " - " + getYear(lastDayOfCurrentWeek)
                 )
                 .font(.largeTitle)
                 .padding(.leading)
                 Text(
-                    Calendar.current.isDate(firstDayOfTheWeek, equalTo: lastDayOfTheWeek, toGranularity: .month)
-                    ? getMonth(firstDayOfTheWeek)
-                    : getMonth(firstDayOfTheWeek) + " - " + getMonth(lastDayOfTheWeek)
+                    Calendar.current.isDate(firstDayOfCurrentWeek, equalTo: lastDayOfCurrentWeek, toGranularity: .month)
+                    ? getMonth(firstDayOfCurrentWeek)
+                    : getMonth(firstDayOfCurrentWeek) + " - " + getMonth(lastDayOfCurrentWeek)
                 )
                 .font(.callout)
                 .padding(.leading)
             }
             TabView(selection: $currentWeek) {
                 ForEach(weeksBefore...weeksAfter, id: \.self) { weeksRelativeToThisWeek in
-                    let firstDayOfWeek = Calendar.current.date(byAdding: .day, value: weeksRelativeToThisWeek * 7, to: firstDayOfTheWeek)!
+                    let firstDayOfWeek = Calendar.current.date(byAdding: .day, value: weeksRelativeToThisWeek * 7, to: getFirstDayOfTheWeek())!
                     HStack {
                         Spacer()
                         ForEach(0..<7, id: \.self) { index in
