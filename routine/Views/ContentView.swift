@@ -42,8 +42,8 @@ func getYear(_ date: Date) -> String {
 struct ContentView: View {
     @State private var firstDayOfCurrentWeek = getFirstDayOfTheWeek()
     @State private var lastDayOfCurrentWeek = Calendar.current.date(byAdding: .day, value: 6, to: getFirstDayOfTheWeek())!
-    @State private var weeksBefore = -1
-    @State private var weeksAfter = 1
+    @State private var renderFromRelativeWeek = -1
+    @State private var renderToRelativeWeek = 1
     @State private var currentWeek = 0
     @State private var selectedDate = Date.now
     
@@ -66,7 +66,7 @@ struct ContentView: View {
                 .padding(.leading)
             }
             TabView(selection: $currentWeek) {
-                ForEach(weeksBefore...weeksAfter, id: \.self) { weeksRelativeToThisWeek in
+                ForEach(renderFromRelativeWeek...renderToRelativeWeek, id: \.self) { weeksRelativeToThisWeek in
                     let firstDayOfWeek = Calendar.current.date(byAdding: .day, value: weeksRelativeToThisWeek * 7, to: getFirstDayOfTheWeek())!
                     HStack {
                         Spacer()
