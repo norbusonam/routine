@@ -100,10 +100,10 @@ struct ContentView: View {
             }
             .tabViewStyle(PageTabViewStyle())
             .onChange(of: currentWeek, initial: false) {
-                if currentWeek == weeksAfter {
-                    weeksAfter += 1
-                } else if currentWeek == weeksBefore {
-                    weeksBefore -= 1
+                if currentWeek == renderToRelativeWeek {
+                    renderToRelativeWeek += 1
+                } else if currentWeek == renderFromRelativeWeek {
+                    renderFromRelativeWeek -= 1
                 }
                 firstDayOfCurrentWeek = Calendar.current.date(byAdding: .day, value: 7 * currentWeek, to: getFirstDayOfTheWeek())!
                 lastDayOfCurrentWeek = Calendar.current.date(byAdding: .day, value: 6, to: firstDayOfCurrentWeek)!
