@@ -66,8 +66,8 @@ struct ContentView: View {
                 .padding(.leading)
             }
             TabView(selection: $currentWeek) {
-                ForEach(renderFromRelativeWeek...renderToRelativeWeek, id: \.self) { weeksRelativeToThisWeek in
-                    let firstDayOfWeek = Calendar.current.date(byAdding: .day, value: weeksRelativeToThisWeek * 7, to: getFirstDayOfTheWeek())!
+                ForEach(renderFromRelativeWeek...renderToRelativeWeek, id: \.self) { weekRelativeToThisWeek in
+                    let firstDayOfWeek = Calendar.current.date(byAdding: .day, value: weekRelativeToThisWeek * 7, to: getFirstDayOfTheWeek())!
                     HStack {
                         Spacer()
                         ForEach(0..<7, id: \.self) { index in
