@@ -8,7 +8,7 @@
 import SwiftUI
 import AuthenticationServices
 
-struct AuthView: View {
+struct UnauthenticatedView: View {
     var body: some View {
         SignInWithAppleButton(
             onRequest: { request in
@@ -35,5 +35,5 @@ struct AuthView: View {
 }
 
 #Preview {
-    AuthView()
+    UnauthenticatedView()
 }

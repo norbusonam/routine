@@ -8,7 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		07B9D9632B53D61D00C5F8F5 /* Routine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07B9D9622B53D61D00C5F8F5 /* Routine.swift */; };
-		07B9D9652B6384C000C5F8F5 /* AuthView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07B9D9642B6384C000C5F8F5 /* AuthView.swift */; };
+		07B9D9652B6384C000C5F8F5 /* UnauthenticatedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07B9D9642B6384C000C5F8F5 /* UnauthenticatedView.swift */; };
 		07B9D9672B64D5D100C5F8F5 /* AuthenticatedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07B9D9662B64D5D100C5F8F5 /* AuthenticatedView.swift */; };
 		07FC49512B461D5F003A0E2D /* routineApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07FC49502B461D5F003A0E2D /* routineApp.swift */; };
 		07FC49532B461D5F003A0E2D /* PlannerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07FC49522B461D5F003A0E2D /* PlannerView.swift */; };
@@ -18,7 +18,7 @@
 
 /* Begin PBXFileReference section */
 		07B9D9622B53D61D00C5F8F5 /* Routine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Routine.swift; sourceTree = "<group>"; };
-		07B9D9642B6384C000C5F8F5 /* AuthView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthView.swift; sourceTree = "<group>"; };
+		07B9D9642B6384C000C5F8F5 /* UnauthenticatedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnauthenticatedView.swift; sourceTree = "<group>"; };
 		07B9D9662B64D5D100C5F8F5 /* AuthenticatedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticatedView.swift; sourceTree = "<group>"; };
 		07FC494D2B461D5F003A0E2D /* routine.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = routine.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		07FC49502B461D5F003A0E2D /* routineApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = routineApp.swift; sourceTree = "<group>"; };
@@ -45,7 +45,7 @@
 			children = (
 				07B9D9662B64D5D100C5F8F5 /* AuthenticatedView.swift */,
 				07FC49522B461D5F003A0E2D /* PlannerView.swift */,
-				07B9D9642B6384C000C5F8F5 /* AuthView.swift */,
+				07B9D9642B6384C000C5F8F5 /* UnauthenticatedView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -169,7 +169,7 @@
 				07B9D9672B64D5D100C5F8F5 /* AuthenticatedView.swift in Sources */,
 				07FC49532B461D5F003A0E2D /* PlannerView.swift in Sources */,
 				07FC49512B461D5F003A0E2D /* routineApp.swift in Sources */,
-				07B9D9652B6384C000C5F8F5 /* AuthView.swift in Sources */,
+				07B9D9652B6384C000C5F8F5 /* UnauthenticatedView.swift in Sources */,
 				07B9D9632B53D61D00C5F8F5 /* Routine.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -28,7 +28,7 @@ struct routineApp: App {
             if (authenticated) {
                 AuthenticatedView()
             } else {
-                AuthView()
+                UnauthenticatedView()
             }
         }
         .modelContainer(sharedModelContainer)
