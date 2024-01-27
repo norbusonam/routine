@@ -39,7 +39,7 @@ func getYear(_ date: Date) -> String {
     return String(year)
 }
 
-struct ContentView: View {
+struct PlannerView: View {
     @State private var firstDayOfCurrentWeek = getFirstDayOfTheWeek()
     @State private var lastDayOfCurrentWeek = Calendar.current.date(byAdding: .day, value: 6, to: getFirstDayOfTheWeek())!
     @State private var renderFromRelativeWeek = -1
@@ -96,6 +96,7 @@ struct ContentView: View {
                             Spacer()
                         }
                     }
+                    .frame(width: UIScreen.main.bounds.width)
                 }
             }
             .tabViewStyle(PageTabViewStyle())
@@ -123,5 +124,5 @@ struct ContentView: View {
 }
 
 #Preview {
-    ContentView()
+    PlannerView()
 }
