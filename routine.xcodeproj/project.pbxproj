@@ -43,9 +43,9 @@
 		07B9D9512B53411200C5F8F5 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				07B9D9642B6384C000C5F8F5 /* UnauthenticatedView.swift */,
 				07B9D9662B64D5D100C5F8F5 /* AuthenticatedView.swift */,
 				07FC49522B461D5F003A0E2D /* PlannerView.swift */,
-				07B9D9642B6384C000C5F8F5 /* UnauthenticatedView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
