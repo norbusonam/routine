@@ -25,7 +25,7 @@ struct routineApp: App {
     let authenticated = true
     var body: some Scene {
         WindowGroup {
-            if (authenticated) {
+            if authenticated {
                 AuthenticatedView()
             } else {
                 UnauthenticatedView()
