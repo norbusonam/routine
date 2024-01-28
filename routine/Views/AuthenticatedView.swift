@@ -8,8 +8,30 @@
 import SwiftUI
 
 struct AuthenticatedView: View {
+    @State private var selection = 0
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        TabView(selection: $selection) {
+            Text("First View")
+                .tabItem {
+                    Image(systemName: "1.square.fill")
+                    Text("First")
+                }
+                .tag(0)
+            
+            Text("Second View")
+                .tabItem {
+                    Image(systemName: "2.square.fill")
+                    Text("Second")
+                }
+                .tag(1)
+            
+            Text("Third View")
+                .tabItem {
+                    Image(systemName: "3.square.fill")
+                    Text("Third")
+                }
+                .tag(2)
+        }
     }
 }
 
