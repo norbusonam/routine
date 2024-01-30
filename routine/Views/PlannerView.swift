@@ -124,5 +124,5 @@ struct PlannerView: View {
 }
 
 #Preview {
-    PlannerView()
+    AuthenticatedView()
 }
