@@ -109,16 +109,17 @@ struct PlannerView: View {
                 firstDayOfCurrentWeek = Calendar.current.date(byAdding: .day, value: 7 * currentWeek, to: getFirstDayOfTheWeek())!
                 lastDayOfCurrentWeek = Calendar.current.date(byAdding: .day, value: 6, to: firstDayOfCurrentWeek)!
             }
-        }
-        ScrollView() {
-            VStack(alignment: .leading) {
-                Text("Today")
-                Text("This Week")
-                Text("This Month")
-                Text("This Year")
+            ScrollView() {
+                VStack(alignment: .leading) {
+                    Text("Today")
+                    Text("This Week")
+                    Text("This Month")
+                    Text("This Year")
+                }
+                .frame(width: UIScreen.main.bounds.width, alignment: .leading)
+                .padding(.leading)
             }
-            .frame(width: UIScreen.main.bounds.width, alignment: .leading)
-            .padding(.leading)
+            
         }
     }
 }
