@@ -12,8 +12,8 @@ struct AuthenticatedView: View {
         TabView() {
             PlannerView()
                 .tabItem {
-                    Image(systemName: "1.square.fill")
-                    Text("First")
+                    Image(systemName: "calendar")
+                    Text("Planner")
                 }
         }
     }
