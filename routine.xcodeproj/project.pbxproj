@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0793FCD92B6B5B7300300B50 /* StatsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0793FCD82B6B5B7300300B50 /* StatsView.swift */; };
 		07B9D9632B53D61D00C5F8F5 /* Routine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07B9D9622B53D61D00C5F8F5 /* Routine.swift */; };
 		07B9D9652B6384C000C5F8F5 /* UnauthenticatedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07B9D9642B6384C000C5F8F5 /* UnauthenticatedView.swift */; };
 		07B9D9672B64D5D100C5F8F5 /* AuthenticatedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07B9D9662B64D5D100C5F8F5 /* AuthenticatedView.swift */; };
@@ -17,6 +18,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		0793FCD82B6B5B7300300B50 /* StatsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatsView.swift; sourceTree = "<group>"; };
 		07B9D9622B53D61D00C5F8F5 /* Routine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Routine.swift; sourceTree = "<group>"; };
 		07B9D9642B6384C000C5F8F5 /* UnauthenticatedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnauthenticatedView.swift; sourceTree = "<group>"; };
 		07B9D9662B64D5D100C5F8F5 /* AuthenticatedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticatedView.swift; sourceTree = "<group>"; };
@@ -46,6 +48,7 @@
 				07B9D9642B6384C000C5F8F5 /* UnauthenticatedView.swift */,
 				07B9D9662B64D5D100C5F8F5 /* AuthenticatedView.swift */,
 				07FC49522B461D5F003A0E2D /* PlannerView.swift */,
+				0793FCD82B6B5B7300300B50 /* StatsView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -168,6 +171,7 @@
 			files = (
 				07B9D9672B64D5D100C5F8F5 /* AuthenticatedView.swift in Sources */,
 				07FC49532B461D5F003A0E2D /* PlannerView.swift in Sources */,
+				0793FCD92B6B5B7300300B50 /* StatsView.swift in Sources */,
 				07FC49512B461D5F003A0E2D /* routineApp.swift in Sources */,
 				07B9D9652B6384C000C5F8F5 /* UnauthenticatedView.swift in Sources */,
 				07B9D9632B53D61D00C5F8F5 /* Routine.swift in Sources */,
