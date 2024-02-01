@@ -8,12 +8,15 @@
 import SwiftUI
 
 struct AuthenticatedView: View {
+    @State var page: String = "planner";
+    
     var body: some View {
-        TabView {
+        TabView(selection: $page) {
             PlannerView()
                 .tabItem {
                     Label("Planner", systemImage: "calendar")
                 }
+                .tag("planner")
         }
     }
 }
