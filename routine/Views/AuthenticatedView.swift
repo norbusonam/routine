@@ -9,7 +9,7 @@ import SwiftUI
 
 struct AuthenticatedView: View {
     var body: some View {
-        TabView() {
+        TabView {
             PlannerView()
                 .tabItem {
                     Label("Planner", systemImage: "calendar")
