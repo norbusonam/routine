@@ -17,6 +17,12 @@ struct AuthenticatedView: View {
                     Label("Planner", systemImage: "calendar")
                 }
                 .tag("planner")
+            StatsView()
+                .tabItem {
+                    Label("Stats", systemImage: "chart.bar")
+                }
+                .tag("stats")
+            
         }
     }
 }
