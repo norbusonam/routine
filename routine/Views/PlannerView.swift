@@ -91,7 +91,6 @@ struct PlannerView: View {
                                             .stroke(.purple, lineWidth: 2)
                                     }
                                 }
-                                    .animation(.snappy(duration: 0.2), value: Calendar.current.isDate(day, inSameDayAs: selectedDate))
                             )
                             Spacer()
                         }
