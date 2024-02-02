@@ -14,12 +14,12 @@ struct AuthenticatedView: View {
         TabView(selection: $page) {
             PlannerView()
                 .tabItem {
-                    Label("Planner", systemImage: "calendar")
+                    Image(systemName: "calendar")
                 }
                 .tag("planner")
             StatsView()
                 .tabItem {
-                    Label("Stats", systemImage: "chart.bar")
+                    Image(systemName: "chart.bar")
                 }
                 .tag("stats")
             
