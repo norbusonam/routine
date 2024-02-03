@@ -9,6 +9,7 @@ import SwiftUI
 
 struct AuthenticatedView: View {
     @State var currentPageName: String = "planner";
+    @State var showNewHabitSheet = false;
     
     var body: some View {
         VStack {
@@ -24,6 +25,18 @@ struct AuthenticatedView: View {
             // bottom bar
             HStack {
                 TabItem(pageName: "planner", imageName: "calendar", currentPageName: $currentPageName)
+                Button {
+                    showNewHabitSheet = true;
+                } label: {
+                    Image(systemName: "plus")
+                        .imageScale(.large)
+                        .foregroundColor(.primary)
+                }
+                .sheet(isPresented: $showNewHabitSheet, content: {
+                    NewHabitSheetView()
+                        .interactiveDismissDisabled()
+                        .presentationCornerRadius(55)
+                })
                 TabItem(pageName: "stats", imageName: "chart.bar", currentPageName: $currentPageName)
             }
         }
