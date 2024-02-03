@@ -98,7 +98,7 @@ struct PlannerView: View {
                     .frame(width: UIScreen.main.bounds.width)
                 }
             }
-            .tabViewStyle(PageTabViewStyle())
+            .tabViewStyle(.page(indexDisplayMode: .never))
             .onChange(of: currentWeek, initial: false) {
                 if currentWeek == renderToRelativeWeek {
                     renderToRelativeWeek += 1
