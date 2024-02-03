@@ -30,8 +30,13 @@ struct AuthenticatedView: View {
                 } label: {
                     Image(systemName: "plus")
                         .imageScale(.large)
-                        .foregroundColor(.primary)
+                        .foregroundColor(.white)
                 }
+                .padding()
+                .background(
+                  Circle()
+                    .fill(.accent)
+                )
                 .sheet(isPresented: $showNewHabitSheet, content: {
                     NewHabitSheetView()
                         .interactiveDismissDisabled()
