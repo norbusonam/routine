@@ -83,7 +83,7 @@ struct PlannerView: View {
                                 }
                             }
                             .padding(10)
-                            .foregroundColor(Calendar.current.isDateInToday(day) ? .purple : .black)
+                            .foregroundColor(Calendar.current.isDateInToday(day) ? .accentColor : .primary)
                             .overlay(
                                 Group {
                                     if Calendar.current.isDate(day, inSameDayAs: selectedDate) {
