@@ -72,9 +72,9 @@ struct PlannerView: View {
                         Spacer()
                         ForEach(0..<7, id: \.self) { index in
                             let day = Calendar.current.date(byAdding: .day, value: index, to: firstDayOfWeek)!
-                            Button(action: {
+                            Button {
                                 selectedDate = day
-                            }) {
+                            } label: {
                                 VStack(spacing: 10) {
                                     Text(getFirstLetterOfDay(day))
                                         .font(.system(.headline))

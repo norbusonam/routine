@@ -49,15 +49,15 @@ struct TabItem: View {
     @Binding var currentPageName: String
     
     var body: some View {
-        Button(action: {
+        Button {
             currentPageName = pageName
-        }, label: {
+        } label: {
             Spacer()
             Image(systemName: imageName)
                 .imageScale(.large)
                 .foregroundColor(pageName == currentPageName ? .accentColor : .primary)
             Spacer()
-        })
+        }
         .padding()
     }
 }
