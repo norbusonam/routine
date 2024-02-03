@@ -60,7 +60,7 @@ struct TabItem: View {
             Spacer()
             Image(systemName: imageName)
                 .imageScale(.large)
-                .foregroundColor(pageName == currentPageName ? .accentColor : .primary)
+                .foregroundColor(pageName == currentPageName ? .accent : .primary)
             Spacer()
         }
         .padding()

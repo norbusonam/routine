@@ -83,12 +83,12 @@ struct PlannerView: View {
                                 }
                             }
                             .padding(10)
-                            .foregroundColor(Calendar.current.isDateInToday(day) ? .accentColor : .primary)
+                            .foregroundColor(Calendar.current.isDateInToday(day) ? .accent : .primary)
                             .overlay(
                                 Group {
                                     if Calendar.current.isDate(day, inSameDayAs: selectedDate) {
                                         RoundedRectangle(cornerRadius: 12)
-                                            .stroke(.purple, lineWidth: 2)
+                                            .stroke(.accent, lineWidth: 2)
                                     }
                                 }
                             )
