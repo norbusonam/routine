@@ -74,6 +74,7 @@ struct PlannerView: View {
                 .font(.callout)
                 .padding(.leading)
             }
+            .animation(.easeInOut, value: firstDayOfCurrentWeek)
             TabView(selection: $currentWeek) {
                 ForEach(0...numberOfWeeksToRender, id: \.self) { weekRelativeToThisWeek in
                     let firstDayOfWeek = Calendar.current.date(byAdding: .day, value: weekRelativeToThisWeek * 7, to: startOfTime)!
@@ -107,7 +108,7 @@ struct PlannerView: View {
                 }
             }
             .tabViewStyle(.page(indexDisplayMode: .never))
-            .frame(height: 80)
+            .frame(height: 100)
             .mask(
                 LinearGradient(
                     gradient: Gradient(
