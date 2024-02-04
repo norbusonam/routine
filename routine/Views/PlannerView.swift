@@ -108,6 +108,20 @@ struct PlannerView: View {
             }
             .tabViewStyle(.page(indexDisplayMode: .never))
             .frame(height: 80)
+            .mask(
+                LinearGradient(
+                    gradient: Gradient(
+                        stops: [
+                            .init(color: .clear, location: 0),
+                            .init(color: .black, location: 0.1),
+                            .init(color: .black, location: 0.9),
+                            .init(color: .clear, location: 1)
+                        ]
+                    ),
+                    startPoint: .leading,
+                    endPoint: .trailing
+                )
+            )
             .onChange(of: currentWeek, initial: false) {
                 if (currentWeek == numberOfWeeksToRender) {
                     numberOfWeeksToRender += 1
