@@ -7,11 +7,10 @@
 
 import SwiftUI
 
-func getFirstDayOfTheWeek() -> Date {
-    let today = Date()
+func getFirstDayOfTheWeek(date: Date) -> Date {
     var calendar = Calendar.current
     calendar.firstWeekday = 2
-    let components = calendar.dateComponents([.yearForWeekOfYear, .weekOfYear], from: today)
+    let components = calendar.dateComponents([.yearForWeekOfYear, .weekOfYear], from: date)
     return calendar.date(from: components)!
 }
 
@@ -40,11 +39,21 @@ func getYear(_ date: Date) -> String {
 }
 
 struct PlannerView: View {
-    @State private var firstDayOfCurrentWeek = getFirstDayOfTheWeek()
-    @State private var lastDayOfCurrentWeek = Calendar.current.date(byAdding: .day, value: 6, to: getFirstDayOfTheWeek())!
-    @State private var renderFromRelativeWeek = -1
-    @State private var renderToRelativeWeek = 1
-    @State private var currentWeek = 0
+    // TODO: update to when user created account
+    private var startOfTime = Calendar.current.date(from: DateComponents(year: 2024, month: 1, day: 1))!
+    
+    @State private var firstDayOfCurrentWeek = getFirstDayOfTheWeek(date: Date.now)
+    @State private var lastDayOfCurrentWeek = Calendar.current.date(byAdding: .day, value: 6, to: getFirstDayOfTheWeek(date: Date.now))!
+    @State private var numberOfWeeksToRender = Calendar.current.dateComponents(
+        [.weekOfYear],
+        from: Calendar.current.date(from: DateComponents(year: 2024, month: 1, day: 1))!,
+        to: Calendar.current.date(byAdding: .day, value: 7, to: getFirstDayOfTheWeek(date: Date.now))!)
+        .weekOfYear!
+    @State private var currentWeek = Calendar.current.dateComponents(
+        [.weekOfYear],
+        from: Calendar.current.date(from: DateComponents(year: 2024, month: 1, day: 1))!,
+        to: getFirstDayOfTheWeek(date: Date.now))
+        .weekOfYear!
     @State private var selectedDate = Date.now
     
     var body: some View {
@@ -66,8 +75,8 @@ struct PlannerView: View {
                 .padding(.leading)
             }
             TabView(selection: $currentWeek) {
-                ForEach(renderFromRelativeWeek...renderToRelativeWeek, id: \.self) { weekRelativeToThisWeek in
-                    let firstDayOfWeek = Calendar.current.date(byAdding: .day, value: weekRelativeToThisWeek * 7, to: getFirstDayOfTheWeek())!
+                ForEach(0...numberOfWeeksToRender, id: \.self) { weekRelativeToThisWeek in
+                    let firstDayOfWeek = Calendar.current.date(byAdding: .day, value: weekRelativeToThisWeek * 7, to: startOfTime)!
                     HStack {
                         Spacer()
                         ForEach(0..<7, id: \.self) { index in
@@ -95,17 +104,15 @@ struct PlannerView: View {
                             Spacer()
                         }
                     }
-                    .frame(width: UIScreen.main.bounds.width)
                 }
             }
             .tabViewStyle(.page(indexDisplayMode: .never))
+            .frame(height: 80)
             .onChange(of: currentWeek, initial: false) {
-                if currentWeek == renderToRelativeWeek {
-                    renderToRelativeWeek += 1
-                } else if currentWeek == renderFromRelativeWeek {
-                    renderFromRelativeWeek -= 1
+                if (currentWeek == numberOfWeeksToRender) {
+                    numberOfWeeksToRender += 1
                 }
-                firstDayOfCurrentWeek = Calendar.current.date(byAdding: .day, value: 7 * currentWeek, to: getFirstDayOfTheWeek())!
+                firstDayOfCurrentWeek = Calendar.current.date(byAdding: .day, value: 7 * currentWeek, to: startOfTime)!
                 lastDayOfCurrentWeek = Calendar.current.date(byAdding: .day, value: 6, to: firstDayOfCurrentWeek)!
             }
             ScrollView() {
@@ -115,10 +122,7 @@ struct PlannerView: View {
                     Text("This Month")
                     Text("This Year")
                 }
-                .frame(width: UIScreen.main.bounds.width, alignment: .leading)
-                .padding(.leading)
             }
-            
         }
     }
 }
