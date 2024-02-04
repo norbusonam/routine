@@ -7,16 +7,20 @@
 
 import SwiftUI
 
+enum Page: String {
+    case planner, stats
+}
+
 struct AuthenticatedView: View {
-    @State var currentPageName: String = "planner";
+    @State var currentPage = Page.planner;
     @State var showNewHabitSheet = false;
     
     var body: some View {
         VStack {
             // pages
-            if currentPageName == "planner" {
+            if currentPage == Page.planner {
                 PlannerView()
-            } else if currentPageName == "stats" {
+            } else if currentPage == Page.stats {
                 StatsView()
             }
             
@@ -24,7 +28,7 @@ struct AuthenticatedView: View {
             
             // bottom bar
             HStack {
-                TabItem(pageName: "planner", imageName: "calendar", currentPageName: $currentPageName)
+                TabItem(page: Page.planner, imageName: "calendar", currentPage: $currentPage)
                 Button {
                     showNewHabitSheet = true;
                 } label: {
@@ -42,25 +46,25 @@ struct AuthenticatedView: View {
                         .interactiveDismissDisabled()
                         .presentationCornerRadius(55)
                 })
-                TabItem(pageName: "stats", imageName: "chart.bar", currentPageName: $currentPageName)
+                TabItem(page: Page.stats, imageName: "chart.bar", currentPage: $currentPage)
             }
         }
     }
 }
 
 struct TabItem: View {
-    let pageName: String
+    let page: Page
     let imageName: String
-    @Binding var currentPageName: String
+    @Binding var currentPage: Page
     
     var body: some View {
         Button {
-            currentPageName = pageName
+            currentPage = page
         } label: {
             Spacer()
             Image(systemName: imageName)
                 .imageScale(.large)
-                .foregroundColor(pageName == currentPageName ? .accent : .primary)
+                .foregroundColor(page == currentPage ? .accent : .primary)
             Spacer()
         }
         .padding()

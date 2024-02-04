@@ -14,5 +14,5 @@ struct StatsView: View {
 }
 
 #Preview {
-    AuthenticatedView(currentPageName: "stats")
+    AuthenticatedView(currentPage: Page.stats)
 }
