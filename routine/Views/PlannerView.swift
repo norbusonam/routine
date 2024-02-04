@@ -136,7 +136,23 @@ struct PlannerView: View {
                     Text("This Month")
                     Text("This Year")
                 }
+                .padding()
+                .frame(width: UIScreen.main.bounds.width, alignment: .leading)
             }
+            .mask(
+                LinearGradient(
+                    gradient: Gradient(
+                        stops: [
+                            .init(color: .clear, location: 0),
+                            .init(color: .primary, location: 0.05),
+                            .init(color: .primary, location: 0.95),
+                            .init(color: .clear, location: 1)
+                        ]
+                    ),
+                    startPoint: .top,
+                    endPoint: .bottom
+                )
+            )
         }
     }
 }
