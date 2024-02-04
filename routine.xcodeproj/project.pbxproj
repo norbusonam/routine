@@ -50,8 +50,8 @@
 				07B9D9642B6384C000C5F8F5 /* UnauthenticatedView.swift */,
 				07B9D9662B64D5D100C5F8F5 /* AuthenticatedView.swift */,
 				07FC49522B461D5F003A0E2D /* PlannerView.swift */,
-				0793FCD82B6B5B7300300B50 /* StatsView.swift */,
 				0793FCDA2B6DF01F00300B50 /* NewHabitSheetView.swift */,
+				0793FCD82B6B5B7300300B50 /* StatsView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
