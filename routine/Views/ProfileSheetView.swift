@@ -18,5 +18,5 @@ struct ProfileSheetView: View {
 }
 
 #Preview {
-    ProfileSheetView()
+    AuthenticatedView(showProfileSheet: true)
 }
