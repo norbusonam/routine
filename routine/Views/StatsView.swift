@@ -8,15 +8,22 @@
 import SwiftUI
 
 struct StatsView: View {
+    @Binding var showProfileSheet: Bool
+    
     var body: some View {
-        HStack (alignment: .top) {
+        HStack(alignment: .top) {
             Text("Stats")
                 .font(.largeTitle)
                 .padding(.leading)
             Spacer()
-            Image(systemName: "person.crop.circle")
-                .imageScale(.large)
-                .padding()
+            Button {
+                showProfileSheet = true
+            } label: {
+                Image(systemName: "person.crop.circle")
+                    .imageScale(.large)
+                    .padding()
+            }
+            
         }
     }
 }

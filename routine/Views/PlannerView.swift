@@ -39,6 +39,8 @@ func getYear(_ date: Date) -> String {
 }
 
 struct PlannerView: View {
+    @Binding var showProfileSheet: Bool
+    
     // TODO: update to when user created account
     private var startOfTime = Calendar.current.date(from: DateComponents(year: 2024, month: 1, day: 1))!
     
@@ -56,9 +58,13 @@ struct PlannerView: View {
         .weekOfYear!
     @State private var selectedDate = Date.now
     
+    public init(showProfileSheet: Binding<Bool>) {
+        self._showProfileSheet = showProfileSheet
+    }
+    
     var body: some View {
         VStack(alignment: .leading) {
-            HStack (alignment: .top) {
+            HStack(alignment: .top) {
                 VStack(alignment: .leading) {
                     Text(
                         Calendar.current.isDate(firstDayOfCurrentWeek, equalTo: lastDayOfCurrentWeek, toGranularity: .year)
@@ -77,9 +83,13 @@ struct PlannerView: View {
                 }
                 .animation(.easeInOut, value: firstDayOfCurrentWeek)
                 Spacer()
-                Image(systemName: "person.crop.circle")
-                    .imageScale(.large)
-                    .padding()
+                Button {
+                    showProfileSheet = true
+                } label: {
+                    Image(systemName: "person.crop.circle")
+                        .imageScale(.large)
+                        .padding()
+                }
             }
             TabView(selection: $currentWeek) {
                 ForEach(0...numberOfWeeksToRender, id: \.self) { weekRelativeToThisWeek in

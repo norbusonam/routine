@@ -14,14 +14,15 @@ enum Page: String {
 struct AuthenticatedView: View {
     @State var currentPage = Page.planner;
     @State var showNewHabitSheet = false;
+    @State var showProfileSheet = false;
     
     var body: some View {
         VStack {
             // pages
             if currentPage == Page.planner {
-                PlannerView()
+                PlannerView(showProfileSheet: $showProfileSheet)
             } else if currentPage == Page.stats {
-                StatsView()
+                StatsView(showProfileSheet: $showProfileSheet)
             }
             
             Spacer()
@@ -38,8 +39,8 @@ struct AuthenticatedView: View {
                 }
                 .padding()
                 .background(
-                  Circle()
-                    .fill(.accent)
+                    Circle()
+                        .fill(.accent)
                 )
                 .sheet(isPresented: $showNewHabitSheet, content: {
                     NewHabitSheetView()
@@ -48,6 +49,9 @@ struct AuthenticatedView: View {
                 })
                 TabItem(page: Page.stats, imageName: "chart.bar", currentPage: $currentPage)
             }
+        }.sheet(isPresented: $showProfileSheet) {
+            ProfileSheetView()
+                .presentationDetents([.medium])
         }
     }
 }
