@@ -58,23 +58,29 @@ struct PlannerView: View {
     
     var body: some View {
         VStack(alignment: .leading) {
-            VStack(alignment: .leading) {
-                Text(
-                    Calendar.current.isDate(firstDayOfCurrentWeek, equalTo: lastDayOfCurrentWeek, toGranularity: .year)
-                    ? getYear(firstDayOfCurrentWeek)
-                    : getYear(firstDayOfCurrentWeek) + " - " + getYear(lastDayOfCurrentWeek)
-                )
-                .font(.largeTitle)
-                .padding(.leading)
-                Text(
-                    Calendar.current.isDate(firstDayOfCurrentWeek, equalTo: lastDayOfCurrentWeek, toGranularity: .month)
-                    ? getMonth(firstDayOfCurrentWeek)
-                    : getMonth(firstDayOfCurrentWeek) + " - " + getMonth(lastDayOfCurrentWeek)
-                )
-                .font(.callout)
-                .padding(.leading)
+            HStack (alignment: .top) {
+                VStack(alignment: .leading) {
+                    Text(
+                        Calendar.current.isDate(firstDayOfCurrentWeek, equalTo: lastDayOfCurrentWeek, toGranularity: .year)
+                        ? getYear(firstDayOfCurrentWeek)
+                        : getYear(firstDayOfCurrentWeek) + " - " + getYear(lastDayOfCurrentWeek)
+                    )
+                    .font(.largeTitle)
+                    .padding(.leading)
+                    Text(
+                        Calendar.current.isDate(firstDayOfCurrentWeek, equalTo: lastDayOfCurrentWeek, toGranularity: .month)
+                        ? getMonth(firstDayOfCurrentWeek)
+                        : getMonth(firstDayOfCurrentWeek) + " - " + getMonth(lastDayOfCurrentWeek)
+                    )
+                    .font(.callout)
+                    .padding(.leading)
+                }
+                .animation(.easeInOut, value: firstDayOfCurrentWeek)
+                Spacer()
+                Image(systemName: "person.crop.circle")
+                    .imageScale(.large)
+                    .padding()
             }
-            .animation(.easeInOut, value: firstDayOfCurrentWeek)
             TabView(selection: $currentWeek) {
                 ForEach(0...numberOfWeeksToRender, id: \.self) { weekRelativeToThisWeek in
                     let firstDayOfWeek = Calendar.current.date(byAdding: .day, value: weekRelativeToThisWeek * 7, to: startOfTime)!
