@@ -20,6 +20,7 @@ struct NewHabitSheetView: View {
                 dismiss()
             } label: {
                 Image(systemName: "xmark.circle.fill")
+                    .imageScale(.large)
             }
             .padding()
         }
