@@ -11,13 +11,20 @@ struct NewHabitSheetView: View {
     @Environment(\.dismiss) var dismiss
     
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
-        Button {
-             dismiss()
-        } label: {
-            Image(systemName: "xmark.circle.fill")
+        HStack {
+            Text("New Habit")
+                .font(.title)
+                .padding()
+            Spacer()
+            Button {
+                dismiss()
+            } label: {
+                Image(systemName: "xmark.circle.fill")
+            }
+            .padding()
         }
         .padding()
+        Spacer()
     }
 }
 
