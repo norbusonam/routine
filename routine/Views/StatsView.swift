@@ -9,7 +9,15 @@ import SwiftUI
 
 struct StatsView: View {
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        HStack (alignment: .top) {
+            Text("Stats")
+                .font(.largeTitle)
+                .padding(.leading)
+            Spacer()
+            Image(systemName: "person.crop.circle")
+                .imageScale(.large)
+                .padding()
+        }
     }
 }
 
