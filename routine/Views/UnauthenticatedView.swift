@@ -1,5 +1,5 @@
 //
-//  AuthView.swift
+//  UnauthenticatedView.swift
 //  routine
 //
 //  Created by Norbu Sonam on 1/25/24.
