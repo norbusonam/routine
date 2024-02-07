@@ -72,14 +72,12 @@ struct PlannerView: View {
                         : getYear(firstDayOfCurrentWeek) + " - " + getYear(lastDayOfCurrentWeek)
                     )
                     .font(.largeTitle)
-                    .padding(.leading)
                     Text(
                         Calendar.current.isDate(firstDayOfCurrentWeek, equalTo: lastDayOfCurrentWeek, toGranularity: .month)
                         ? getMonth(firstDayOfCurrentWeek)
                         : getMonth(firstDayOfCurrentWeek) + " - " + getMonth(lastDayOfCurrentWeek)
                     )
                     .font(.callout)
-                    .padding(.leading)
                 }
                 .animation(.easeInOut, value: firstDayOfCurrentWeek)
                 Spacer()
@@ -88,9 +86,9 @@ struct PlannerView: View {
                 } label: {
                     Image(systemName: "person.crop.circle")
                         .imageScale(.large)
-                        .padding()
                 }
             }
+            .padding(.horizontal)
             TabView(selection: $currentWeek) {
                 ForEach(0...numberOfWeeksToRender, id: \.self) { weekRelativeToThisWeek in
                     let firstDayOfWeek = Calendar.current.date(byAdding: .day, value: weekRelativeToThisWeek * 7, to: startOfTime)!

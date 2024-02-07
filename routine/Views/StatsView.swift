@@ -14,17 +14,15 @@ struct StatsView: View {
         HStack(alignment: .top) {
             Text("Stats")
                 .font(.largeTitle)
-                .padding(.leading)
             Spacer()
             Button {
                 showProfileSheet = true
             } label: {
                 Image(systemName: "person.crop.circle")
                     .imageScale(.large)
-                    .padding()
             }
-            
         }
+        .padding(.horizontal)
     }
 }
 

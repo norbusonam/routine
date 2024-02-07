@@ -14,7 +14,6 @@ struct NewHabitSheetView: View {
         HStack {
             Text("New Habit")
                 .font(.title)
-                .padding()
             Spacer()
             Button {
                 dismiss()
@@ -22,7 +21,6 @@ struct NewHabitSheetView: View {
                 Image(systemName: "xmark.circle.fill")
                     .imageScale(.large)
             }
-            .padding()
         }
         .padding()
         Spacer()
