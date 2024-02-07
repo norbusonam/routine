@@ -111,7 +111,7 @@ struct PlannerView: View {
                             .overlay(
                                 Group {
                                     if Calendar.current.isDate(day, inSameDayAs: selectedDate) {
-                                        RoundedRectangle(cornerRadius: 12)
+                                        RoundedRectangle(cornerRadius: 10)
                                             .stroke(.accent, lineWidth: 2)
                                     }
                                 }
