@@ -45,7 +45,6 @@ struct AuthenticatedView: View {
                 .sheet(isPresented: $showNewHabitSheet, content: {
                     NewHabitSheetView()
                         .interactiveDismissDisabled()
-                        .presentationCornerRadius(55)
                 })
                 TabItem(page: Page.stats, imageName: "chart.bar", currentPage: $currentPage)
             }
