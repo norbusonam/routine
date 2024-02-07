@@ -9,14 +9,12 @@ import SwiftUI
 
 struct ProfileSheetView: View {
     var body: some View {
-        List{
-            Button {
-            } label: {
-                Text("Sign Out")
-                    .foregroundColor(.red)
+        List {
+            Button("Sign Out") {
+                // TODO: sign out logic
             }
+            .foregroundColor(.red)
         }
-        .scrollDisabled(true)
     }
 }
 
