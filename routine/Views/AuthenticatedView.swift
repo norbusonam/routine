@@ -46,11 +46,19 @@ struct AuthenticatedView: View {
                     NewHabitSheetView()
                         .interactiveDismissDisabled()
                 })
+                .sensoryFeedback(.impact, trigger: showNewHabitSheet) { _, newValue in
+                    newValue == true
+                }
                 TabItem(page: Page.stats, imageName: "chart.bar", currentPage: $currentPage)
             }
-        }.sheet(isPresented: $showProfileSheet) {
+            .sensoryFeedback(.selection, trigger: currentPage)
+        }
+        .sheet(isPresented: $showProfileSheet) {
             ProfileSheetView()
                 .presentationDetents([.medium])
+        }
+        .sensoryFeedback(.impact, trigger: showProfileSheet) { _, newValue in
+            newValue == true
         }
     }
 }

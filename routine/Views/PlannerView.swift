@@ -123,6 +123,7 @@ struct PlannerView: View {
             }
             .tabViewStyle(.page(indexDisplayMode: .never))
             .frame(height: 100)
+            .sensoryFeedback(.selection, trigger: selectedDate)
             .mask(
                 LinearGradient(
                     gradient: Gradient(
