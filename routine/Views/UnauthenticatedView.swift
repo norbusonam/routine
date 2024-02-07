@@ -32,7 +32,6 @@ struct UnauthenticatedView: View {
         .frame(width: UIScreen.main.bounds.width - 50, height: 50)
         .cornerRadius(25)
     }
-
 }
 
 #Preview {
