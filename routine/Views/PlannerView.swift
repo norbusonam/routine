@@ -7,77 +7,22 @@
 
 import SwiftUI
 
-func getFirstDayOfTheWeek(date: Date) -> Date {
-    var calendar = Calendar.current
-    calendar.firstWeekday = 2
-    let components = calendar.dateComponents([.yearForWeekOfYear, .weekOfYear], from: date)
-    return calendar.date(from: components)!
-}
-
-func getFirstLetterOfDay(_ date: Date) -> String {
-    let formatter = DateFormatter()
-    formatter.dateFormat = "EEEEE"
-    return formatter.string(from: date)
-}
-
-func getMonth(_ date: Date) -> String {
-    let formatter = DateFormatter()
-    formatter.dateFormat = "MMMM"
-    return formatter.string(from: date)
-}
-
-func getDayOfMonth(_ date: Date) -> String {
-    let calendar = Calendar.current
-    let dayOfMonth = calendar.component(.day, from: date)
-    return String(dayOfMonth)
-}
-
-func getYear(_ date: Date) -> String {
-    let calendar = Calendar.current
-    let year = calendar.component(.year, from: date)
-    return String(year)
-}
-
-func isSameMonth(_ date1: Date, _ date2: Date) -> Bool {
-    return Calendar.current.isDate(date1, equalTo: date2, toGranularity: .month)
-}
-
-func isSameYear(_ date1: Date, _ date2: Date) -> Bool {
-    return Calendar.current.isDate(date1, equalTo: date2, toGranularity: .year)
-}
-
-func getYearHeader(_ firstDayOfWeekEpoch: TimeInterval) -> String {
-    let firstDayOfWeek = Date(timeIntervalSince1970: firstDayOfWeekEpoch)
-    let lastDayOfWeek = Calendar.current.date(byAdding: .day, value: 6, to: firstDayOfWeek)!
-    return isSameYear(firstDayOfWeek, lastDayOfWeek)
-        ? getYear(firstDayOfWeek)
-        : getYear(firstDayOfWeek) + " - " + getYear(lastDayOfWeek)
-}
-
-func getMonthSubheader(_ firstDayOfWeekEpoch: TimeInterval) -> String {
-    let firstDayOfWeek = Date(timeIntervalSince1970: firstDayOfWeekEpoch)
-    let lastDayOfWeek = Calendar.current.date(byAdding: .day, value: 6, to: firstDayOfWeek)!
-    return isSameMonth(firstDayOfWeek, lastDayOfWeek)
-        ? getMonth(firstDayOfWeek)
-        : getMonth(firstDayOfWeek) + " - " + getMonth(lastDayOfWeek)
-}
-
 struct PlannerView: View {
     @Binding var showProfileSheet: Bool
     
     // TODO: update to when user created account
     private var startOfTime = Calendar.current.date(from: DateComponents(year: 2024, month: 1, day: 1))!
     
-    @SceneStorage("firstDayOfCurrentWeekEpoch") private var firstDayOfCurrentWeekEpoch = getFirstDayOfTheWeek(date: Date.now).timeIntervalSince1970
+    @SceneStorage("firstDayOfCurrentWeekEpoch") private var firstDayOfCurrentWeekEpoch = DateHelpers.getFirstDayOfTheWeek(date: Date.now).timeIntervalSince1970
     @SceneStorage("numberOfWeeksToRender") private var numberOfWeeksToRender = Calendar.current.dateComponents(
         [.weekOfYear],
         from: Calendar.current.date(from: DateComponents(year: 2024, month: 1, day: 1))!,
-        to: Calendar.current.date(byAdding: .day, value: 7, to: getFirstDayOfTheWeek(date: Date.now))!)
+        to: Calendar.current.date(byAdding: .day, value: 7, to: DateHelpers.getFirstDayOfTheWeek(date: Date.now))!)
         .weekOfYear!
     @SceneStorage("currentWeek") private var currentWeek = Calendar.current.dateComponents(
         [.weekOfYear],
         from: Calendar.current.date(from: DateComponents(year: 2024, month: 1, day: 1))!,
-        to: getFirstDayOfTheWeek(date: Date.now))
+        to: DateHelpers.getFirstDayOfTheWeek(date: Date.now))
         .weekOfYear!
     @SceneStorage("selectedDateEpoch") private var selectedDateEpoch = Date.now.timeIntervalSince1970
     
@@ -89,9 +34,9 @@ struct PlannerView: View {
         VStack(alignment: .leading) {
             HStack(alignment: .top) {
                 VStack(alignment: .leading) {
-                    Text(getYearHeader(firstDayOfCurrentWeekEpoch))
+                    Text(DateHelpers.getYearHeader(firstDayOfCurrentWeekEpoch))
                         .font(.largeTitle)
-                    Text(getMonthSubheader(firstDayOfCurrentWeekEpoch))
+                    Text(DateHelpers.getMonthSubheader(firstDayOfCurrentWeekEpoch))
                         .font(.callout)
                 }
                 .animation(.easeInOut, value: firstDayOfCurrentWeekEpoch)
@@ -115,9 +60,9 @@ struct PlannerView: View {
                                 selectedDateEpoch = day.timeIntervalSince1970
                             } label: {
                                 VStack(spacing: 10) {
-                                    Text(getFirstLetterOfDay(day))
+                                    Text(DateHelpers.getFirstLetterOfDay(day))
                                         .font(.system(.headline))
-                                    Text(getDayOfMonth(day))
+                                    Text(DateHelpers.getDayOfMonth(day))
                                         .font(.system(.subheadline))
                                 }
                             }
@@ -184,6 +129,63 @@ struct PlannerView: View {
                 )
             )
         }
+    }
+}
+
+fileprivate struct DateHelpers {
+    static func getFirstDayOfTheWeek(date: Date) -> Date {
+        var calendar = Calendar.current
+        calendar.firstWeekday = 2
+        let components = calendar.dateComponents([.yearForWeekOfYear, .weekOfYear], from: date)
+        return calendar.date(from: components)!
+    }
+
+    static func getFirstLetterOfDay(_ date: Date) -> String {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "EEEEE"
+        return formatter.string(from: date)
+    }
+
+    static func getMonth(_ date: Date) -> String {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "MMMM"
+        return formatter.string(from: date)
+    }
+
+    static func getDayOfMonth(_ date: Date) -> String {
+        let calendar = Calendar.current
+        let dayOfMonth = calendar.component(.day, from: date)
+        return String(dayOfMonth)
+    }
+
+    static func getYear(_ date: Date) -> String {
+        let calendar = Calendar.current
+        let year = calendar.component(.year, from: date)
+        return String(year)
+    }
+
+    static func isSameMonth(_ date1: Date, _ date2: Date) -> Bool {
+        return Calendar.current.isDate(date1, equalTo: date2, toGranularity: .month)
+    }
+
+    static func isSameYear(_ date1: Date, _ date2: Date) -> Bool {
+        return Calendar.current.isDate(date1, equalTo: date2, toGranularity: .year)
+    }
+
+    static func getYearHeader(_ firstDayOfWeekEpoch: TimeInterval) -> String {
+        let firstDayOfWeek = Date(timeIntervalSince1970: firstDayOfWeekEpoch)
+        let lastDayOfWeek = Calendar.current.date(byAdding: .day, value: 6, to: firstDayOfWeek)!
+        return isSameYear(firstDayOfWeek, lastDayOfWeek)
+            ? getYear(firstDayOfWeek)
+            : getYear(firstDayOfWeek) + " - " + getYear(lastDayOfWeek)
+    }
+
+    static func getMonthSubheader(_ firstDayOfWeekEpoch: TimeInterval) -> String {
+        let firstDayOfWeek = Date(timeIntervalSince1970: firstDayOfWeekEpoch)
+        let lastDayOfWeek = Calendar.current.date(byAdding: .day, value: 6, to: firstDayOfWeek)!
+        return isSameMonth(firstDayOfWeek, lastDayOfWeek)
+            ? getMonth(firstDayOfWeek)
+            : getMonth(firstDayOfWeek) + " - " + getMonth(lastDayOfWeek)
     }
 }
 
