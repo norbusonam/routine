@@ -38,20 +38,43 @@ func getYear(_ date: Date) -> String {
     return String(year)
 }
 
+func isSameMonth(_ date1: Date, _ date2: Date) -> Bool {
+    return Calendar.current.isDate(date1, equalTo: date2, toGranularity: .month)
+}
+
+func isSameYear(_ date1: Date, _ date2: Date) -> Bool {
+    return Calendar.current.isDate(date1, equalTo: date2, toGranularity: .year)
+}
+
+func getYearHeader(_ firstDayOfWeekEpoch: TimeInterval) -> String {
+    let firstDayOfWeek = Date(timeIntervalSince1970: firstDayOfWeekEpoch)
+    let lastDayOfWeek = Calendar.current.date(byAdding: .day, value: 6, to: firstDayOfWeek)!
+    return isSameYear(firstDayOfWeek, lastDayOfWeek)
+        ? getYear(firstDayOfWeek)
+        : getYear(firstDayOfWeek) + " - " + getYear(lastDayOfWeek)
+}
+
+func getMonthSubheader(_ firstDayOfWeekEpoch: TimeInterval) -> String {
+    let firstDayOfWeek = Date(timeIntervalSince1970: firstDayOfWeekEpoch)
+    let lastDayOfWeek = Calendar.current.date(byAdding: .day, value: 6, to: firstDayOfWeek)!
+    return isSameMonth(firstDayOfWeek, lastDayOfWeek)
+        ? getMonth(firstDayOfWeek)
+        : getMonth(firstDayOfWeek) + " - " + getMonth(lastDayOfWeek)
+}
+
 struct PlannerView: View {
     @Binding var showProfileSheet: Bool
     
     // TODO: update to when user created account
     private var startOfTime = Calendar.current.date(from: DateComponents(year: 2024, month: 1, day: 1))!
     
-    @State private var firstDayOfCurrentWeek = getFirstDayOfTheWeek(date: Date.now)
-    @State private var lastDayOfCurrentWeek = Calendar.current.date(byAdding: .day, value: 6, to: getFirstDayOfTheWeek(date: Date.now))!
-    @State private var numberOfWeeksToRender = Calendar.current.dateComponents(
+    @SceneStorage("firstDayOfCurrentWeekEpoch") private var firstDayOfCurrentWeekEpoch = getFirstDayOfTheWeek(date: Date.now).timeIntervalSince1970
+    @SceneStorage("numberOfWeeksToRender") private var numberOfWeeksToRender = Calendar.current.dateComponents(
         [.weekOfYear],
         from: Calendar.current.date(from: DateComponents(year: 2024, month: 1, day: 1))!,
         to: Calendar.current.date(byAdding: .day, value: 7, to: getFirstDayOfTheWeek(date: Date.now))!)
         .weekOfYear!
-    @State private var currentWeek = Calendar.current.dateComponents(
+    @SceneStorage("currentWeek") private var currentWeek = Calendar.current.dateComponents(
         [.weekOfYear],
         from: Calendar.current.date(from: DateComponents(year: 2024, month: 1, day: 1))!,
         to: getFirstDayOfTheWeek(date: Date.now))
@@ -66,20 +89,12 @@ struct PlannerView: View {
         VStack(alignment: .leading) {
             HStack(alignment: .top) {
                 VStack(alignment: .leading) {
-                    Text(
-                        Calendar.current.isDate(firstDayOfCurrentWeek, equalTo: lastDayOfCurrentWeek, toGranularity: .year)
-                        ? getYear(firstDayOfCurrentWeek)
-                        : getYear(firstDayOfCurrentWeek) + " - " + getYear(lastDayOfCurrentWeek)
-                    )
-                    .font(.largeTitle)
-                    Text(
-                        Calendar.current.isDate(firstDayOfCurrentWeek, equalTo: lastDayOfCurrentWeek, toGranularity: .month)
-                        ? getMonth(firstDayOfCurrentWeek)
-                        : getMonth(firstDayOfCurrentWeek) + " - " + getMonth(lastDayOfCurrentWeek)
-                    )
-                    .font(.callout)
+                    Text(getYearHeader(firstDayOfCurrentWeekEpoch))
+                        .font(.largeTitle)
+                    Text(getMonthSubheader(firstDayOfCurrentWeekEpoch))
+                        .font(.callout)
                 }
-                .animation(.easeInOut, value: firstDayOfCurrentWeek)
+                .animation(.easeInOut, value: firstDayOfCurrentWeekEpoch)
                 Spacer()
                 Button {
                     showProfileSheet = true
@@ -142,8 +157,7 @@ struct PlannerView: View {
                 if (currentWeek == numberOfWeeksToRender) {
                     numberOfWeeksToRender += 1
                 }
-                firstDayOfCurrentWeek = Calendar.current.date(byAdding: .day, value: 7 * currentWeek, to: startOfTime)!
-                lastDayOfCurrentWeek = Calendar.current.date(byAdding: .day, value: 6, to: firstDayOfCurrentWeek)!
+                firstDayOfCurrentWeekEpoch = Calendar.current.date(byAdding: .day, value: 7 * currentWeek, to: startOfTime)!.timeIntervalSince1970
             }
             ScrollView() {
                 VStack(alignment: .leading) {
