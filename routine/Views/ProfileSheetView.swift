@@ -15,6 +15,7 @@ struct ProfileSheetView: View {
             }
             .foregroundColor(.red)
         }
+        .scrollDisabled(true)
     }
 }
 

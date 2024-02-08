@@ -12,9 +12,9 @@ enum Page: String {
 }
 
 struct AuthenticatedView: View {
-    @State var currentPage = Page.planner;
-    @State var showNewHabitSheet = false;
-    @State var showProfileSheet = false;
+    @State var currentPage = Page.planner
+    @State var showNewHabitSheet = false
+    @State var showProfileSheet = false
     
     var body: some View {
         VStack {
@@ -55,7 +55,8 @@ struct AuthenticatedView: View {
         }
         .sheet(isPresented: $showProfileSheet) {
             ProfileSheetView()
-                .presentationDetents([.medium])
+                .presentationDetents([.height(100)])
+            
         }
         .sensoryFeedback(.impact, trigger: showProfileSheet) { _, newValue in
             newValue == true
