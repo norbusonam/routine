@@ -32,6 +32,9 @@ struct PlannerView: View {
     
     var body: some View {
         VStack(alignment: .leading) {
+            // +--------+
+            // | header |
+            // +--------+
             HStack(alignment: .top) {
                 VStack(alignment: .leading) {
                     Text(DateHelpers.getYearHeader(firstDayOfCurrentWeekEpoch))
@@ -49,6 +52,9 @@ struct PlannerView: View {
                 }
             }
             .padding(.horizontal)
+            // +---------------+
+            // | week carousel |
+            // +---------------+
             TabView(selection: $currentWeek) {
                 ForEach(0...numberOfWeeksToRender, id: \.self) { weekRelativeToThisWeek in
                     let firstDayOfWeek = Calendar.current.date(byAdding: .day, value: weekRelativeToThisWeek * 7, to: startOfTime)!
@@ -104,6 +110,9 @@ struct PlannerView: View {
                 }
                 firstDayOfCurrentWeekEpoch = Calendar.current.date(byAdding: .day, value: 7 * currentWeek, to: startOfTime)!.timeIntervalSince1970
             }
+            // +--------+
+            // | habits |
+            // +--------+
             ScrollView() {
                 VStack(alignment: .leading) {
                     Text("Today")
