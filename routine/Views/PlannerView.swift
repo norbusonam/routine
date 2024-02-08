@@ -56,7 +56,7 @@ struct PlannerView: View {
         from: Calendar.current.date(from: DateComponents(year: 2024, month: 1, day: 1))!,
         to: getFirstDayOfTheWeek(date: Date.now))
         .weekOfYear!
-    @State private var selectedDate = Date.now
+    @SceneStorage("selectedDateEpoch") private var selectedDateEpoch = Date.now.timeIntervalSince1970
     
     public init(showProfileSheet: Binding<Bool>) {
         self._showProfileSheet = showProfileSheet
@@ -97,7 +97,7 @@ struct PlannerView: View {
                         ForEach(0..<7, id: \.self) { index in
                             let day = Calendar.current.date(byAdding: .day, value: index, to: firstDayOfWeek)!
                             Button {
-                                selectedDate = day
+                                selectedDateEpoch = day.timeIntervalSince1970
                             } label: {
                                 VStack(spacing: 10) {
                                     Text(getFirstLetterOfDay(day))
@@ -110,7 +110,7 @@ struct PlannerView: View {
                             .foregroundColor(Calendar.current.isDateInToday(day) ? .accent : .primary)
                             .overlay(
                                 Group {
-                                    if Calendar.current.isDate(day, inSameDayAs: selectedDate) {
+                                    if Calendar.current.isDate(day, inSameDayAs: Date(timeIntervalSince1970: selectedDateEpoch)) {
                                         RoundedRectangle(cornerRadius: 10)
                                             .stroke(.accent, lineWidth: 2)
                                     }
@@ -123,7 +123,7 @@ struct PlannerView: View {
             }
             .tabViewStyle(.page(indexDisplayMode: .never))
             .frame(height: 100)
-            .sensoryFeedback(.selection, trigger: selectedDate)
+            .sensoryFeedback(.selection, trigger: selectedDateEpoch)
             .mask(
                 LinearGradient(
                     gradient: Gradient(
