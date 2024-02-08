@@ -31,7 +31,7 @@ struct AuthenticatedView: View {
             HStack {
                 TabItem(page: Page.planner, imageName: "calendar", currentPage: $currentPage)
                 Button {
-                    showNewHabitSheet = true;
+                    showNewHabitSheet = true
                 } label: {
                     Image(systemName: "plus")
                         .imageScale(.large)
