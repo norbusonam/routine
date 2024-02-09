@@ -8,10 +8,10 @@
 import SwiftUI
 
 struct PlannerView: View {
-    @Binding var showProfileSheet: Bool
-    
     // TODO: update to when user created account
-    private var startOfTime = Calendar.current.date(from: DateComponents(year: 2024, month: 1, day: 1))!
+    private let startOfTime = Calendar.current.date(from: DateComponents(year: 2024, month: 1, day: 1))!
+    
+    @Binding var showProfileSheet: Bool
     
     @SceneStorage("firstDayOfCurrentWeekEpoch") private var firstDayOfCurrentWeekEpoch = DateHelpers.getFirstDayOfTheWeek(date: Date.now).timeIntervalSince1970
     @SceneStorage("numberOfWeeksToRender") private var numberOfWeeksToRender = Calendar.current.dateComponents(
