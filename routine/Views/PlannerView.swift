@@ -142,8 +142,9 @@ struct PlannerView: View {
 }
 
 fileprivate struct DateHelpers {
+    static var calendar = Calendar.current
+    
     static func getFirstDayOfTheWeek(date: Date) -> Date {
-        var calendar = Calendar.current
         calendar.firstWeekday = 2
         let components = calendar.dateComponents([.yearForWeekOfYear, .weekOfYear], from: date)
         return calendar.date(from: components)!
@@ -162,28 +163,26 @@ fileprivate struct DateHelpers {
     }
 
     static func getDayOfMonth(_ date: Date) -> String {
-        let calendar = Calendar.current
         let dayOfMonth = calendar.component(.day, from: date)
         return String(dayOfMonth)
     }
 
     static func getYear(_ date: Date) -> String {
-        let calendar = Calendar.current
         let year = calendar.component(.year, from: date)
         return String(year)
     }
 
     static func isSameMonth(_ date1: Date, _ date2: Date) -> Bool {
-        return Calendar.current.isDate(date1, equalTo: date2, toGranularity: .month)
+        return calendar.isDate(date1, equalTo: date2, toGranularity: .month)
     }
 
     static func isSameYear(_ date1: Date, _ date2: Date) -> Bool {
-        return Calendar.current.isDate(date1, equalTo: date2, toGranularity: .year)
+        return calendar.isDate(date1, equalTo: date2, toGranularity: .year)
     }
 
     static func getYearHeader(_ firstDayOfWeekEpoch: TimeInterval) -> String {
         let firstDayOfWeek = Date(timeIntervalSince1970: firstDayOfWeekEpoch)
-        let lastDayOfWeek = Calendar.current.date(byAdding: .day, value: 6, to: firstDayOfWeek)!
+        let lastDayOfWeek = calendar.date(byAdding: .day, value: 6, to: firstDayOfWeek)!
         return isSameYear(firstDayOfWeek, lastDayOfWeek)
             ? getYear(firstDayOfWeek)
             : getYear(firstDayOfWeek) + " - " + getYear(lastDayOfWeek)
@@ -191,7 +190,7 @@ fileprivate struct DateHelpers {
 
     static func getMonthSubheader(_ firstDayOfWeekEpoch: TimeInterval) -> String {
         let firstDayOfWeek = Date(timeIntervalSince1970: firstDayOfWeekEpoch)
-        let lastDayOfWeek = Calendar.current.date(byAdding: .day, value: 6, to: firstDayOfWeek)!
+        let lastDayOfWeek = calendar.date(byAdding: .day, value: 6, to: firstDayOfWeek)!
         return isSameMonth(firstDayOfWeek, lastDayOfWeek)
             ? getMonth(firstDayOfWeek)
             : getMonth(firstDayOfWeek) + " - " + getMonth(lastDayOfWeek)
