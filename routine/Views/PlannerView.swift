@@ -149,51 +149,51 @@ fileprivate struct DateHelpers {
         let components = calendar.dateComponents([.yearForWeekOfYear, .weekOfYear], from: date)
         return calendar.date(from: components)!
     }
-
+    
     static func getFirstLetterOfDay(_ date: Date) -> String {
         let formatter = DateFormatter()
         formatter.dateFormat = "EEEEE"
         return formatter.string(from: date)
     }
-
+    
     static func getMonth(_ date: Date) -> String {
         let formatter = DateFormatter()
         formatter.dateFormat = "MMMM"
         return formatter.string(from: date)
     }
-
+    
     static func getDayOfMonth(_ date: Date) -> String {
         let dayOfMonth = calendar.component(.day, from: date)
         return String(dayOfMonth)
     }
-
+    
     static func getYear(_ date: Date) -> String {
         let year = calendar.component(.year, from: date)
         return String(year)
     }
-
+    
     static func isSameMonth(_ date1: Date, _ date2: Date) -> Bool {
         return calendar.isDate(date1, equalTo: date2, toGranularity: .month)
     }
-
+    
     static func isSameYear(_ date1: Date, _ date2: Date) -> Bool {
         return calendar.isDate(date1, equalTo: date2, toGranularity: .year)
     }
-
+    
     static func getYearHeader(_ firstDayOfWeekEpoch: TimeInterval) -> String {
         let firstDayOfWeek = Date(timeIntervalSince1970: firstDayOfWeekEpoch)
         let lastDayOfWeek = calendar.date(byAdding: .day, value: 6, to: firstDayOfWeek)!
         return isSameYear(firstDayOfWeek, lastDayOfWeek)
-            ? getYear(firstDayOfWeek)
-            : getYear(firstDayOfWeek) + " - " + getYear(lastDayOfWeek)
+        ? getYear(firstDayOfWeek)
+        : getYear(firstDayOfWeek) + " - " + getYear(lastDayOfWeek)
     }
-
+    
     static func getMonthSubheader(_ firstDayOfWeekEpoch: TimeInterval) -> String {
         let firstDayOfWeek = Date(timeIntervalSince1970: firstDayOfWeekEpoch)
         let lastDayOfWeek = calendar.date(byAdding: .day, value: 6, to: firstDayOfWeek)!
         return isSameMonth(firstDayOfWeek, lastDayOfWeek)
-            ? getMonth(firstDayOfWeek)
-            : getMonth(firstDayOfWeek) + " - " + getMonth(lastDayOfWeek)
+        ? getMonth(firstDayOfWeek)
+        : getMonth(firstDayOfWeek) + " - " + getMonth(lastDayOfWeek)
     }
 }
 
