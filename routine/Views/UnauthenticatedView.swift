@@ -12,6 +12,7 @@ struct UnauthenticatedView: View {
     @Environment(\.colorScheme) var userColorScheme
     
     @State private var showView = false
+    @State private var logoRotation = 0.0
     
     var body: some View {
         VStack {
@@ -21,6 +22,11 @@ struct UnauthenticatedView: View {
                 .aspectRatio(contentMode: .fit)
                 .foregroundColor(.accent)
                 .frame(width: UIScreen.main.bounds.width / 6)
+                .rotationEffect(.degrees(logoRotation))
+                .animation(Animation.linear(duration: 6).repeatForever(autoreverses: false), value: logoRotation)
+                .onAppear {
+                    logoRotation = 360
+                }
             Spacer()
             SignInWithAppleButton(
                 onRequest: { request in
@@ -43,6 +49,7 @@ struct UnauthenticatedView: View {
             )
             .signInWithAppleButtonStyle(userColorScheme == .dark ? .white : .black)
             .frame(width: UIScreen.main.bounds.width - 50, height: 50)
+            .padding(.bottom)
             .id(userColorScheme)
         }
         .opacity(showView ? 1 : 0)
