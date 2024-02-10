@@ -17,8 +17,10 @@ struct UnauthenticatedView: View {
         VStack {
             Spacer()
             Image(systemName: "arrow.triangle.2.circlepath")
-                .imageScale(.large)
+                .resizable()
+                .aspectRatio(contentMode: .fit)
                 .foregroundColor(.accent)
+                .frame(width: UIScreen.main.bounds.width / 6)
             Spacer()
             SignInWithAppleButton(
                 onRequest: { request in
