@@ -27,6 +27,9 @@ struct UnauthenticatedView: View {
                 .onAppear {
                     logoRotation = 360
                 }
+            Text("Routine")
+                .font(.largeTitle)
+                .padding()
             Spacer()
             SignInWithAppleButton(
                 onRequest: { request in
