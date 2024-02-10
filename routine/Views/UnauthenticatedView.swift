@@ -13,6 +13,7 @@ struct UnauthenticatedView: View {
     
     @State private var showView = false
     @State private var logoRotation = 0.0
+    @State private var isLogoPressed = false
     
     var body: some View {
         VStack {
@@ -24,6 +25,18 @@ struct UnauthenticatedView: View {
                 .frame(width: UIScreen.main.bounds.width / 6)
                 .rotationEffect(.degrees(logoRotation))
                 .animation(Animation.linear(duration: 6).repeatForever(autoreverses: false), value: logoRotation)
+                .scaleEffect(isLogoPressed ? 0.9 : 1)
+                .animation(.easeInOut(duration: 0.1), value: isLogoPressed)
+                .sensoryFeedback(.impact, trigger: isLogoPressed)
+                .gesture(
+                    DragGesture(minimumDistance: 0)
+                        .onChanged { _ in
+                            isLogoPressed = true
+                        }
+                        .onEnded { _ in
+                            isLogoPressed = false
+                        }
+                )
                 .onAppear {
                     logoRotation = 360
                 }
