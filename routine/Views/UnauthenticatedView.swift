@@ -11,34 +11,43 @@ import AuthenticationServices
 struct UnauthenticatedView: View {
     @Environment(\.colorScheme) var userColorScheme
     
+    @State private var showView = false
+    
     var body: some View {
-        Spacer()
-        Image(systemName: "arrow.triangle.2.circlepath")
-            .imageScale(.large)
-            .foregroundColor(.accent)
-        Spacer()
-        SignInWithAppleButton(
-            onRequest: { request in
-                // Handle the sign-in request if needed
-            },
-            onCompletion: { result in
-                // Handle the sign-in completion
-                switch result {
-                case .success(let authorization):
-                    // Handle successful sign-in
-                    if authorization.credential is ASAuthorizationAppleIDCredential {
-                        // Handle the user's Apple ID credential
-                        // You may extract user information like name, email, etc. from appleIDCredential
+        VStack {
+            Spacer()
+            Image(systemName: "arrow.triangle.2.circlepath")
+                .imageScale(.large)
+                .foregroundColor(.accent)
+            Spacer()
+            SignInWithAppleButton(
+                onRequest: { request in
+                    // Handle the sign-in request if needed
+                },
+                onCompletion: { result in
+                    // Handle the sign-in completion
+                    switch result {
+                    case .success(let authorization):
+                        // Handle successful sign-in
+                        if authorization.credential is ASAuthorizationAppleIDCredential {
+                            // Handle the user's Apple ID credential
+                            // You may extract user information like name, email, etc. from appleIDCredential
+                        }
+                    case .failure(let error):
+                        // Handle sign-in failure
+                        print("Sign in with Apple failed: \(error.localizedDescription)")
                     }
-                case .failure(let error):
-                    // Handle sign-in failure
-                    print("Sign in with Apple failed: \(error.localizedDescription)")
                 }
-            }
-        )
-        .signInWithAppleButtonStyle(userColorScheme == .dark ? .white : .black)
-        .frame(width: UIScreen.main.bounds.width - 50, height: 50)
-        .id(userColorScheme)
+            )
+            .signInWithAppleButtonStyle(userColorScheme == .dark ? .white : .black)
+            .frame(width: UIScreen.main.bounds.width - 50, height: 50)
+            .id(userColorScheme)
+        }
+        .opacity(showView ? 1 : 0)
+        .animation(.easeIn(duration: 1), value: showView)
+        .onAppear {
+            showView = true
+        }
     }
 }
 
