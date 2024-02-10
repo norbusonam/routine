@@ -10,6 +10,12 @@ import AuthenticationServices
 
 struct UnauthenticatedView: View {
     var body: some View {
+        Spacer()
+        Image(systemName: "arrow.triangle.2.circlepath")
+            .imageScale(.large)
+            .foregroundColor(.accent)
+            .rotationEffect(.degrees(360))
+        Spacer()
         SignInWithAppleButton(
             onRequest: { request in
                 // Handle the sign-in request if needed
@@ -30,7 +36,6 @@ struct UnauthenticatedView: View {
             }
         )
         .frame(width: UIScreen.main.bounds.width - 50, height: 50)
-        .cornerRadius(25)
     }
 }
 
