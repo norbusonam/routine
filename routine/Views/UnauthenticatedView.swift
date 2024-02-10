@@ -9,12 +9,13 @@ import SwiftUI
 import AuthenticationServices
 
 struct UnauthenticatedView: View {
+    @Environment(\.colorScheme) var userColorScheme
+    
     var body: some View {
         Spacer()
         Image(systemName: "arrow.triangle.2.circlepath")
             .imageScale(.large)
             .foregroundColor(.accent)
-            .rotationEffect(.degrees(360))
         Spacer()
         SignInWithAppleButton(
             onRequest: { request in
@@ -35,7 +36,9 @@ struct UnauthenticatedView: View {
                 }
             }
         )
+        .signInWithAppleButtonStyle(userColorScheme == .dark ? .white : .black)
         .frame(width: UIScreen.main.bounds.width - 50, height: 50)
+        .id(userColorScheme)
     }
 }
 
