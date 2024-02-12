@@ -70,9 +70,7 @@ struct TabItem: View {
     @Binding var currentPage: Page
     
     var body: some View {
-        Button {
-            currentPage = page
-        } label: {
+        HStack {
             Spacer()
             Image(systemName: imageName)
                 .imageScale(.large)
@@ -80,6 +78,10 @@ struct TabItem: View {
             Spacer()
         }
         .padding()
+        .onTapGesture {
+            currentPage = page
+        }
+        .border(.red)
     }
 }
 
