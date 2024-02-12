@@ -81,7 +81,6 @@ struct TabItem: View {
         .onTapGesture {
             currentPage = page
         }
-        .border(.red)
     }
 }
 
