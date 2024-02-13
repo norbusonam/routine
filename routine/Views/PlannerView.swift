@@ -194,6 +194,16 @@ fileprivate struct DateHelpers {
         ? getMonth(firstDayOfWeek)
         : getMonth(firstDayOfWeek) + " - " + getMonth(lastDayOfWeek)
     }
+    
+    static func getDayLabel(_ day: Date) -> String {
+        if (calendar.isDateInToday(day)) {
+            return "Today"
+        } else if (calendar.isDateInTomorrow(day)) {
+            return "Tomorrow"
+        } else {
+            return day.formatted()
+        }
+    }
 }
 
 #Preview {
