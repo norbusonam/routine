@@ -62,15 +62,14 @@ struct PlannerView: View {
                         Spacer()
                         ForEach(0..<7, id: \.self) { index in
                             let day = Calendar.current.date(byAdding: .day, value: index, to: firstDayOfWeek)!
-                            Button {
+                            VStack(spacing: 10) {
+                                Text(DateHelpers.getFirstLetterOfDay(day))
+                                    .font(.system(.headline))
+                                Text(DateHelpers.getDayOfMonth(day))
+                                    .font(.system(.subheadline))
+                            }
+                            .onTapGesture {
                                 selectedDateEpoch = day.timeIntervalSince1970
-                            } label: {
-                                VStack(spacing: 10) {
-                                    Text(DateHelpers.getFirstLetterOfDay(day))
-                                        .font(.system(.headline))
-                                    Text(DateHelpers.getDayOfMonth(day))
-                                        .font(.system(.subheadline))
-                                }
                             }
                             .padding(10)
                             .foregroundColor(Calendar.current.isDateInToday(day) ? .accent : .primary)
