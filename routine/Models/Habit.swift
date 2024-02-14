@@ -20,7 +20,7 @@ enum DaysOfTheWeek: String {
 }
 
 @Model
-class Routine {
+class Habit {
     var name: String
     var emoji: String
     var type: String
