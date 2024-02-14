@@ -114,7 +114,7 @@ struct PlannerView: View {
             // +--------+
             ScrollView() {
                 VStack(alignment: .leading) {
-                    Text("Today")
+                    Text(DateHelpers.getDayLabel(selectedDateEpoch))
                     Text("This Week")
                     Text("This Month")
                     Text("This Year")
@@ -195,7 +195,8 @@ fileprivate struct DateHelpers {
         : getMonth(firstDayOfWeek) + " - " + getMonth(lastDayOfWeek)
     }
     
-    static func getDayLabel(_ day: Date) -> String {
+    static func getDayLabel(_ dayEpoch: TimeInterval) -> String {
+        let day = Date(timeIntervalSince1970: dayEpoch)
         if (calendar.isDateInToday(day)) {
             return "Today"
         } else if (calendar.isDateInTomorrow(day)) {
