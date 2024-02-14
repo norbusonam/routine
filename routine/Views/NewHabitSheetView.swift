@@ -11,19 +11,21 @@ struct NewHabitSheetView: View {
     @Environment(\.dismiss) var dismiss
     
     var body: some View {
-        HStack {
-            Text("New Habit")
-                .font(.title)
-            Spacer()
-            Button {
-                dismiss()
-            } label: {
-                Image(systemName: "xmark.circle.fill")
-                    .imageScale(.large)
+        VStack() {
+            HStack {
+                Spacer()
+                Button {
+                    dismiss()
+                } label: {
+                    Image(systemName: "xmark.circle.fill")
+                        .imageScale(.large)
+                }
+                .padding()
             }
+            Spacer()
+            Text("form content")
+            Spacer()
         }
-        .padding()
-        Spacer()
     }
 }
 
