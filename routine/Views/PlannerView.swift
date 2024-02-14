@@ -115,9 +115,17 @@ struct PlannerView: View {
             ScrollView() {
                 VStack(alignment: .leading) {
                     Text(DateHelpers.getDayLabel(selectedDateEpoch))
+                        .font(.title3)
+                        .bold()
                     Text("This Week")
+                        .font(.title3)
+                        .bold()
                     Text("This Month")
+                        .font(.title3)
+                        .bold()
                     Text("This Year")
+                        .font(.title3)
+                        .bold()
                 }
                 .padding()
                 .frame(width: UIScreen.main.bounds.width, alignment: .leading)
