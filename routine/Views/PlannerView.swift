@@ -201,8 +201,16 @@ fileprivate struct DateHelpers {
             return "Today"
         } else if (calendar.isDateInTomorrow(day)) {
             return "Tomorrow"
+        } else if (calendar.isDateInYesterday(day)) {
+            return "Yesterday"
         } else {
-            return day.formatted()
+            let formatter = DateFormatter()
+            if (calendar.isDate(day, equalTo: Date.now, toGranularity: .year)) {
+                formatter.dateFormat = "M/d"
+            } else {
+                formatter.dateFormat = "M/d/yy"
+            }
+            return formatter.string(from: day)
         }
     }
 }
