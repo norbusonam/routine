@@ -8,19 +8,11 @@
 import SwiftUI
 
 struct StatsView: View {
-    @Binding var showProfileSheet: Bool
     
     var body: some View {
-        HStack(alignment: .top) {
+        VStack {
             Text("Stats")
                 .font(.largeTitle)
-            Spacer()
-            Button {
-                showProfileSheet = true
-            } label: {
-                Image(systemName: "gear")
-                    .imageScale(.large)
-            }
         }
         .padding(.horizontal)
     }

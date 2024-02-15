@@ -14,15 +14,14 @@ enum Page: String {
 struct AuthenticatedView: View {
     @State var currentPage = Page.planner
     @State var showNewHabitSheet = false
-    @State var showProfileSheet = false
     
     var body: some View {
         VStack {
             // pages
             if currentPage == Page.planner {
-                PlannerView(showProfileSheet: $showProfileSheet)
+                PlannerView()
             } else if currentPage == Page.stats {
-                StatsView(showProfileSheet: $showProfileSheet)
+                StatsView()
             }
             
             Spacer()
@@ -52,14 +51,6 @@ struct AuthenticatedView: View {
                 TabItem(page: Page.stats, imageName: "chart.bar", currentPage: $currentPage)
             }
             .sensoryFeedback(.selection, trigger: currentPage)
-        }
-        .sheet(isPresented: $showProfileSheet) {
-            ProfileSheetView()
-                .presentationDetents([.height(100)])
-            
-        }
-        .sensoryFeedback(.impact, trigger: showProfileSheet) { _, newValue in
-            newValue == true
         }
     }
 }

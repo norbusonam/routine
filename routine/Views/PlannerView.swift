@@ -12,8 +12,6 @@ struct PlannerView: View {
     // TODO: update to when user created account
     private let startOfTime = Calendar.current.date(from: DateComponents(year: 2024, month: 1, day: 1))!
     
-    @Binding var showProfileSheet: Bool
-    
     @SceneStorage("firstDayOfCurrentWeekEpoch") private var firstDayOfCurrentWeekEpoch = DateHelpers.getFirstDayOfTheWeek(date: Date.now).timeIntervalSince1970
     @SceneStorage("numberOfWeeksToRender") private var numberOfWeeksToRender = Calendar.current.dateComponents(
         [.weekOfYear],
@@ -29,31 +27,18 @@ struct PlannerView: View {
     
     @Query var habits: [Habit]
     
-    public init(showProfileSheet: Binding<Bool>) {
-        self._showProfileSheet = showProfileSheet
-    }
-    
     var body: some View {
         VStack(alignment: .leading) {
             // +--------+
             // | header |
             // +--------+
-            HStack(alignment: .top) {
-                VStack(alignment: .leading) {
-                    Text(DateHelpers.getYearHeader(firstDayOfCurrentWeekEpoch))
-                        .font(.largeTitle)
-                    Text(DateHelpers.getMonthSubheader(firstDayOfCurrentWeekEpoch))
-                        .font(.callout)
-                }
-                .animation(.easeInOut, value: firstDayOfCurrentWeekEpoch)
-                Spacer()
-                Button {
-                    showProfileSheet = true
-                } label: {
-                    Image(systemName: "gear")
-                        .imageScale(.large)
-                }
+            VStack(alignment: .leading) {
+                Text(DateHelpers.getYearHeader(firstDayOfCurrentWeekEpoch))
+                    .font(.largeTitle)
+                Text(DateHelpers.getMonthSubheader(firstDayOfCurrentWeekEpoch))
+                    .font(.callout)
             }
+            .animation(.easeInOut, value: firstDayOfCurrentWeekEpoch)
             .padding(.horizontal)
             // +---------------+
             // | week carousel |
