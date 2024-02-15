@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import SwiftData
 
 struct PlannerView: View {
     // TODO: update to when user created account
@@ -25,6 +26,8 @@ struct PlannerView: View {
         to: DateHelpers.getFirstDayOfTheWeek(date: Date.now))
         .weekOfYear!
     @SceneStorage("selectedDateEpoch") private var selectedDateEpoch = Date.now.timeIntervalSince1970
+    
+    @Query var habits: [Habit]
     
     public init(showProfileSheet: Binding<Bool>) {
         self._showProfileSheet = showProfileSheet
@@ -114,6 +117,9 @@ struct PlannerView: View {
             // +--------+
             ScrollView() {
                 VStack(alignment: .leading) {
+                    ForEach(habits) { habit in
+                        Text("\(habit.emoji) \(habit.name)")
+                    }
                     Text(DateHelpers.getDayLabel(selectedDateEpoch))
                         .font(.title3)
                         .bold()
