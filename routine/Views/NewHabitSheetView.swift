@@ -10,6 +10,9 @@ import SwiftUI
 struct NewHabitSheetView: View {
     @Environment(\.dismiss) var dismiss
     
+    @State var habit = Habit()
+    @State var page = 0
+    
     var body: some View {
         VStack() {
             HStack {
@@ -23,7 +26,19 @@ struct NewHabitSheetView: View {
                 .padding()
             }
             Spacer()
-            Text("form content")
+            Text(String(page))
+            HStack {
+                if page > 0 {
+                    Button("Previous") {
+                        page = [0, page - 1].max()!
+                    }
+                }
+                if page < 6 {
+                    Button("Next") {
+                        page = [page + 1, 6].min()!
+                    }
+                }
+            }
             Spacer()
         }
     }
