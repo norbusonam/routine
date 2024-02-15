@@ -18,7 +18,7 @@ struct StatsView: View {
             Button {
                 showProfileSheet = true
             } label: {
-                Image(systemName: "person.crop.circle")
+                Image(systemName: "gear")
                     .imageScale(.large)
             }
         }
