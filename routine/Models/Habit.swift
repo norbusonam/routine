@@ -5,43 +5,38 @@
 //  Created by Norbu Sonam on 1/14/24.
 //
 
+import Foundation
 import SwiftData
 
-enum RoutineType: String {
-    case positive, negative
+enum RoutineType: String, Codable {
+    case good, bad
 }
 
-enum Interval: String {
-    case day, week, month, year
-}
-
-enum DaysOfTheWeek: String {
+enum DayOfTheWeek: String, Codable {
     case monday, tuesday, wednesday, thursday, friday, saturday, sunday
 }
 
 @Model
 class Habit {
-    @Attribute(.unique) var name: String
+    var name: String
     var emoji: String
-    var type: String
+    var type: RoutineType
     var goal: Int
-    var unit: String
-    var interval: String
-    var days: [String]
+    var days: [DayOfTheWeek]
+    var creationDate: Date
     
     init() {
         self.name = ""
-        self.emoji = "🏃‍♀️"
-        self.type = RoutineType.positive.rawValue
+        self.emoji = ""
+        self.type = .good
         self.goal = 1
-        self.unit  = "run"
-        self.interval = Interval.day.rawValue
         self.days = [
-            DaysOfTheWeek.monday.rawValue,
-            DaysOfTheWeek.tuesday.rawValue,
-            DaysOfTheWeek.wednesday.rawValue,
-            DaysOfTheWeek.thursday.rawValue,
-            DaysOfTheWeek.friday.rawValue
+            .monday,
+            .tuesday,
+            .wednesday,
+            .thursday,
+            .friday,
         ]
+        self.creationDate = Date.now
     }
 }
