@@ -29,13 +29,19 @@ class Habit {
     var interval: String
     var days: [String]
     
-    init(name: String, emoji: String, type: RoutineType, goal: Int, unit: String, interval: Interval, days: [DaysOfTheWeek]) {
-        self.name = name
-        self.emoji = emoji
-        self.type = type.rawValue
-        self.goal = goal
-        self.unit = unit
-        self.interval = interval.rawValue
-        self.days = days.map(\.rawValue)
+    init() {
+        self.name = ""
+        self.emoji = "🏃‍♀️"
+        self.type = RoutineType.positive.rawValue
+        self.goal = 1
+        self.unit  = "run"
+        self.interval = Interval.day.rawValue
+        self.days = [
+            DaysOfTheWeek.monday.rawValue,
+            DaysOfTheWeek.tuesday.rawValue,
+            DaysOfTheWeek.wednesday.rawValue,
+            DaysOfTheWeek.thursday.rawValue,
+            DaysOfTheWeek.friday.rawValue
+        ]
     }
 }
