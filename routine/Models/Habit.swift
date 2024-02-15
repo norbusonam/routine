@@ -21,7 +21,7 @@ enum DaysOfTheWeek: String {
 
 @Model
 class Habit {
-    var name: String
+    @Attribute(.unique) var name: String
     var emoji: String
     var type: String
     var goal: Int
