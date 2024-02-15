@@ -10,17 +10,6 @@ import SwiftData
 
 @main
 struct routineApp: App {
-    var sharedModelContainer: ModelContainer = {
-        let schema = Schema([Habit.self])
-        let modelConfiguration = ModelConfiguration(schema: schema, isStoredInMemoryOnly: false)
-        
-        do {
-            return try ModelContainer(for: schema, configurations: [modelConfiguration])
-        } catch {
-            fatalError("Could not create ModelContainer: \(error)")
-        }
-    }()
-    
     // TODO: auth check logic
     let authenticated = true
     var body: some Scene {
@@ -31,6 +20,6 @@ struct routineApp: App {
                 UnauthenticatedView()
             }
         }
-        .modelContainer(sharedModelContainer)
+        .modelContainer(for: Habit.self)
     }
 }
