@@ -38,13 +38,13 @@ enum NewHabitPage: String {
 
 struct NewHabitSheetView: View {
     @Environment(\.modelContext) private var modelContext
-    @Environment(\.dismiss) var dismiss
+    @Environment(\.dismiss) private var dismiss
     
-    @State var habit = Habit()
-    @State var page = NewHabitPage.type
+    @State private var habit = Habit()
+    @State private var page = NewHabitPage.type
     
-    @FocusState var nameFocused: Bool
-    @FocusState var emojiFocused: Bool
+    @FocusState private var nameFocused: Bool
+    @FocusState private var emojiFocused: Bool
     
     func changePage(_ newPage: NewHabitPage) {
         withAnimation {
