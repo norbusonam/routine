@@ -1,5 +1,5 @@
 //
-//  AuthenticatedView.swift
+//  ContentView.swift
 //  routine
 //
 //  Created by Norbu Sonam on 1/26/24.
@@ -11,7 +11,7 @@ enum Page: String {
     case planner, stats
 }
 
-struct AuthenticatedView: View {
+struct ContentView: View {
     @State var currentPage = Page.planner
     @State var showNewHabitSheet = false
     
@@ -75,5 +75,5 @@ struct TabItem: View {
 }
 
 #Preview {
-    AuthenticatedView()
+    ContentView()
 }

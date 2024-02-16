@@ -228,5 +228,5 @@ struct DayButton: View {
 }
 
 #Preview {
-    AuthenticatedView(showNewHabitSheet: true)
+    ContentView(showNewHabitSheet: true)
 }

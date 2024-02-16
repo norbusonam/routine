@@ -10,15 +10,9 @@ import SwiftData
 
 @main
 struct routineApp: App {
-    // TODO: auth check logic
-    let authenticated = true
     var body: some Scene {
         WindowGroup {
-            if authenticated {
-                AuthenticatedView()
-            } else {
-                UnauthenticatedView()
-            }
+            ContentView()
         }
         .modelContainer(for: Habit.self)
     }

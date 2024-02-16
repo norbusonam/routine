@@ -215,5 +215,5 @@ fileprivate struct DateHelpers {
 }
 
 #Preview {
-    AuthenticatedView()
+    ContentView()
 }
