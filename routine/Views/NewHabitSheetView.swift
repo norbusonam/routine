@@ -192,7 +192,7 @@ struct NewHabitSheetView: View {
                 // | frequency |
                 // +-----------+
                 VStack(spacing: 32) {
-                    Text("Habit frequency goal")
+                    Text("Habit goal")
                         .font(.title)
                         .multilineTextAlignment(.center)
                     HStack {
