@@ -106,14 +106,28 @@ struct NewHabitSheetView: View {
                         .multilineTextAlignment(.center)
                     HStack {
                         Spacer()
-                        Button("🙂") {
+                        Button {
                             habit.type = .good
                             changePage(.name)
+                        } label: {
+                            VStack {
+                                Text("🙂")
+                                    .font(.largeTitle)
+                                Text("Good habit")
+                                    .foregroundColor(.green)
+                            }
                         }
                         Spacer()
-                        Button("😓") {
+                        Button {
                             habit.type = .bad
                             changePage(.name)
+                        } label: {
+                            VStack {
+                                Text("😞")
+                                    .font(.largeTitle)
+                                Text("Bad habit")
+                                    .foregroundColor(.red)
+                            }
                         }
                         Spacer()
                     }
