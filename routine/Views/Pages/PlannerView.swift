@@ -25,7 +25,15 @@ struct PlannerView: View {
         .weekOfYear!
     @SceneStorage("selectedDateEpoch") private var selectedDateEpoch = Date.now.timeIntervalSince1970
     
+    @State var selectedHabit: Habit = Habit()
+    @State var showHabitSheet = false
+    
     @Query var habits: [Habit]
+    
+    func openHabitSheet(_ habit: Habit) {
+        selectedHabit = habit
+        showHabitSheet = true
+    }
     
     var body: some View {
         VStack(alignment: .leading) {
@@ -102,24 +110,21 @@ struct PlannerView: View {
             // +--------+
             ScrollView() {
                 VStack(alignment: .leading) {
-                    ForEach(habits) { habit in
-                        Text("\(habit.emoji) \(habit.name)")
-                    }
                     Text(DateHelpers.getDayLabel(selectedDateEpoch))
-                        .font(.title3)
-                        .bold()
-                    Text("This Week")
-                        .font(.title3)
-                        .bold()
-                    Text("This Month")
-                        .font(.title3)
-                        .bold()
-                    Text("This Year")
-                        .font(.title3)
-                        .bold()
+                    ForEach(habits) { habit in
+                        if DateHelpers.shouldShowHabit(selectedDateEpoch, habit) {
+                            Button(habit.name) {
+                                openHabitSheet(habit)
+                            }
+                            .padding(.vertical)
+                        }
+                    }
                 }
                 .padding()
                 .frame(width: UIScreen.main.bounds.width, alignment: .leading)
+                .sheet(isPresented: $showHabitSheet) {
+                    HabitSheetView(habit: $selectedHabit)
+                }
             }
             .mask(
                 LinearGradient(
@@ -170,12 +175,22 @@ fileprivate struct DateHelpers {
         return String(year)
     }
     
+    static func isSameDay(_ date1: Date, _ date2: Date) -> Bool {
+        return calendar.isDate(date1, equalTo: date2, toGranularity: .day)
+    }
+    
     static func isSameMonth(_ date1: Date, _ date2: Date) -> Bool {
         return calendar.isDate(date1, equalTo: date2, toGranularity: .month)
     }
     
     static func isSameYear(_ date1: Date, _ date2: Date) -> Bool {
         return calendar.isDate(date1, equalTo: date2, toGranularity: .year)
+    }
+    
+    static func shouldShowHabit(_ selectedDateEpoch: TimeInterval, _ habit: Habit) -> Bool {
+        let selecteDate = Date(timeIntervalSince1970: selectedDateEpoch)
+        // TODO: consider habit.days
+        return isSameDay(selecteDate, habit.creationDate) || selecteDate > habit.creationDate
     }
     
     static func getYearHeader(_ firstDayOfWeekEpoch: TimeInterval) -> String {
