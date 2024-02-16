@@ -142,10 +142,15 @@ struct NewHabitSheetView: View {
                         .font(.title)
                         .multilineTextAlignment(.center)
                     TextField("", text: $habit.name)
+                        .frame(height: 48)
                         .foregroundColor(.accent)
-                        .font(.title3)
+                        .font(.title2)
                         .multilineTextAlignment(.center)
                         .focused($nameFocused)
+                        .overlay(
+                            RoundedRectangle(cornerRadius: 10)
+                                .stroke(.accent, lineWidth: 2)
+                        )
                         .onSubmit {
                             changePage(.emoji)
                         }
@@ -160,10 +165,15 @@ struct NewHabitSheetView: View {
                         .font(.title)
                         .multilineTextAlignment(.center)
                     TextField("", text: $habit.emoji)
+                        .frame(width: 48, height: 48)
                         .accentColor(habit.emoji.isEmpty ? .accent : .clear)
-                        .font(.title3)
+                        .font(.title2)
                         .multilineTextAlignment(.center)
                         .focused($emojiFocused)
+                        .overlay(
+                            RoundedRectangle(cornerRadius: 10)
+                                .stroke(.accent, lineWidth: 2)
+                        )
                         .onSubmit {
                             // TODO: validate emoji
                             changePage(.frequency)
