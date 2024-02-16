@@ -8,7 +8,7 @@
 import Foundation
 import SwiftData
 
-enum RoutineType: String, Codable {
+enum HabitType: String, Codable {
     case good, bad
 }
 
@@ -20,7 +20,7 @@ enum DayOfTheWeek: String, Codable {
 class Habit {
     var name: String
     var emoji: String
-    var type: RoutineType
+    var type: HabitType
     var goal: Int
     var days: [DayOfTheWeek]
     var creationDate: Date
