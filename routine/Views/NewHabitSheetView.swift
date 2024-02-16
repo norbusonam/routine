@@ -212,8 +212,9 @@ struct NewHabitSheetView: View {
                     }
                     HStack {
                         Button("", systemImage: "arrow.down") {
-                            habit.goal = [habit.goal - 1, 0].max()!
+                            habit.goal = [habit.goal - 1, 1].max()!
                         }
+                        .disabled(habit.goal == 1)
                         Spacer()
                         Text("\(habit.goal) \(habit.goal == 1 ? "time" : "times") per day")
                         Spacer()
