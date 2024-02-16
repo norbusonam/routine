@@ -187,13 +187,13 @@ struct NewHabitSheetView: View {
                         DayButton(dayLabel: "S", dayEnumVal: .sunday, daysList: $habit.days)
                     }
                     HStack {
-                        Button("Down") {
+                        Button("", systemImage: "arrow.down") {
                             habit.goal = [habit.goal - 1, 0].max()!
                         }
                         Spacer()
                         Text("\(habit.goal) \(habit.goal == 1 ? "time" : "times") per day")
                         Spacer()
-                        Button("Up") {
+                        Button("", systemImage: "arrow.up") {
                             habit.goal += 1
                         }
                     }
@@ -206,7 +206,6 @@ struct NewHabitSheetView: View {
         .padding()
     }
 }
-
 
 struct DayButton: View {
     let dayLabel: String
