@@ -42,13 +42,29 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		072240F82B8001D800C29D81 /* Pages */ = {
+			isa = PBXGroup;
+			children = (
+				07FC49522B461D5F003A0E2D /* PlannerView.swift */,
+				0793FCD82B6B5B7300300B50 /* StatsView.swift */,
+			);
+			path = Pages;
+			sourceTree = "<group>";
+		};
+		072240F92B8001EE00C29D81 /* Sheets */ = {
+			isa = PBXGroup;
+			children = (
+				0793FCDA2B6DF01F00300B50 /* NewHabitSheetView.swift */,
+			);
+			path = Sheets;
+			sourceTree = "<group>";
+		};
 		07B9D9512B53411200C5F8F5 /* Views */ = {
 			isa = PBXGroup;
 			children = (
 				07B9D9662B64D5D100C5F8F5 /* ContentView.swift */,
-				07FC49522B461D5F003A0E2D /* PlannerView.swift */,
-				0793FCDA2B6DF01F00300B50 /* NewHabitSheetView.swift */,
-				0793FCD82B6B5B7300300B50 /* StatsView.swift */,
+				072240F82B8001D800C29D81 /* Pages */,
+				072240F92B8001EE00C29D81 /* Sheets */,
 			);
 			path = Views;
 			sourceTree = "<group>";
