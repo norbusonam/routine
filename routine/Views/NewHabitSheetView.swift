@@ -43,6 +43,9 @@ struct NewHabitSheetView: View {
     @State private var habit = Habit()
     @State private var page = NewHabitPage.type
     
+    @State private var showNameError = false
+    @State private var showEmojiError = false
+    
     @FocusState private var nameFocused: Bool
     @FocusState private var emojiFocused: Bool
     
@@ -152,10 +155,21 @@ struct NewHabitSheetView: View {
                                 .stroke(.accent, lineWidth: 2)
                         )
                         .onSubmit {
-                            changePage(.emoji)
+                            if habit.name.count >= 3 {
+                                showNameError = false
+                                changePage(.emoji)
+                            } else {
+                                showNameError = true
+                                nameFocused = true
+                            }
                         }
+                    if showNameError {
+                        Text("Habit titles must be 3 characters or longer")
+                            .foregroundColor(.red)
+                    }
                 }
                 .transition(.scale)
+                .animation(.easeInOut, value: showNameError)
             } else if page == .emoji {
                 // +-------+
                 // | emoji |
@@ -175,8 +189,13 @@ struct NewHabitSheetView: View {
                                 .stroke(.accent, lineWidth: 2)
                         )
                         .onSubmit {
-                            // TODO: validate emoji
-                            changePage(.frequency)
+                            if habit.emoji.count == 1 && habit.emoji.first!.isEmoji {
+                                showEmojiError = false
+                                changePage(.frequency)
+                            } else {
+                                showEmojiError = true
+                                emojiFocused = true
+                            }
                         }
                         .onChange(of: habit.emoji) { _, newEmoji in
                             if newEmoji.count > 0 && newEmoji.last!.isEmoji {
@@ -185,7 +204,12 @@ struct NewHabitSheetView: View {
                                 habit.emoji = ""
                             }
                         }
+                    if showEmojiError {
+                        Text("Please enter a single emoji")
+                            .foregroundColor(.red)
+                    }
                 }
+                .animation(.easeInOut, value: showEmojiError)
                 .transition(.scale)
             } else if page == .frequency {
                 // +-----------+
