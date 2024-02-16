@@ -16,7 +16,7 @@ struct AuthenticatedView: View {
     @State var showNewHabitSheet = false
     
     var body: some View {
-        VStack {
+        VStack(alignment: .leading) {
             // pages
             if currentPage == Page.planner {
                 PlannerView()
