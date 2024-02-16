@@ -51,9 +51,24 @@ struct NewHabitSheetView: View {
             page = newPage
         }
         if newPage == .name {
+            emojiFocused = false
             nameFocused = true
         } else if newPage == .emoji {
+            nameFocused = false
             emojiFocused = true
+        } else {
+            nameFocused = false
+            emojiFocused = false
+        }
+    }
+    
+    func onBack() {
+        if page == .frequency {
+            changePage(.emoji)
+        } else if (page == .emoji) {
+            changePage(.name)
+        } else if (page == .name) {
+            changePage(.type)
         }
     }
     
@@ -65,6 +80,13 @@ struct NewHabitSheetView: View {
     var body: some View {
         VStack() {
             HStack {
+                if page != .type {
+                    Button(action: onBack) {
+                        Image(systemName: "arrow.left.circle.fill")
+                            .imageScale(.large)
+                    }
+                    .transition(.scale)
+                }
                 Spacer()
                 Button {
                     dismiss()
