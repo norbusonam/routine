@@ -196,19 +196,19 @@ struct NewHabitSheetView: View {
                         .font(.title)
                         .multilineTextAlignment(.center)
                     HStack {
-                        DayButton(dayLabel: "M", dayEnumVal: .monday, daysList: $habit.days)
+                        DayButton(dayLabel: "M", dayEnumVal: .monday, selectedDays: $habit.days)
                         Spacer()
-                        DayButton(dayLabel: "T", dayEnumVal: .tuesday, daysList: $habit.days)
+                        DayButton(dayLabel: "T", dayEnumVal: .tuesday, selectedDays: $habit.days)
                         Spacer()
-                        DayButton(dayLabel: "W", dayEnumVal: .wednesday, daysList: $habit.days)
+                        DayButton(dayLabel: "W", dayEnumVal: .wednesday, selectedDays: $habit.days)
                         Spacer()
-                        DayButton(dayLabel: "T", dayEnumVal: .thursday, daysList: $habit.days)
+                        DayButton(dayLabel: "T", dayEnumVal: .thursday, selectedDays: $habit.days)
                         Spacer()
-                        DayButton(dayLabel: "F", dayEnumVal: .friday, daysList: $habit.days)
+                        DayButton(dayLabel: "F", dayEnumVal: .friday, selectedDays: $habit.days)
                         Spacer()
-                        DayButton(dayLabel: "S", dayEnumVal: .saturday, daysList: $habit.days)
+                        DayButton(dayLabel: "S", dayEnumVal: .saturday, selectedDays: $habit.days)
                         Spacer()
-                        DayButton(dayLabel: "S", dayEnumVal: .sunday, daysList: $habit.days)
+                        DayButton(dayLabel: "S", dayEnumVal: .sunday, selectedDays: $habit.days)
                     }
                     HStack {
                         Button("", systemImage: "arrow.down") {
@@ -235,19 +235,21 @@ struct DayButton: View {
     let dayLabel: String
     let dayEnumVal: DayOfTheWeek
     
-    @Binding var daysList: [DayOfTheWeek]
+    @Binding var selectedDays: [DayOfTheWeek]
     
     var body: some View {
         Button(dayLabel) {
-            if (daysList.contains(dayEnumVal)) {
-                daysList = daysList.filter { day in
-                    return day != dayEnumVal
+            if (selectedDays.contains(dayEnumVal)) {
+                if selectedDays.count > 1 {
+                    selectedDays = selectedDays.filter { day in
+                        return day != dayEnumVal
+                    }
                 }
             } else {
-                daysList.append(dayEnumVal)
+                selectedDays.append(dayEnumVal)
             }
         }
-        .foregroundColor(daysList.contains(dayEnumVal) ? .accent : .primary)
+        .foregroundColor(selectedDays.contains(dayEnumVal) ? .accent : .primary)
     }
 }
 
