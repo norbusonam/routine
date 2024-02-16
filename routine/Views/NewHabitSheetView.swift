@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-enum NewHabitPage: Hashable {
+enum NewHabitPage: String {
     case type, name, emoji, frequency
 }
 
@@ -18,13 +18,23 @@ struct NewHabitSheetView: View {
     @State var habit = Habit()
     @State var page = NewHabitPage.type
     
+    @FocusState var nameFocused: Bool
+    @FocusState var emojiFocused: Bool
+    
+    func changePage(_ newPage: NewHabitPage) {
+        withAnimation {
+            page = newPage
+        }
+        if newPage == .name {
+            nameFocused = true
+        } else if newPage == .emoji {
+            emojiFocused = true
+        }
+    }
+    
     func onDone() {
         modelContext.insert(habit)
         dismiss()
-    }
-    
-    func changePage(_ nextPage: NewHabitPage) {
-        page = nextPage
     }
     
     var body: some View {
@@ -37,15 +47,14 @@ struct NewHabitSheetView: View {
                     Image(systemName: "xmark.circle.fill")
                         .imageScale(.large)
                 }
-                .padding()
             }
             Spacer()
-            TabView(selection: $page) {
+            if page == .type {
                 // +------+
                 // | type |
                 // +------+
                 VStack(spacing: 32) {
-                    Text("Is this a good habit you want to grow or a bad habit you want to stop?")
+                    Text("Habit type")
                         .font(.title2)
                         .multilineTextAlignment(.center)
                     HStack {
@@ -62,47 +71,49 @@ struct NewHabitSheetView: View {
                         Spacer()
                     }
                 }
-                .padding()
-                .tag(NewHabitPage.type)
+                .transition(.scale)
+            } else if page == .name {
                 // +------+
                 // | name |
                 // +------+
                 VStack(spacing: 32) {
-                    Text("What is the habit?")
+                    Text("Habit title")
                         .font(.title2)
                         .multilineTextAlignment(.center)
-                    TextField(habit.type == .good ? "Run" : "Smoking", text: $habit.name)
+                    TextField("", text: $habit.name)
+                        .foregroundColor(.accent)
                         .font(.title3)
                         .multilineTextAlignment(.center)
+                        .focused($nameFocused)
                         .onSubmit {
-                            // TODO: validate name
-                            page = .emoji
+                            changePage(.emoji)
                         }
                 }
-                .padding()
-                .tag(NewHabitPage.name)
+                .transition(.scale)
+            } else if page == .emoji {
                 // +-------+
                 // | emoji |
                 // +-------+
                 VStack(spacing: 32) {
-                    Text("Select an emoji for your habit")
+                    Text("Habit emoji")
                         .font(.title2)
                         .multilineTextAlignment(.center)
-                    TextField(habit.type == .good ? "🏃‍♂️" : "🚬", text: $habit.emoji)
+                    TextField("", text: $habit.emoji)
                         .font(.title3)
                         .multilineTextAlignment(.center)
+                        .focused($emojiFocused)
                         .onSubmit {
                             // TODO: validate emoji
                             changePage(.frequency)
                         }
                 }
-                .padding()
-                .tag(NewHabitPage.emoji)
+                .transition(.scale)
+            } else if page == .frequency {
                 // +-----------+
                 // | frequency |
                 // +-----------+
                 VStack(spacing: 32) {
-                    Text("How often do you want do this habit?")
+                    Text("Habit frequency goal")
                         .font(.title2)
                         .multilineTextAlignment(.center)
                     HStack {
@@ -133,12 +144,14 @@ struct NewHabitSheetView: View {
                     }
                     Button("Done", action: onDone)
                 }
-                .padding()
-                .tag(NewHabitPage.frequency)
+                .transition(.scale)
             }
+            Spacer()
         }
+        .padding()
     }
 }
+
 
 struct DayButton: View {
     let dayLabel: String
