@@ -55,7 +55,7 @@ struct NewHabitSheetView: View {
                 // +------+
                 VStack(spacing: 32) {
                     Text("Habit type")
-                        .font(.title2)
+                        .font(.title)
                         .multilineTextAlignment(.center)
                     HStack {
                         Spacer()
@@ -78,7 +78,7 @@ struct NewHabitSheetView: View {
                 // +------+
                 VStack(spacing: 32) {
                     Text("Habit title")
-                        .font(.title2)
+                        .font(.title)
                         .multilineTextAlignment(.center)
                     TextField("", text: $habit.name)
                         .foregroundColor(.accent)
@@ -96,7 +96,7 @@ struct NewHabitSheetView: View {
                 // +-------+
                 VStack(spacing: 32) {
                     Text("Habit emoji")
-                        .font(.title2)
+                        .font(.title)
                         .multilineTextAlignment(.center)
                     TextField("", text: $habit.emoji)
                         .font(.title3)
@@ -114,7 +114,7 @@ struct NewHabitSheetView: View {
                 // +-----------+
                 VStack(spacing: 32) {
                     Text("Habit frequency goal")
-                        .font(.title2)
+                        .font(.title)
                         .multilineTextAlignment(.center)
                     HStack {
                         DayButton(dayLabel: "M", dayEnumVal: .monday, daysList: $habit.days)
