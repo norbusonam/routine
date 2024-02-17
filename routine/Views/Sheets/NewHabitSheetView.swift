@@ -245,11 +245,20 @@ struct NewHabitSheetView: View {
                     }
                     HStack {
                         Button("", systemImage: "arrow.down") {
-                            habit.goal = [habit.goal - 1, 1].max()!
+                            habit.goal = [habit.goal - 1, 0].max()!
                         }
-                        .disabled(habit.goal == 1)
+                        .disabled(habit.goal == 0)
                         Spacer()
-                        Text("\(habit.goal) \(habit.goal == 1 ? "time" : "times") per day")
+                        HStack(spacing: 0) {
+                            Text("\(habit.goal) ")
+                                .transition(.scale)
+                                .id(habit.goal)
+                            Text("\(habit.goal == 1 ? "time" : "times")")
+                                .transition(.scale)
+                                .id(habit.goal == 1)
+                            Text(" per day")
+                        }
+                        .animation(.easeInOut, value: habit.goal)
                         Spacer()
                         Button("", systemImage: "arrow.up") {
                             habit.goal += 1
