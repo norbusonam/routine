@@ -143,8 +143,8 @@ struct PlannerView: View {
                     gradient: Gradient(
                         stops: [
                             .init(color: .clear, location: 0),
-                            .init(color: .primary, location: 0.04),
-                            .init(color: .primary, location: 0.96),
+                            .init(color: .primary, location: 0.05),
+                            .init(color: .primary, location: 0.95),
                             .init(color: .clear, location: 1)
                         ]
                     ),
