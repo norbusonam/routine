@@ -111,16 +111,24 @@ struct PlannerView: View {
             ScrollView() {
                 VStack(alignment: .leading) {
                     Text(DateHelpers.getDayLabel(selectedDateEpoch))
-                    ForEach(habits) { habit in
-                        if DateHelpers.shouldShowHabit(selectedDateEpoch, habit) {
-                            Button {
-                                openHabitSheet(habit)
-                            } label: {
-                                Text("\(habit.emoji) \(habit.name)")
-                                Spacer()
-                                Image(systemName: "circle.dashed")
+                    VStack(spacing: 0) {
+                        ForEach(habits) { habit in
+                            if DateHelpers.shouldShowHabit(selectedDateEpoch, habit) {
+                                Button {
+                                    openHabitSheet(habit)
+                                } label: {
+                                    Text("\(habit.emoji)")
+                                    VStack(alignment: .leading) {
+                                        Text("\(habit.name)")
+                                            .font(.headline)
+                                        Text("1/\(habit.goal)")
+                                            .font(.subheadline)
+                                    }
+                                    Spacer()
+                                    Image(systemName: "circle.dashed")
+                                }
+                                .padding(.vertical)
                             }
-                            .padding(.vertical)
                         }
                     }
                 }
