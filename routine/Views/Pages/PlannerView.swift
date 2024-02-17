@@ -110,8 +110,8 @@ struct PlannerView: View {
             // +--------+
             ScrollView() {
                 VStack(alignment: .leading) {
-                    Text(DateHelpers.getDayLabel(selectedDateEpoch))
                     VStack(spacing: 0) {
+                        // TODO: only show incomplete habits
                         ForEach(habits) { habit in
                             if DateHelpers.shouldShowHabit(selectedDateEpoch, habit) {
                                 Button {
@@ -131,6 +131,7 @@ struct PlannerView: View {
                             }
                         }
                     }
+                    // TODO: if there are completed habits, show render "Completed" header and list completed habit
                 }
                 .padding()
                 .frame(width: UIScreen.main.bounds.width, alignment: .leading)
@@ -219,25 +220,6 @@ fileprivate struct DateHelpers {
         return isSameMonth(firstDayOfWeek, lastDayOfWeek)
         ? getMonth(firstDayOfWeek)
         : getMonth(firstDayOfWeek) + " - " + getMonth(lastDayOfWeek)
-    }
-    
-    static func getDayLabel(_ dayEpoch: TimeInterval) -> String {
-        let day = Date(timeIntervalSince1970: dayEpoch)
-        if (calendar.isDateInToday(day)) {
-            return "Today"
-        } else if (calendar.isDateInTomorrow(day)) {
-            return "Tomorrow"
-        } else if (calendar.isDateInYesterday(day)) {
-            return "Yesterday"
-        } else {
-            let formatter = DateFormatter()
-            if (calendar.isDate(day, equalTo: Date.now, toGranularity: .year)) {
-                formatter.dateFormat = "M/d"
-            } else {
-                formatter.dateFormat = "M/d/yy"
-            }
-            return formatter.string(from: day)
-        }
     }
 }
 
