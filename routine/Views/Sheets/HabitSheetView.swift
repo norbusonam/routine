@@ -21,26 +21,28 @@ struct HabitSheetView: View {
     var body: some View {
         VStack {
             HStack {
-                Button(action: deleteTask) {
-                    Image(systemName: "trash.circle")
-                        .imageScale(.large)
-                }
-                .foregroundColor(.red)
-                Spacer()
                 Button {
                     dismiss()
                 } label: {
                     Image(systemName: "xmark.circle.fill")
                         .imageScale(.large)
                 }
+                Spacer()
+                Text(habit.name)
+                    .font(.headline)
+                Spacer()
+                Menu {
+                    Button(role: .destructive, action: deleteTask) {
+                        Text("Delete")
+                    }
+                } label: {
+                    Image(systemName: "ellipsis.circle")
+                        .imageScale(.large)
+                }
             }
             Spacer()
             VStack {
                 Text(habit.emoji)
-                Text(habit.name)
-                ForEach(habit.days, id: \.rawValue) { day in
-                    Text(day.rawValue)
-                }
                 Text("Goal: \(habit.goal)/day")
             }
             Spacer()
