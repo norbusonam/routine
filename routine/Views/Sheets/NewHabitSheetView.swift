@@ -83,7 +83,16 @@ struct NewHabitSheetView: View {
     var body: some View {
         VStack() {
             HStack {
-                if page != .type {
+                if page == .type {
+                    Button {
+                        dismiss()
+                    } label: {
+                        
+                        Image(systemName: "xmark.circle.fill")
+                            .imageScale(.large)
+                    }
+                    .transition(.scale)
+                } else {
                     Button(action: onBack) {
                         Image(systemName: "arrow.left.circle.fill")
                             .imageScale(.large)
@@ -91,12 +100,13 @@ struct NewHabitSheetView: View {
                     .transition(.scale)
                 }
                 Spacer()
-                Button {
-                    dismiss()
-                } label: {
-                    Image(systemName: "xmark.circle.fill")
-                        .imageScale(.large)
-                }
+                Text("New Habit")
+                    .font(.headline)
+                Spacer()
+                // NOTE: the image is hidden and used to ensure title is center
+                Image(systemName: "xmark.circle.fill")
+                    .imageScale(.large)
+                    .opacity(0)
             }
             Spacer()
             if page == .type {
