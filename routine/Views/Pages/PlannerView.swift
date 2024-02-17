@@ -121,11 +121,14 @@ struct PlannerView: View {
                                     VStack(alignment: .leading) {
                                         Text("\(habit.name)")
                                             .font(.headline)
+                                            .foregroundColor(.primary)
                                         Text("1/\(habit.goal)")
                                             .font(.subheadline)
+                                            .foregroundColor(.secondary)
                                     }
                                     Spacer()
                                     Image(systemName: "circle.dashed")
+                                        .imageScale(.large)
                                 }
                                 .padding(.vertical)
                             }
