@@ -113,8 +113,12 @@ struct PlannerView: View {
                     Text(DateHelpers.getDayLabel(selectedDateEpoch))
                     ForEach(habits) { habit in
                         if DateHelpers.shouldShowHabit(selectedDateEpoch, habit) {
-                            Button(habit.name) {
+                            Button {
                                 openHabitSheet(habit)
+                            } label: {
+                                Text("\(habit.emoji) \(habit.name)")
+                                Spacer()
+                                Image(systemName: "circle.dashed")
                             }
                             .padding(.vertical)
                         }
