@@ -180,7 +180,6 @@ struct NewHabitSheetView: View {
                         .multilineTextAlignment(.center)
                     TextField("", text: $habit.emoji)
                         .frame(width: 48, height: 48)
-                        .accentColor(habit.emoji.isEmpty ? .accent : .clear)
                         .font(.title2)
                         .multilineTextAlignment(.center)
                         .focused($emojiFocused)
