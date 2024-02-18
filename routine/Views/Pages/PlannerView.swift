@@ -132,10 +132,14 @@ struct PlannerView: View {
                                     }
                                 }
                                 Spacer()
-                                if (
-                                    (habit.type == .good && habit.getCompletions(on: selectedDate) < habit.goal)
-                                    || (habit.type == .bad && habit.getCompletions(on: selectedDate) <= habit.goal)
-                                ) {
+                                switch habit.getState(on: selectedDate) {
+                                case .success:
+                                    Text("✅")
+                                        .transition(.scale)
+                                case .fail:
+                                    Text("❌")
+                                        .transition(.scale)
+                                case .inProgress:
                                     ZStack {
                                         Circle()
                                             .stroke(.accent, lineWidth: 3)
@@ -143,16 +147,13 @@ struct PlannerView: View {
                                         Circle()
                                             .trim(
                                                 from: 0,
-                                                to: CGFloat(habit.getCompletions(on: selectedDate)) / CGFloat(habit.goal)
+                                                to: habit.getProgress(on: selectedDate)
                                             )
                                             .stroke(.accent, style: StrokeStyle(lineWidth: 3, lineCap: .round))
                                             .rotationEffect(.degrees(-90))
                                     }
                                     .transition(.scale)
                                     .frame(width: 24, height: 24)
-                                } else {
-                                    Text("\(habit.type == .good ? "✅" : "❌")")
-                                        .transition(.scale)
                                 }
                             }
                             .animation(.easeInOut, value: habit.getCompletions(on: selectedDate))

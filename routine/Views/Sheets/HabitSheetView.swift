@@ -49,22 +49,25 @@ struct HabitSheetView: View {
                 Circle()
                     .trim(
                         from: 0,
-                        to: CGFloat(habit.getCompletions(on: date)) / CGFloat(habit.goal)
+                        to: habit.getProgress(on: date)
                     )
                     .stroke(.accent, style: StrokeStyle(lineWidth: 20, lineCap: .round))
                     .rotationEffect(.degrees(-90))
                 VStack(spacing: 10) {
-                    Text(
-                        habit.type == .good && habit.getCompletions(on: date) >= habit.goal ? "✅"
-                        : habit.type == .bad && habit.getCompletions(on: date) > habit.goal ? "❌"
-                        : habit.emoji
-                    )
-                        .font(.largeTitle)
-                        .transition(.scale)
-                        .id(
-                            habit.type == .good && habit.getCompletions(on: date) >= habit.goal
-                            || habit.type == .bad && habit.getCompletions(on: date) > habit.goal
-                        )
+                    switch habit.getState(on: date) {
+                    case .success:
+                        Text("✅")
+                            .font(.largeTitle)
+                            .transition(.scale)
+                    case .fail:
+                        Text("❌")
+                            .font(.largeTitle)
+                            .transition(.scale)
+                    case .inProgress:
+                        Text(habit.emoji)
+                            .font(.largeTitle)
+                            .transition(.scale)
+                    }
                     Text(habit.name)
                         .font(.headline)
                     HStack(spacing: 0) {

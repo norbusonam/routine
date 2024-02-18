@@ -16,6 +16,10 @@ enum DayOfTheWeek: String, Codable {
     case monday, tuesday, wednesday, thursday, friday, saturday, sunday
 }
 
+enum HabitState {
+    case success, fail, inProgress
+}
+
 @Model
 class Habit {
     var name: String
@@ -67,8 +71,25 @@ class Habit {
         return completions[dateKey] ?? 0
     }
     
+    func getProgress(on date: Date) -> Double {
+        return Double(getCompletions(on: date)) / Double(goal)
+    }
+    
     func shouldShow(on date: Date) -> Bool {
         // TODO: account for days of week
         return Calendar.current.isDate(creationDate, inSameDayAs: date) || date > creationDate
+    }
+    
+    func getState(on date: Date) -> HabitState {
+        let daysFromToday = Calendar.current.dateComponents([.day], from: Date.now, to: date).day!
+        let isBeforeToday = daysFromToday < 0
+        if type == .good {
+            if getCompletions(on: date) >= goal { return .success }
+            if isBeforeToday { return .fail }
+        } else {
+            if getCompletions(on: date) > goal { return .fail }
+            if isBeforeToday { return .success }
+        }
+        return .inProgress
     }
 }
