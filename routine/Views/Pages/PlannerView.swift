@@ -24,7 +24,6 @@ struct PlannerView: View {
         from: Calendar.current.date(from: DateComponents(year: 2024, month: 1, day: 1))!,
         to: DateHelpers.getFirstDayOfTheWeek(date: Date.now))
         .weekOfYear!
-    
     @State var selectedHabit: Habit = Habit()
     @State var showHabitSheet = false
     
@@ -137,7 +136,7 @@ struct PlannerView: View {
                 .padding()
                 .frame(width: UIScreen.main.bounds.width, alignment: .leading)
                 .sheet(isPresented: $showHabitSheet) {
-                    HabitSheetView(habit: selectedHabit, date: selectedDate)
+                    HabitSheetView(habit: $selectedHabit, date: $selectedDate)
                 }
             }
             .mask(

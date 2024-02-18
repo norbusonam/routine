@@ -11,8 +11,8 @@ struct HabitSheetView: View {
     @Environment(\.modelContext) private var modelContext
     @Environment(\.dismiss) private var dismiss
     
-    var habit: Habit
-    var date: Date
+    @Binding var habit: Habit
+    @Binding var date: Date
     
     func deleteTask() {
         modelContext.delete(habit)
@@ -89,8 +89,9 @@ struct HabitSheetView: View {
 }
 
 #Preview {
-    var habit = Habit()
+    @State var habit = Habit()
+    @State var date = Date.now
     habit.name = "Running"
     habit.emoji = "🏃‍♂️"
-    return HabitSheetView(habit: habit, date: Date.now)
+    return HabitSheetView(habit: $habit, date: $date)
 }
