@@ -125,8 +125,16 @@ struct PlannerView: View {
                                             .foregroundColor(.secondary)
                                     }
                                     Spacer()
-                                    Image(systemName: "circle.dashed")
-                                        .imageScale(.large)
+                                    ZStack {
+                                        Circle()
+                                            .stroke(.accent, lineWidth: 3)
+                                            .opacity(0.2)
+                                        Circle()
+                                            .trim(from: 0, to: [CGFloat(habit.getCompletionsOnDay(selectedDate)) / CGFloat(habit.goal), 0.00001].max()!)
+                                            .stroke(.accent, style: StrokeStyle(lineWidth: 3, lineCap: .round))
+                                            .rotationEffect(.degrees(-90))
+                                    }
+                                    .frame(width: 24, height: 24)
                                 }
                                 .padding(.vertical)
                             }
