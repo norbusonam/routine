@@ -62,6 +62,7 @@ struct PlannerView: View {
                                     .font(.system(.headline))
                                 Text(DateHelpers.getDayOfMonth(day))
                                     .font(.system(.subheadline))
+                                    .foregroundColor(.secondary)
                             }
                             .onTapGesture {
                                 selectedDate = day
