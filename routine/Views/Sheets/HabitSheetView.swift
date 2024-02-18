@@ -82,11 +82,13 @@ struct HabitSheetView: View {
                 Button("", systemImage: "minus") {
                     habit.deleteCompletion(date)
                 }
+                .font(.title)
                 .disabled(habit.getCompletionsOnDay(date) == 0)
                 Spacer()
                 Button("", systemImage: "plus") {
                     habit.addCompletion(date)
                 }
+                .font(.title)
                 Spacer()
             }
             Spacer()
