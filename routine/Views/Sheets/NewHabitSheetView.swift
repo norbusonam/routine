@@ -244,7 +244,7 @@ struct NewHabitSheetView: View {
                         DayButton(dayLabel: "S", dayEnumVal: .sunday, selectedDays: $habit.days)
                     }
                     HStack {
-                        Button("", systemImage: "arrow.down") {
+                        Button("", systemImage: "minus") {
                             habit.goal = [habit.goal - 1, 0].max()!
                         }
                         .disabled(habit.goal == 0)
@@ -260,7 +260,7 @@ struct NewHabitSheetView: View {
                         }
                         .animation(.easeInOut, value: habit.goal)
                         Spacer()
-                        Button("", systemImage: "arrow.up") {
+                        Button("", systemImage: "plus") {
                             habit.goal += 1
                         }
                     }
