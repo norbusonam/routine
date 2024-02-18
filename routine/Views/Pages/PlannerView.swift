@@ -172,7 +172,6 @@ struct PlannerView: View {
                         }
                     }
                 }
-                Text("Bad Habits")
             }
             .listStyle(.plain)
             .sensoryFeedback(.impact, trigger: showHabitSheet, condition: { _, newValue in
@@ -196,6 +195,7 @@ struct PlannerView: View {
                 )
             )
         }
+        .animation(.easeInOut, value: selectedDate)
     }
 }
 
