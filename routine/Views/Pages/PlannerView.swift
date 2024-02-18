@@ -119,9 +119,16 @@ struct PlannerView: View {
                                     Text("\(habit.name)")
                                         .font(.headline)
                                         .foregroundColor(.primary)
-                                    Text("\(habit.getCompletionsOnDay(selectedDate)) / \(habit.goal)")
-                                        .font(.subheadline)
-                                        .foregroundColor(.secondary)
+                                    HStack(spacing: 0) {
+                                        Text("\(habit.getCompletionsOnDay(selectedDate))")
+                                            .font(.subheadline)
+                                            .foregroundColor(.secondary)
+                                            .transition(.scale)
+                                            .id(habit.getCompletionsOnDay(selectedDate))
+                                        Text(" / \(habit.goal)")
+                                            .font(.subheadline)
+                                            .foregroundColor(.secondary)
+                                    }
                                 }
                                 Spacer()
                                 ZStack {
@@ -135,6 +142,7 @@ struct PlannerView: View {
                                 }
                                 .frame(width: 24, height: 24)
                             }
+                            .animation(.easeInOut, value: habit.getCompletionsOnDay(selectedDate))
                             .contentShape(Rectangle())
                         }
                         .padding()
