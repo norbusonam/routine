@@ -50,7 +50,6 @@ struct HabitSheetView: View {
                     .trim(from: 0, to: [CGFloat(habit.getCompletionsOnDay(date)) / CGFloat(habit.goal), 0.00001].max()!)
                     .stroke(.accent, style: StrokeStyle(lineWidth: 20, lineCap: .round))
                     .rotationEffect(.degrees(-90))
-                    .shadow(color: .black, radius: 5, x: 5, y: 5)
                 VStack(spacing: 10) {
                     Text(habit.getCompletionsOnDay(date) >= habit.goal ? "✅" : habit.emoji)
                         .font(.largeTitle)
