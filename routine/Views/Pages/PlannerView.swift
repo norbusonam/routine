@@ -111,6 +111,7 @@ struct PlannerView: View {
             List {
                 ForEach(habits) { habit in
                     if habit.shouldShow(on: selectedDate) {
+                        let habitState = habit.getState(on: selectedDate)
                         Button {
                             openHabitSheet(habit)
                         } label: {
@@ -119,7 +120,7 @@ struct PlannerView: View {
                                 VStack(alignment: .leading) {
                                     Text("\(habit.name)")
                                         .font(.headline)
-                                        .foregroundColor(.primary)
+                                        .foregroundColor(habitState == .success || habitState == .fail ? .secondary : .primary)
                                     HStack(spacing: 0) {
                                         Text("\(habit.getCompletions(on: selectedDate))")
                                             .font(.subheadline)
@@ -132,7 +133,7 @@ struct PlannerView: View {
                                     }
                                 }
                                 Spacer()
-                                switch habit.getState(on: selectedDate) {
+                                switch habitState {
                                 case .success:
                                     Text("✅")
                                         .transition(.scale)
