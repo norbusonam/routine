@@ -218,15 +218,13 @@ fileprivate struct DateHelpers {
     }
     
     static func getFirstLetterOfDay(for date: Date) -> String {
-        let formatter = DateFormatter()
-        formatter.dateFormat = "EEEEE"
-        return formatter.string(from: date)
+        let weekdayStyle = Date.FormatStyle().weekday(.wide)
+        return "\(date.formatted(weekdayStyle).first!)"
     }
     
     static func getMonth(for date: Date) -> String {
-        let formatter = DateFormatter()
-        formatter.dateFormat = "MMMM"
-        return formatter.string(from: date)
+        let monthStyle = Date.FormatStyle().month(.wide)
+        return date.formatted(monthStyle)
     }
     
     static func getDayOfMonth(for date: Date) -> String {
