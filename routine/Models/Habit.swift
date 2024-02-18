@@ -23,6 +23,7 @@ class Habit {
     var type: HabitType
     var goal: Int
     var days: [DayOfTheWeek]
+    var completions: [Date: Int]
     var creationDate: Date
     
     init() {
@@ -37,6 +38,32 @@ class Habit {
             .thursday,
             .friday,
         ]
+        self.completions = [:]
         self.creationDate = Date.now
+    }
+    
+    private func getDateKey(for date: Date) -> Date {
+        return Calendar.current.startOfDay(for: date)
+    }
+    
+    func addCompletion(_ date: Date) {
+        let dateKey = getDateKey(for: date)
+        if let count = completions[dateKey] {
+            completions[dateKey] = count + 1
+        } else {
+            completions[dateKey] = 1
+        }
+    }
+    
+    func deleteCompletion(_ date: Date) {
+        let dateKey = getDateKey(for: date)
+        if let count = completions[dateKey] {
+            completions[dateKey] = [count - 1, 0].max()
+        }
+    }
+    
+    func getCompletionsOnDay(_ date: Date) -> Int {
+        let dateKey = getDateKey(for: date)
+        return completions[dateKey] ?? 0
     }
 }
