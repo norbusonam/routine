@@ -47,13 +47,15 @@ struct HabitSheetView: View {
                     .stroke(.accent, lineWidth: 24)
                     .opacity(0.2)
                 Circle()
-                    .trim(from: 0, to: CGFloat(habit.getCompletionsOnDay(date)) / CGFloat(habit.goal))
+                    .trim(from: 0, to: [CGFloat(habit.getCompletionsOnDay(date)) / CGFloat(habit.goal), 0.00001].max()!)
                     .stroke(.accent, style: StrokeStyle(lineWidth: 24, lineCap: .round))
                     .rotationEffect(.degrees(-90))
                     .shadow(color: .black, radius: 5, x: 5, y: 5)
-                VStack {
-                    Text(habit.emoji)
+                VStack(spacing: 10) {
+                    Text(habit.getCompletionsOnDay(date) >= habit.goal ? "✅" : habit.emoji)
                         .font(.largeTitle)
+                        .transition(.scale)
+                        .id(habit.getCompletionsOnDay(date) >= habit.goal)
                     Text(habit.name)
                         .font(.headline)
                     HStack(spacing: 0) {
@@ -76,6 +78,7 @@ struct HabitSheetView: View {
                 Button("", systemImage: "minus") {
                     habit.deleteCompletion(date)
                 }
+                .disabled(habit.getCompletionsOnDay(date) == 0)
                 Spacer()
                 Button("", systemImage: "plus") {
                     habit.addCompletion(date)
