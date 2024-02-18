@@ -107,46 +107,62 @@ struct PlannerView: View {
             // +--------+
             // | habits |
             // +--------+
-            ScrollView() {
-                VStack(alignment: .leading) {
-                    VStack(spacing: 0) {
-                        ForEach(habits) { habit in
-                            if DateHelpers.shouldShowHabit(selectedDate, habit) {
-                                Button {
-                                    openHabitSheet(habit)
-                                } label: {
-                                    Text("\(habit.emoji)")
-                                    VStack(alignment: .leading) {
-                                        Text("\(habit.name)")
-                                            .font(.headline)
-                                            .foregroundColor(.primary)
-                                        Text("\(habit.getCompletionsOnDay(selectedDate)) / \(habit.goal)")
-                                            .font(.subheadline)
-                                            .foregroundColor(.secondary)
-                                    }
-                                    Spacer()
-                                    ZStack {
-                                        Circle()
-                                            .stroke(.accent, lineWidth: 3)
-                                            .opacity(0.2)
-                                        Circle()
-                                            .trim(from: 0, to: [CGFloat(habit.getCompletionsOnDay(selectedDate)) / CGFloat(habit.goal), 0.00001].max()!)
-                                            .stroke(.accent, style: StrokeStyle(lineWidth: 3, lineCap: .round))
-                                            .rotationEffect(.degrees(-90))
-                                    }
-                                    .frame(width: 24, height: 24)
+            List {
+                ForEach(habits) { habit in
+                    if DateHelpers.shouldShowHabit(selectedDate, habit) {
+                        Button {
+                            openHabitSheet(habit)
+                        } label: {
+                            HStack {
+                                Text("\(habit.emoji)")
+                                VStack(alignment: .leading) {
+                                    Text("\(habit.name)")
+                                        .font(.headline)
+                                        .foregroundColor(.primary)
+                                    Text("\(habit.getCompletionsOnDay(selectedDate)) / \(habit.goal)")
+                                        .font(.subheadline)
+                                        .foregroundColor(.secondary)
                                 }
-                                .padding(.vertical)
+                                Spacer()
+                                ZStack {
+                                    Circle()
+                                        .stroke(.accent, lineWidth: 3)
+                                        .opacity(0.2)
+                                    Circle()
+                                        .trim(from: 0, to: [CGFloat(habit.getCompletionsOnDay(selectedDate)) / CGFloat(habit.goal), 0.00001].max()!)
+                                        .stroke(.accent, style: StrokeStyle(lineWidth: 3, lineCap: .round))
+                                        .rotationEffect(.degrees(-90))
+                                }
+                                .frame(width: 24, height: 24)
+                            }
+                            .contentShape(Rectangle())
+                        }
+                        .padding()
+                        .buttonStyle(.plain)
+                        .listRowSeparator(.hidden)
+                        .listRowInsets(EdgeInsets())
+                        .swipeActions(edge: .leading) {
+                            Button {
+                                habit.deleteCompletion(selectedDate)
+                            } label: {
+                                Image(systemName: "minus")
+                            }
+                        }
+                        .swipeActions(edge: .trailing) {
+                            Button {
+                                habit.addCompletion(selectedDate)
+                            } label: {
+                                Image(systemName: "plus")
                             }
                         }
                     }
                 }
-                .padding()
                 .frame(width: UIScreen.main.bounds.width, alignment: .leading)
                 .sheet(isPresented: $showHabitSheet) {
                     HabitSheetView(habit: $selectedHabit, date: $selectedDate)
                 }
             }
+            .listStyle(.plain)
             .mask(
                 LinearGradient(
                     gradient: Gradient(
