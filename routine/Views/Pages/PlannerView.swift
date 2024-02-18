@@ -155,6 +155,7 @@ struct PlannerView: View {
                             } label: {
                                 Image(systemName: "minus")
                             }
+                            .tint(.clear)
                         }
                         .swipeActions(edge: .trailing) {
                             Button {
@@ -162,10 +163,10 @@ struct PlannerView: View {
                             } label: {
                                 Image(systemName: "plus")
                             }
+                            .tint(.clear)
                         }
                     }
                 }
-                .frame(width: UIScreen.main.bounds.width, alignment: .leading)
                 .sensoryFeedback(.impact, trigger: showHabitSheet, condition: { _, newValue in
                     return newValue == true
                 })
