@@ -108,60 +108,70 @@ struct PlannerView: View {
             // +--------+
             // | habits |
             // +--------+
-            List {
-                let goodHabits = habits.filter({ $0.shouldShow(on: selectedDate) && $0.type == .good })
-                if goodHabits.count > 0 {
-                    Text("Good Habits")
-                        .font(.headline)
-                        .foregroundColor(.secondary)
-                        .listRowSeparator(.hidden)
-                        .listRowInsets(EdgeInsets())
-                        .padding(.top)
-                        .padding(.horizontal)
-                    ForEach(goodHabits) { habit in
-                        HabitListItem(habit: habit, selectedDate: selectedDate) {
-                            openHabitSheet(habit)
+            let goodHabits = habits.filter({ $0.shouldShow(on: selectedDate) && $0.type == .good })
+            let badHabits = habits.filter({ $0.shouldShow(on: selectedDate) && $0.type == .bad })
+            if goodHabits.count + badHabits.count > 0 {
+                List {
+                    if goodHabits.count > 0 {
+                        Text("Good Habits")
+                            .font(.headline)
+                            .foregroundColor(.secondary)
+                            .listRowSeparator(.hidden)
+                            .listRowInsets(EdgeInsets())
+                            .padding(.top)
+                            .padding(.horizontal)
+                        ForEach(goodHabits) { habit in
+                            HabitListItem(habit: habit, selectedDate: selectedDate) {
+                                openHabitSheet(habit)
+                            }
+                        }
+                    }
+                    if badHabits.count > 0 {
+                        Text("Bad Habits")
+                            .font(.headline)
+                            .foregroundColor(.secondary)
+                            .listRowSeparator(.hidden)
+                            .listRowInsets(EdgeInsets())
+                            .padding(.top)
+                            .padding(.horizontal)
+                        ForEach(badHabits) { habit in
+                            HabitListItem(habit: habit, selectedDate: selectedDate) {
+                                openHabitSheet(habit)
+                            }
                         }
                     }
                 }
-                let badHabits = habits.filter({ $0.shouldShow(on: selectedDate) && $0.type == .bad })
-                if badHabits.count > 0 {
-                    Text("Bad Habits")
-                        .font(.headline)
-                        .foregroundColor(.secondary)
-                        .listRowSeparator(.hidden)
-                        .listRowInsets(EdgeInsets())
-                        .padding(.top)
-                        .padding(.horizontal)
-                    ForEach(badHabits) { habit in
-                        HabitListItem(habit: habit, selectedDate: selectedDate) {
-                            openHabitSheet(habit)
-                        }
-                    }
+                .listStyle(.plain)
+                .sensoryFeedback(.impact, trigger: showHabitSheet, condition: { _, newValue in
+                    return newValue == true
+                })
+                .sheet(isPresented: $showHabitSheet) {
+                    HabitSheetView(habit: $selectedHabit, date: $selectedDate)
                 }
-                // TODO: zero state for no good or bad habits
-            }
-            .listStyle(.plain)
-            .sensoryFeedback(.impact, trigger: showHabitSheet, condition: { _, newValue in
-                return newValue == true
-            })
-            .sheet(isPresented: $showHabitSheet) {
-                HabitSheetView(habit: $selectedHabit, date: $selectedDate)
-            }
-            .mask(
-                LinearGradient(
-                    gradient: Gradient(
-                        stops: [
-                            .init(color: .clear, location: 0),
-                            .init(color: .primary, location: 0.05),
-                            .init(color: .primary, location: 0.95),
-                            .init(color: .clear, location: 1)
-                        ]
-                    ),
-                    startPoint: .top,
-                    endPoint: .bottom
+                .mask(
+                    LinearGradient(
+                        gradient: Gradient(
+                            stops: [
+                                .init(color: .clear, location: 0),
+                                .init(color: .primary, location: 0.05),
+                                .init(color: .primary, location: 0.95),
+                                .init(color: .clear, location: 1)
+                            ]
+                        ),
+                        startPoint: .top,
+                        endPoint: .bottom
+                    )
                 )
-            )
+            } else {
+                VStack {
+                    Spacer()
+                    Text("No habits for this day. Press + below to create one!")
+                        .multilineTextAlignment(.center)
+                        .padding()
+                    Spacer()
+                }
+                .frame(width: UIScreen.main.bounds.width)
+            }
         }
         .animation(.easeInOut, value: selectedDate)
     }
