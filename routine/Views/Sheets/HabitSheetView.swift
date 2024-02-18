@@ -11,8 +11,8 @@ struct HabitSheetView: View {
     @Environment(\.modelContext) private var modelContext
     @Environment(\.dismiss) private var dismiss
     
-    @Binding var habit: Habit
-    @Binding var dateEpoch: TimeInterval
+    var habit: Habit
+    var date: Date
     
     func deleteTask() {
         modelContext.delete(habit)
@@ -29,7 +29,7 @@ struct HabitSheetView: View {
                         .imageScale(.large)
                 }
                 Spacer()
-                Text(Date(timeIntervalSince1970: dateEpoch).formatted(.dateTime.day().month().year()))
+                Text(date.formatted(.dateTime.day().month().year()))
                     .font(.headline)
                 Spacer()
                 Menu {
@@ -47,7 +47,7 @@ struct HabitSheetView: View {
                     .stroke(.accent, lineWidth: 24)
                     .opacity(0.2)
                 Circle()
-                    .trim(from: 0, to: CGFloat(habit.getCompletionsOnDay(Date(timeIntervalSince1970: dateEpoch))) / CGFloat(habit.goal))
+                    .trim(from: 0, to: CGFloat(habit.getCompletionsOnDay(date)) / CGFloat(habit.goal))
                     .stroke(.accent, style: StrokeStyle(lineWidth: 24, lineCap: .round))
                     .rotationEffect(.degrees(-90))
                     .shadow(color: .black, radius: 5, x: 5, y: 5)
@@ -57,28 +57,28 @@ struct HabitSheetView: View {
                     Text(habit.name)
                         .font(.headline)
                     HStack(spacing: 0) {
-                        Text("\(habit.getCompletionsOnDay(Date(timeIntervalSince1970: dateEpoch)))")
+                        Text("\(habit.getCompletionsOnDay(date))")
                             .font(.subheadline)
                             .foregroundColor(.secondary)
                             .transition(.scale)
-                            .id(habit.getCompletionsOnDay(Date(timeIntervalSince1970: dateEpoch)))
+                            .id(habit.getCompletionsOnDay(date))
                         Text(" / \(habit.goal)")
                             .font(.subheadline)
                             .foregroundColor(.secondary)
                     }
                 }
             }
-            .animation(.easeInOut, value: habit.getCompletionsOnDay(Date(timeIntervalSince1970: dateEpoch)))
+            .animation(.easeInOut, value: habit.getCompletionsOnDay(date))
             .frame(width: UIScreen.main.bounds.width * 0.75)
             Spacer()
             HStack {
                 Spacer()
                 Button("", systemImage: "minus") {
-                    habit.deleteCompletion(Date(timeIntervalSince1970: dateEpoch))
+                    habit.deleteCompletion(date)
                 }
                 Spacer()
                 Button("", systemImage: "plus") {
-                    habit.addCompletion(Date(timeIntervalSince1970: dateEpoch))
+                    habit.addCompletion(date)
                 }
                 Spacer()
             }
@@ -89,9 +89,8 @@ struct HabitSheetView: View {
 }
 
 #Preview {
-    @State var habit = Habit()
-    @State var dateEpoch = Date.now.timeIntervalSince1970
+    var habit = Habit()
     habit.name = "Running"
     habit.emoji = "🏃‍♂️"
-    return HabitSheetView(habit: $habit, dateEpoch: $dateEpoch)
+    return HabitSheetView(habit: habit, date: Date.now)
 }

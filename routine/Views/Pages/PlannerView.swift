@@ -12,18 +12,18 @@ struct PlannerView: View {
     // TODO: update to when user created account
     private let startOfTime = Calendar.current.date(from: DateComponents(year: 2024, month: 1, day: 1))!
     
-    @SceneStorage("firstDayOfCurrentWeekEpoch") private var firstDayOfCurrentWeekEpoch = DateHelpers.getFirstDayOfTheWeek(date: Date.now).timeIntervalSince1970
-    @SceneStorage("numberOfWeeksToRender") private var numberOfWeeksToRender = Calendar.current.dateComponents(
+    @State private var firstDayOfCurrentWeek = DateHelpers.getFirstDayOfTheWeek(date: Date.now)
+    @State private var selectedDate = Date.now
+    @State private var numberOfWeeksToRender = Calendar.current.dateComponents(
         [.weekOfYear],
         from: Calendar.current.date(from: DateComponents(year: 2024, month: 1, day: 1))!,
         to: Calendar.current.date(byAdding: .day, value: 7, to: DateHelpers.getFirstDayOfTheWeek(date: Date.now))!)
         .weekOfYear!
-    @SceneStorage("currentWeek") private var currentWeek = Calendar.current.dateComponents(
+    @State private var currentWeek = Calendar.current.dateComponents(
         [.weekOfYear],
         from: Calendar.current.date(from: DateComponents(year: 2024, month: 1, day: 1))!,
         to: DateHelpers.getFirstDayOfTheWeek(date: Date.now))
         .weekOfYear!
-    @SceneStorage("selectedDateEpoch") private var selectedDateEpoch = Date.now.timeIntervalSince1970
     
     @State var selectedHabit: Habit = Habit()
     @State var showHabitSheet = false
@@ -41,12 +41,12 @@ struct PlannerView: View {
             // | header |
             // +--------+
             VStack(alignment: .leading) {
-                Text(DateHelpers.getYearHeader(firstDayOfCurrentWeekEpoch))
+                Text(DateHelpers.getYearHeader(firstDayOfCurrentWeek))
                     .font(.largeTitle)
-                Text(DateHelpers.getMonthSubheader(firstDayOfCurrentWeekEpoch))
+                Text(DateHelpers.getMonthSubheader(firstDayOfCurrentWeek))
                     .font(.callout)
             }
-            .animation(.easeInOut, value: firstDayOfCurrentWeekEpoch)
+            .animation(.easeInOut, value: firstDayOfCurrentWeek)
             .padding(.horizontal)
             // +---------------+
             // | week carousel |
@@ -65,13 +65,13 @@ struct PlannerView: View {
                                     .font(.system(.subheadline))
                             }
                             .onTapGesture {
-                                selectedDateEpoch = day.timeIntervalSince1970
+                                selectedDate = day
                             }
                             .padding(10)
                             .foregroundColor(Calendar.current.isDateInToday(day) ? .accent : .primary)
                             .overlay(
                                 Group {
-                                    if Calendar.current.isDate(day, inSameDayAs: Date(timeIntervalSince1970: selectedDateEpoch)) {
+                                    if Calendar.current.isDate(day, inSameDayAs: selectedDate) {
                                         RoundedRectangle(cornerRadius: 10)
                                             .stroke(.accent, lineWidth: 2)
                                     }
@@ -84,7 +84,7 @@ struct PlannerView: View {
             }
             .tabViewStyle(.page(indexDisplayMode: .never))
             .frame(height: 100)
-            .sensoryFeedback(.selection, trigger: selectedDateEpoch)
+            .sensoryFeedback(.selection, trigger: selectedDate)
             .mask(
                 LinearGradient(
                     gradient: Gradient(
@@ -103,7 +103,7 @@ struct PlannerView: View {
                 if (currentWeek == numberOfWeeksToRender) {
                     numberOfWeeksToRender += 1
                 }
-                firstDayOfCurrentWeekEpoch = Calendar.current.date(byAdding: .day, value: 7 * currentWeek, to: startOfTime)!.timeIntervalSince1970
+                firstDayOfCurrentWeek = Calendar.current.date(byAdding: .day, value: 7 * currentWeek, to: startOfTime)!
             }
             // +--------+
             // | habits |
@@ -112,7 +112,7 @@ struct PlannerView: View {
                 VStack(alignment: .leading) {
                     VStack(spacing: 0) {
                         ForEach(habits) { habit in
-                            if DateHelpers.shouldShowHabit(selectedDateEpoch, habit) {
+                            if DateHelpers.shouldShowHabit(selectedDate, habit) {
                                 Button {
                                     openHabitSheet(habit)
                                 } label: {
@@ -121,7 +121,7 @@ struct PlannerView: View {
                                         Text("\(habit.name)")
                                             .font(.headline)
                                             .foregroundColor(.primary)
-                                        Text("\(habit.getCompletionsOnDay(Date(timeIntervalSince1970: selectedDateEpoch))) / \(habit.goal)")
+                                        Text("\(habit.getCompletionsOnDay(selectedDate)) / \(habit.goal)")
                                             .font(.subheadline)
                                             .foregroundColor(.secondary)
                                     }
@@ -137,7 +137,7 @@ struct PlannerView: View {
                 .padding()
                 .frame(width: UIScreen.main.bounds.width, alignment: .leading)
                 .sheet(isPresented: $showHabitSheet) {
-                    HabitSheetView(habit: $selectedHabit, dateEpoch: $selectedDateEpoch)
+                    HabitSheetView(habit: selectedHabit, date: selectedDate)
                 }
             }
             .mask(
@@ -201,22 +201,19 @@ fileprivate struct DateHelpers {
         return calendar.isDate(date1, equalTo: date2, toGranularity: .year)
     }
     
-    static func shouldShowHabit(_ selectedDateEpoch: TimeInterval, _ habit: Habit) -> Bool {
-        let selecteDate = Date(timeIntervalSince1970: selectedDateEpoch)
+    static func shouldShowHabit(_ selectedDate: Date, _ habit: Habit) -> Bool {
         // TODO: consider habit.days
-        return isSameDay(selecteDate, habit.creationDate) || selecteDate > habit.creationDate
+        return isSameDay(selectedDate, habit.creationDate) || selectedDate > habit.creationDate
     }
     
-    static func getYearHeader(_ firstDayOfWeekEpoch: TimeInterval) -> String {
-        let firstDayOfWeek = Date(timeIntervalSince1970: firstDayOfWeekEpoch)
+    static func getYearHeader(_ firstDayOfWeek: Date) -> String {
         let lastDayOfWeek = calendar.date(byAdding: .day, value: 6, to: firstDayOfWeek)!
         return isSameYear(firstDayOfWeek, lastDayOfWeek)
         ? getYear(firstDayOfWeek)
         : getYear(firstDayOfWeek) + " - " + getYear(lastDayOfWeek)
     }
     
-    static func getMonthSubheader(_ firstDayOfWeekEpoch: TimeInterval) -> String {
-        let firstDayOfWeek = Date(timeIntervalSince1970: firstDayOfWeekEpoch)
+    static func getMonthSubheader(_ firstDayOfWeek: Date) -> String {
         let lastDayOfWeek = calendar.date(byAdding: .day, value: 6, to: firstDayOfWeek)!
         return isSameMonth(firstDayOfWeek, lastDayOfWeek)
         ? getMonth(firstDayOfWeek)
