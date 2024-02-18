@@ -158,6 +158,9 @@ struct PlannerView: View {
                     }
                 }
                 .frame(width: UIScreen.main.bounds.width, alignment: .leading)
+                .sensoryFeedback(.impact, trigger: showHabitSheet, condition: { _, newValue in
+                    return newValue == true
+                })
                 .sheet(isPresented: $showHabitSheet) {
                     HabitSheetView(habit: $selectedHabit, date: $selectedDate)
                 }
