@@ -111,7 +111,6 @@ struct PlannerView: View {
             ScrollView() {
                 VStack(alignment: .leading) {
                     VStack(spacing: 0) {
-                        // TODO: only show incomplete habits
                         ForEach(habits) { habit in
                             if DateHelpers.shouldShowHabit(selectedDateEpoch, habit) {
                                 Button {
@@ -122,7 +121,7 @@ struct PlannerView: View {
                                         Text("\(habit.name)")
                                             .font(.headline)
                                             .foregroundColor(.primary)
-                                        Text("1/\(habit.goal)")
+                                        Text("\(habit.getCompletionsOnDay(Date(timeIntervalSince1970: selectedDateEpoch))) / \(habit.goal)")
                                             .font(.subheadline)
                                             .foregroundColor(.secondary)
                                     }
@@ -134,12 +133,11 @@ struct PlannerView: View {
                             }
                         }
                     }
-                    // TODO: if there are completed habits, show render "Completed" header and list completed habit
                 }
                 .padding()
                 .frame(width: UIScreen.main.bounds.width, alignment: .leading)
                 .sheet(isPresented: $showHabitSheet) {
-                    HabitSheetView(habit: $selectedHabit)
+                    HabitSheetView(habit: $selectedHabit, dateEpoch: $selectedDateEpoch)
                 }
             }
             .mask(
