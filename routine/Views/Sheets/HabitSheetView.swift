@@ -44,11 +44,11 @@ struct HabitSheetView: View {
             Spacer()
             ZStack {
                 Circle()
-                    .stroke(.accent, lineWidth: 24)
+                    .stroke(.accent, lineWidth: 20)
                     .opacity(0.2)
                 Circle()
                     .trim(from: 0, to: [CGFloat(habit.getCompletionsOnDay(date)) / CGFloat(habit.goal), 0.00001].max()!)
-                    .stroke(.accent, style: StrokeStyle(lineWidth: 24, lineCap: .round))
+                    .stroke(.accent, style: StrokeStyle(lineWidth: 20, lineCap: .round))
                     .rotationEffect(.degrees(-90))
                     .shadow(color: .black, radius: 5, x: 5, y: 5)
                 VStack(spacing: 10) {
