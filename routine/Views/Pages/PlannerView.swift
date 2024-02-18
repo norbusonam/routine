@@ -109,79 +109,37 @@ struct PlannerView: View {
             // | habits |
             // +--------+
             List {
-                ForEach(habits) { habit in
-                    if habit.shouldShow(on: selectedDate) {
-                        let habitState = habit.getState(on: selectedDate)
-                        Button {
-                            openHabitSheet(habit)
-                        } label: {
-                            HStack {
-                                Text("\(habit.emoji)")
-                                VStack(alignment: .leading) {
-                                    Text("\(habit.name)")
-                                        .font(.headline)
-                                        .foregroundColor(habitState == .success || habitState == .fail ? .secondary : .primary)
-                                    HStack(spacing: 0) {
-                                        Text("\(habit.getCompletions(on: selectedDate))")
-                                            .font(.subheadline)
-                                            .foregroundColor(.secondary)
-                                            .transition(.scale)
-                                            .id(habit.getCompletions(on: selectedDate))
-                                        Text(" / \(habit.goal)")
-                                            .font(.subheadline)
-                                            .foregroundColor(.secondary)
-                                    }
-                                }
-                                Spacer()
-                                switch habitState {
-                                case .success:
-                                    Text("✅")
-                                        .transition(.scale)
-                                case .fail:
-                                    Text("❌")
-                                        .transition(.scale)
-                                case .inProgress:
-                                    ZStack {
-                                        Circle()
-                                            .stroke(.accent, lineWidth: 3)
-                                            .opacity(0.2)
-                                        Circle()
-                                            .trim(
-                                                from: 0,
-                                                to: habit.getProgress(on: selectedDate)
-                                            )
-                                            .stroke(.accent, style: StrokeStyle(lineWidth: 3, lineCap: .round))
-                                            .rotationEffect(.degrees(-90))
-                                    }
-                                    .transition(.scale)
-                                    .frame(width: 24, height: 24)
-                                }
-                            }
-                            .animation(.easeInOut, value: habit.getCompletions(on: selectedDate))
-                            .contentShape(Rectangle())
-                        }
-                        .padding()
-                        .buttonStyle(.plain)
+                let goodHabits = habits.filter({ $0.shouldShow(on: selectedDate) && $0.type == .good })
+                if goodHabits.count > 0 {
+                    Text("Good Habits")
+                        .font(.headline)
+                        .foregroundColor(.secondary)
                         .listRowSeparator(.hidden)
                         .listRowInsets(EdgeInsets())
-                        .swipeActions(edge: .leading) {
-                            Button {
-                                habit.deleteCompletion(on: selectedDate)
-                            } label: {
-                                Image(systemName: "minus")
-                            }
-                            .tint(.clear)
-                        }
-                        .swipeActions(edge: .trailing) {
-                            Button {
-                                habit.addCompletion(on: selectedDate)
-                            } label: {
-                                Image(systemName: "plus")
-                            }
-                            .tint(.clear)
+                        .padding(.top)
+                        .padding(.horizontal)
+                    ForEach(goodHabits) { habit in
+                        HabitListItem(habit: habit, selectedDate: selectedDate) {
+                            openHabitSheet(habit)
                         }
                     }
                 }
+                let badHabits = habits.filter({ $0.shouldShow(on: selectedDate) && $0.type == .bad })
+                if badHabits.count > 0 {
+                    Text("Bad Habits")
+                        .font(.headline)
+                        .foregroundColor(.secondary)
+                        .listRowSeparator(.hidden)
+                        .listRowInsets(EdgeInsets())
+                        .padding(.top)
+                        .padding(.horizontal)
+                    ForEach(badHabits) { habit in
+                        HabitListItem(habit: habit, selectedDate: selectedDate) {
+                            openHabitSheet(habit)
+                        }
+                    }
+                }
+                // TODO: zero state for no good or bad habits
             }
             .listStyle(.plain)
             .sensoryFeedback(.impact, trigger: showHabitSheet, condition: { _, newValue in
@@ -206,6 +164,82 @@ struct PlannerView: View {
             )
         }
         .animation(.easeInOut, value: selectedDate)
+    }
+}
+
+struct HabitListItem: View {
+    var habit: Habit
+    var selectedDate: Date
+    var action: () -> Void
+    
+    var body: some View {
+        Button(action: action) {
+            let habitState = habit.getState(on: selectedDate)
+            HStack {
+                Text("\(habit.emoji)")
+                VStack(alignment: .leading) {
+                    Text("\(habit.name)")
+                        .font(.headline)
+                        .foregroundColor(habitState == .success || habitState == .fail ? .secondary : .primary)
+                    HStack(spacing: 0) {
+                        Text("\(habit.getCompletions(on: selectedDate))")
+                            .font(.subheadline)
+                            .foregroundColor(.secondary)
+                            .transition(.scale)
+                            .id(habit.getCompletions(on: selectedDate))
+                        Text(" / \(habit.goal)")
+                            .font(.subheadline)
+                            .foregroundColor(.secondary)
+                    }
+                }
+                Spacer()
+                switch habitState {
+                case .success:
+                    Text("✅")
+                        .transition(.scale)
+                case .fail:
+                    Text("❌")
+                        .transition(.scale)
+                case .inProgress:
+                    ZStack {
+                        Circle()
+                            .stroke(.accent, lineWidth: 3)
+                            .opacity(0.2)
+                        Circle()
+                            .trim(
+                                from: 0,
+                                to: habit.getProgress(on: selectedDate)
+                            )
+                            .stroke(.accent, style: StrokeStyle(lineWidth: 3, lineCap: .round))
+                            .rotationEffect(.degrees(-90))
+                    }
+                    .transition(.scale)
+                    .frame(width: 24, height: 24)
+                }
+            }
+            .animation(.easeInOut, value: habit.getCompletions(on: selectedDate))
+            .contentShape(Rectangle())
+        }
+        .padding()
+        .buttonStyle(.plain)
+        .listRowSeparator(.hidden)
+        .listRowInsets(EdgeInsets())
+        .swipeActions(edge: .leading) {
+            Button {
+                habit.deleteCompletion(on: selectedDate)
+            } label: {
+                Image(systemName: "minus")
+            }
+            .tint(.clear)
+        }
+        .swipeActions(edge: .trailing) {
+            Button {
+                habit.addCompletion(on: selectedDate)
+            } label: {
+                Image(systemName: "plus")
+            }
+            .tint(.clear)
+        }
     }
 }
 
