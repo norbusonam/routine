@@ -172,14 +172,15 @@ struct PlannerView: View {
                         }
                     }
                 }
-                .sensoryFeedback(.impact, trigger: showHabitSheet, condition: { _, newValue in
-                    return newValue == true
-                })
-                .sheet(isPresented: $showHabitSheet) {
-                    HabitSheetView(habit: $selectedHabit, date: $selectedDate)
-                }
+                Text("Bad Habits")
             }
             .listStyle(.plain)
+            .sensoryFeedback(.impact, trigger: showHabitSheet, condition: { _, newValue in
+                return newValue == true
+            })
+            .sheet(isPresented: $showHabitSheet) {
+                HabitSheetView(habit: $selectedHabit, date: $selectedDate)
+            }
             .mask(
                 LinearGradient(
                     gradient: Gradient(
