@@ -47,7 +47,12 @@ struct HabitSheetView: View {
                     .stroke(.accent, lineWidth: 20)
                     .opacity(0.2)
                 Circle()
-                    .trim(from: 0, to: [CGFloat(habit.getCompletionsOnDay(date)) / CGFloat(habit.goal), 0.00001].max()!)
+                    .trim(
+                        from: 0,
+                        to: habit.type == .good
+                        ? CGFloat(habit.getCompletionsOnDay(date)) / CGFloat(habit.goal)
+                        : 1 - CGFloat(habit.getCompletionsOnDay(date)) / CGFloat(habit.goal)
+                    )
                     .stroke(.accent, style: StrokeStyle(lineWidth: 20, lineCap: .round))
                     .rotationEffect(.degrees(-90))
                 VStack(spacing: 10) {

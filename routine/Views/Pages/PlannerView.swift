@@ -136,7 +136,12 @@ struct PlannerView: View {
                                         .stroke(.accent, lineWidth: 3)
                                         .opacity(0.2)
                                     Circle()
-                                        .trim(from: 0, to: [CGFloat(habit.getCompletionsOnDay(selectedDate)) / CGFloat(habit.goal), 0.00001].max()!)
+                                        .trim(
+                                            from: 0,
+                                            to: habit.type == .good
+                                            ? CGFloat(habit.getCompletionsOnDay(selectedDate)) / CGFloat(habit.goal)
+                                            : 1 - CGFloat(habit.getCompletionsOnDay(selectedDate)) / CGFloat(habit.goal)
+                                        )
                                         .stroke(.accent, style: StrokeStyle(lineWidth: 3, lineCap: .round))
                                         .rotationEffect(.degrees(-90))
                                 }
