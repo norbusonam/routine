@@ -51,7 +51,7 @@ struct HabitSheetView: View {
                     .stroke(.accent, style: StrokeStyle(lineWidth: 20, lineCap: .round))
                     .rotationEffect(.degrees(-90))
                 VStack(spacing: 10) {
-                    Text(habit.getCompletionsOnDay(date) >= habit.goal ? "✅" : habit.emoji)
+                    Text(habit.getCompletionsOnDay(date) >= habit.goal ? "\(habit.type == .good ? "✅" : "❌")" : habit.emoji)
                         .font(.largeTitle)
                         .transition(.scale)
                         .id(habit.getCompletionsOnDay(date) >= habit.goal)
