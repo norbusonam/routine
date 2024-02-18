@@ -49,49 +49,49 @@ struct HabitSheetView: View {
                 Circle()
                     .trim(
                         from: 0,
-                        to: CGFloat(habit.getCompletionsOnDay(date)) / CGFloat(habit.goal)
+                        to: CGFloat(habit.getCompletions(on: date)) / CGFloat(habit.goal)
                     )
                     .stroke(.accent, style: StrokeStyle(lineWidth: 20, lineCap: .round))
                     .rotationEffect(.degrees(-90))
                 VStack(spacing: 10) {
                     Text(
-                        habit.type == .good && habit.getCompletionsOnDay(date) >= habit.goal ? "✅"
-                        : habit.type == .bad && habit.getCompletionsOnDay(date) > habit.goal ? "❌"
+                        habit.type == .good && habit.getCompletions(on: date) >= habit.goal ? "✅"
+                        : habit.type == .bad && habit.getCompletions(on: date) > habit.goal ? "❌"
                         : habit.emoji
                     )
                         .font(.largeTitle)
                         .transition(.scale)
                         .id(
-                            habit.type == .good && habit.getCompletionsOnDay(date) >= habit.goal
-                            || habit.type == .bad && habit.getCompletionsOnDay(date) > habit.goal
+                            habit.type == .good && habit.getCompletions(on: date) >= habit.goal
+                            || habit.type == .bad && habit.getCompletions(on: date) > habit.goal
                         )
                     Text(habit.name)
                         .font(.headline)
                     HStack(spacing: 0) {
-                        Text("\(habit.getCompletionsOnDay(date))")
+                        Text("\(habit.getCompletions(on: date))")
                             .font(.subheadline)
                             .foregroundColor(.secondary)
                             .transition(.scale)
-                            .id(habit.getCompletionsOnDay(date))
+                            .id(habit.getCompletions(on: date))
                         Text(" / \(habit.goal)")
                             .font(.subheadline)
                             .foregroundColor(.secondary)
                     }
                 }
             }
-            .animation(.easeInOut, value: habit.getCompletionsOnDay(date))
+            .animation(.easeInOut, value: habit.getCompletions(on: date))
             .frame(width: UIScreen.main.bounds.width * 0.75)
             Spacer()
             HStack {
                 Spacer()
                 Button("", systemImage: "minus") {
-                    habit.deleteCompletion(date)
+                    habit.deleteCompletion(on: date)
                 }
                 .font(.title)
-                .disabled(habit.getCompletionsOnDay(date) == 0)
+                .disabled(habit.getCompletions(on: date) == 0)
                 Spacer()
                 Button("", systemImage: "plus") {
-                    habit.addCompletion(date)
+                    habit.addCompletion(on: date)
                 }
                 .font(.title)
                 Spacer()

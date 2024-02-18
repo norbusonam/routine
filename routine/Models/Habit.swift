@@ -46,7 +46,7 @@ class Habit {
         return Calendar.current.startOfDay(for: date)
     }
     
-    func addCompletion(_ date: Date) {
+    func addCompletion(on date: Date) {
         let dateKey = getDateKey(for: date)
         if let count = completions[dateKey] {
             completions[dateKey] = count + 1
@@ -55,15 +55,20 @@ class Habit {
         }
     }
     
-    func deleteCompletion(_ date: Date) {
+    func deleteCompletion(on date: Date) {
         let dateKey = getDateKey(for: date)
         if let count = completions[dateKey] {
             completions[dateKey] = [count - 1, 0].max()
         }
     }
     
-    func getCompletionsOnDay(_ date: Date) -> Int {
+    func getCompletions(on date: Date) -> Int {
         let dateKey = getDateKey(for: date)
         return completions[dateKey] ?? 0
+    }
+    
+    func shouldShow(on date: Date) -> Bool {
+        // TODO: account for days of week
+        return Calendar.current.isDate(creationDate, inSameDayAs: date) || date > creationDate
     }
 }

@@ -12,17 +12,17 @@ struct PlannerView: View {
     // TODO: update to when user created account
     private let startOfTime = Calendar.current.date(from: DateComponents(year: 2024, month: 1, day: 1))!
     
-    @State private var firstDayOfCurrentWeek = DateHelpers.getFirstDayOfTheWeek(date: Date.now)
+    @State private var firstDayOfCurrentWeek = DateHelpers.getFirstDayOfTheWeek(for: Date.now)
     @State private var selectedDate = Date.now
     @State private var numberOfWeeksToRender = Calendar.current.dateComponents(
         [.weekOfYear],
         from: Calendar.current.date(from: DateComponents(year: 2024, month: 1, day: 1))!,
-        to: Calendar.current.date(byAdding: .day, value: 7, to: DateHelpers.getFirstDayOfTheWeek(date: Date.now))!)
+        to: Calendar.current.date(byAdding: .day, value: 7, to: DateHelpers.getFirstDayOfTheWeek(for: Date.now))!)
         .weekOfYear!
     @State private var currentWeek = Calendar.current.dateComponents(
         [.weekOfYear],
         from: Calendar.current.date(from: DateComponents(year: 2024, month: 1, day: 1))!,
-        to: DateHelpers.getFirstDayOfTheWeek(date: Date.now))
+        to: DateHelpers.getFirstDayOfTheWeek(for: Date.now))
         .weekOfYear!
     @State var selectedHabit: Habit = Habit()
     @State var showHabitSheet = false
@@ -40,9 +40,9 @@ struct PlannerView: View {
             // | header |
             // +--------+
             VStack(alignment: .leading) {
-                Text(DateHelpers.getYearHeader(firstDayOfCurrentWeek))
+                Text(DateHelpers.getYearHeader(for: firstDayOfCurrentWeek))
                     .font(.largeTitle)
-                Text(DateHelpers.getMonthSubheader(firstDayOfCurrentWeek))
+                Text(DateHelpers.getMonthSubheader(for: firstDayOfCurrentWeek))
                     .font(.callout)
             }
             .animation(.easeInOut, value: firstDayOfCurrentWeek)
@@ -58,9 +58,9 @@ struct PlannerView: View {
                         ForEach(0..<7, id: \.self) { index in
                             let day = Calendar.current.date(byAdding: .day, value: index, to: firstDayOfWeek)!
                             VStack(spacing: 10) {
-                                Text(DateHelpers.getFirstLetterOfDay(day))
+                                Text(DateHelpers.getFirstLetterOfDay(for: day))
                                     .font(.system(.headline))
-                                Text(DateHelpers.getDayOfMonth(day))
+                                Text(DateHelpers.getDayOfMonth(for: day))
                                     .font(.system(.subheadline))
                                     .foregroundColor(.secondary)
                             }
@@ -110,7 +110,7 @@ struct PlannerView: View {
             // +--------+
             List {
                 ForEach(habits) { habit in
-                    if DateHelpers.shouldShowHabit(selectedDate, habit) {
+                    if habit.shouldShow(on: selectedDate) {
                         Button {
                             openHabitSheet(habit)
                         } label: {
@@ -121,11 +121,11 @@ struct PlannerView: View {
                                         .font(.headline)
                                         .foregroundColor(.primary)
                                     HStack(spacing: 0) {
-                                        Text("\(habit.getCompletionsOnDay(selectedDate))")
+                                        Text("\(habit.getCompletions(on: selectedDate))")
                                             .font(.subheadline)
                                             .foregroundColor(.secondary)
                                             .transition(.scale)
-                                            .id(habit.getCompletionsOnDay(selectedDate))
+                                            .id(habit.getCompletions(on: selectedDate))
                                         Text(" / \(habit.goal)")
                                             .font(.subheadline)
                                             .foregroundColor(.secondary)
@@ -133,8 +133,8 @@ struct PlannerView: View {
                                 }
                                 Spacer()
                                 if (
-                                    (habit.type == .good && habit.getCompletionsOnDay(selectedDate) < habit.goal)
-                                    || (habit.type == .bad && habit.getCompletionsOnDay(selectedDate) <= habit.goal)
+                                    (habit.type == .good && habit.getCompletions(on: selectedDate) < habit.goal)
+                                    || (habit.type == .bad && habit.getCompletions(on: selectedDate) <= habit.goal)
                                 ) {
                                     ZStack {
                                         Circle()
@@ -143,7 +143,7 @@ struct PlannerView: View {
                                         Circle()
                                             .trim(
                                                 from: 0,
-                                                to: CGFloat(habit.getCompletionsOnDay(selectedDate)) / CGFloat(habit.goal)
+                                                to: CGFloat(habit.getCompletions(on: selectedDate)) / CGFloat(habit.goal)
                                             )
                                             .stroke(.accent, style: StrokeStyle(lineWidth: 3, lineCap: .round))
                                             .rotationEffect(.degrees(-90))
@@ -155,7 +155,7 @@ struct PlannerView: View {
                                         .transition(.scale)
                                 }
                             }
-                            .animation(.easeInOut, value: habit.getCompletionsOnDay(selectedDate))
+                            .animation(.easeInOut, value: habit.getCompletions(on: selectedDate))
                             .contentShape(Rectangle())
                         }
                         .padding()
@@ -164,7 +164,7 @@ struct PlannerView: View {
                         .listRowInsets(EdgeInsets())
                         .swipeActions(edge: .leading) {
                             Button {
-                                habit.deleteCompletion(selectedDate)
+                                habit.deleteCompletion(on: selectedDate)
                             } label: {
                                 Image(systemName: "minus")
                             }
@@ -172,7 +172,7 @@ struct PlannerView: View {
                         }
                         .swipeActions(edge: .trailing) {
                             Button {
-                                habit.addCompletion(selectedDate)
+                                habit.addCompletion(on: selectedDate)
                             } label: {
                                 Image(systemName: "plus")
                             }
@@ -210,30 +210,30 @@ struct PlannerView: View {
 fileprivate struct DateHelpers {
     static var calendar = Calendar.current
     
-    static func getFirstDayOfTheWeek(date: Date) -> Date {
+    static func getFirstDayOfTheWeek(for date: Date) -> Date {
         calendar.firstWeekday = 2
         let components = calendar.dateComponents([.yearForWeekOfYear, .weekOfYear], from: date)
         return calendar.date(from: components)!
     }
     
-    static func getFirstLetterOfDay(_ date: Date) -> String {
+    static func getFirstLetterOfDay(for date: Date) -> String {
         let formatter = DateFormatter()
         formatter.dateFormat = "EEEEE"
         return formatter.string(from: date)
     }
     
-    static func getMonth(_ date: Date) -> String {
+    static func getMonth(for date: Date) -> String {
         let formatter = DateFormatter()
         formatter.dateFormat = "MMMM"
         return formatter.string(from: date)
     }
     
-    static func getDayOfMonth(_ date: Date) -> String {
+    static func getDayOfMonth(for date: Date) -> String {
         let dayOfMonth = calendar.component(.day, from: date)
         return String(dayOfMonth)
     }
     
-    static func getYear(_ date: Date) -> String {
+    static func getYear(for date: Date) -> String {
         let year = calendar.component(.year, from: date)
         return String(year)
     }
@@ -250,23 +250,18 @@ fileprivate struct DateHelpers {
         return calendar.isDate(date1, equalTo: date2, toGranularity: .year)
     }
     
-    static func shouldShowHabit(_ selectedDate: Date, _ habit: Habit) -> Bool {
-        // TODO: consider habit.days
-        return isSameDay(selectedDate, habit.creationDate) || selectedDate > habit.creationDate
-    }
-    
-    static func getYearHeader(_ firstDayOfWeek: Date) -> String {
+    static func getYearHeader(for firstDayOfWeek: Date) -> String {
         let lastDayOfWeek = calendar.date(byAdding: .day, value: 6, to: firstDayOfWeek)!
         return isSameYear(firstDayOfWeek, lastDayOfWeek)
-        ? getYear(firstDayOfWeek)
-        : getYear(firstDayOfWeek) + " - " + getYear(lastDayOfWeek)
+        ? getYear(for: firstDayOfWeek)
+        : getYear(for: firstDayOfWeek) + " - " + getYear(for: lastDayOfWeek)
     }
     
-    static func getMonthSubheader(_ firstDayOfWeek: Date) -> String {
+    static func getMonthSubheader(for firstDayOfWeek: Date) -> String {
         let lastDayOfWeek = calendar.date(byAdding: .day, value: 6, to: firstDayOfWeek)!
         return isSameMonth(firstDayOfWeek, lastDayOfWeek)
-        ? getMonth(firstDayOfWeek)
-        : getMonth(firstDayOfWeek) + " - " + getMonth(lastDayOfWeek)
+        ? getMonth(for: firstDayOfWeek)
+        : getMonth(for: firstDayOfWeek) + " - " + getMonth(for: lastDayOfWeek)
     }
 }
 
