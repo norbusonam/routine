@@ -76,8 +76,16 @@ class Habit {
     }
     
     func shouldShow(on date: Date) -> Bool {
-        // TODO: account for days of week
-        return Calendar.current.isDate(creationDate, inSameDayAs: date) || date > creationDate
+        let isOnOrAfterCreation = Calendar.current.isDate(creationDate, inSameDayAs: date) || date > creationDate
+        var isOnHabitDay = false
+        let weekdayStyle = Date.FormatStyle().weekday(.wide)
+        for day in days {
+            if day.rawValue == date.formatted(weekdayStyle).lowercased() {
+                isOnHabitDay = true
+                break
+            }
+        }
+        return isOnOrAfterCreation && isOnHabitDay
     }
     
     func getState(on date: Date) -> HabitState {
