@@ -132,21 +132,28 @@ struct PlannerView: View {
                                     }
                                 }
                                 Spacer()
-                                ZStack {
-                                    Circle()
-                                        .stroke(.accent, lineWidth: 3)
-                                        .opacity(0.2)
-                                    Circle()
-                                        .trim(
-                                            from: 0,
-                                            to: habit.type == .good
-                                            ? CGFloat(habit.getCompletionsOnDay(selectedDate)) / CGFloat(habit.goal)
-                                            : 1 - CGFloat(habit.getCompletionsOnDay(selectedDate)) / CGFloat(habit.goal)
-                                        )
-                                        .stroke(.accent, style: StrokeStyle(lineWidth: 3, lineCap: .round))
-                                        .rotationEffect(.degrees(-90))
+                                if (
+                                    (habit.type == .good && habit.getCompletionsOnDay(selectedDate) < habit.goal)
+                                    || (habit.type == .bad && habit.getCompletionsOnDay(selectedDate) <= habit.goal)
+                                ) {
+                                    ZStack {
+                                        Circle()
+                                            .stroke(.accent, lineWidth: 3)
+                                            .opacity(0.2)
+                                        Circle()
+                                            .trim(
+                                                from: 0,
+                                                to: CGFloat(habit.getCompletionsOnDay(selectedDate)) / CGFloat(habit.goal)
+                                            )
+                                            .stroke(.accent, style: StrokeStyle(lineWidth: 3, lineCap: .round))
+                                            .rotationEffect(.degrees(-90))
+                                    }
+                                    .transition(.scale)
+                                    .frame(width: 24, height: 24)
+                                } else {
+                                    Text("\(habit.type == .good ? "✅" : "❌")")
+                                        .transition(.scale)
                                 }
-                                .frame(width: 24, height: 24)
                             }
                             .animation(.easeInOut, value: habit.getCompletionsOnDay(selectedDate))
                             .contentShape(Rectangle())
