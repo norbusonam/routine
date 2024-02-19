@@ -79,11 +79,9 @@ class Habit {
         let isOnOrAfterCreation = Calendar.current.isDate(creationDate, inSameDayAs: date) || date > creationDate
         var isOnHabitDay = false
         let weekdayStyle = Date.FormatStyle().weekday(.wide)
-        for day in days {
-            if day.rawValue == date.formatted(weekdayStyle).lowercased() {
-                isOnHabitDay = true
-                break
-            }
+        for day in days where day.rawValue == date.formatted(weekdayStyle).lowercased() {
+            isOnHabitDay = true
+            break
         }
         return isOnOrAfterCreation && isOnHabitDay
     }

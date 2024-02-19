@@ -65,7 +65,7 @@ struct PlannerView: View {
                             }
                             .padding(10)
                             .foregroundColor(Calendar.current.isDateInToday(day) ? .accent : .primary)
-                            .overlay(
+                            .overlay {
                                 Group {
                                     if Calendar.current.isDate(day, inSameDayAs: selectedDate) {
                                         RoundedRectangle(cornerRadius: 10)
@@ -73,7 +73,7 @@ struct PlannerView: View {
                                             .transition(.push(from: .leading))
                                     }
                                 }
-                            )
+                            }
                             .onTapGesture {
                                 withAnimation {
                                     selectedDate = day
