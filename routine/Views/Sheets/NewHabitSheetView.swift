@@ -162,6 +162,7 @@ struct NewHabitSheetView: View {
                         .foregroundColor(.accent)
                         .font(.title2)
                         .multilineTextAlignment(.center)
+                        .keyboardType(.asciiCapable)
                         .focused($nameFocused)
                         .overlay(
                             RoundedRectangle(cornerRadius: 10)
