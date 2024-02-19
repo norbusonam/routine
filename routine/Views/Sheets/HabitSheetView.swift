@@ -107,7 +107,6 @@ struct HabitSheetView: View {
                     }
                 }
             }
-            .padding()
         }
     }
 }
