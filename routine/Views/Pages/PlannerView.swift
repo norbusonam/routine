@@ -70,6 +70,7 @@ struct PlannerView: View {
                                     if Calendar.current.isDate(day, inSameDayAs: selectedDate) {
                                         RoundedRectangle(cornerRadius: 10)
                                             .stroke(.accent, lineWidth: 2)
+                                            .transition(.push(from: .leading))
                                     }
                                 }
                             )
