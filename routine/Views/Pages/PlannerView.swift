@@ -119,7 +119,7 @@ struct PlannerView: View {
                     if goodHabits.count > 0 {
                         Text("Good Habits")
                             .font(.headline)
-                            .foregroundColor(.secondary)
+                            .foregroundColor(.green)
                             .listRowSeparator(.hidden)
                             .listRowInsets(EdgeInsets())
                             .padding(.top)
@@ -133,7 +133,7 @@ struct PlannerView: View {
                     if badHabits.count > 0 {
                         Text("Bad Habits")
                             .font(.headline)
-                            .foregroundColor(.secondary)
+                            .foregroundColor(.red)
                             .listRowSeparator(.hidden)
                             .listRowInsets(EdgeInsets())
                             .padding(.top)
