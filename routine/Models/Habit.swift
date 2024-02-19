@@ -103,6 +103,10 @@ class Habit {
     }
     
     func isValid() -> Bool {
-        return name.count >= Habit.MinNameLength && name.count <= Habit.MaxNameLength && emoji.count == 1 && days.count > 0 && goal >= 0
+        let validNameLength = name.count >= Habit.MinNameLength && name.count <= Habit.MaxNameLength
+        let validEmojiLength = emoji.count == 1
+        let validGoal = type == .good && goal > 0 || type == .bad && goal >= 0
+        let daySelected = days.count > 0
+        return validNameLength && validEmojiLength && validGoal && daySelected
     }
 }
