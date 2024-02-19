@@ -100,6 +100,6 @@ class Habit {
     }
     
     func isValid() -> Bool {
-        return name.count >= 3 && emoji.unicodeScalars.count == 1 && emoji.unicodeScalars.first!.properties.isEmoji && days.count > 0 && goal >= 0
+        return name.count >= 3 && emoji.count == 1 && days.count > 0 && goal >= 0
     }
 }
