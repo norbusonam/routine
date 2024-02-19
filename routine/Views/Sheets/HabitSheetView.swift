@@ -50,6 +50,9 @@ struct HabitSheetView: View {
                                 .transition(.scale)
                         }
                         Text(habit.name)
+                            .padding(.horizontal)
+                            .multilineTextAlignment(.center)
+                            .lineLimit(1)
                             .font(.headline)
                         HStack(spacing: 0) {
                             Text("\(habit.getCompletions(on: date))")

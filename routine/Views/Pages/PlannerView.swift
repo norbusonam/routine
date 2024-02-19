@@ -193,6 +193,7 @@ struct HabitListItem: View {
                 VStack(alignment: .leading) {
                     Text("\(habit.name)")
                         .font(.headline)
+                        .lineLimit(1)
                         .foregroundColor(habitState == .success || habitState == .fail ? .secondary : .primary)
                     HStack(spacing: 0) {
                         Text("\(habit.getCompletions(on: selectedDate))")
@@ -205,7 +206,7 @@ struct HabitListItem: View {
                             .foregroundColor(.secondary)
                     }
                 }
-                Spacer()
+                Spacer(minLength: 32)
                 switch habitState {
                 case .success:
                     Text("✅")
