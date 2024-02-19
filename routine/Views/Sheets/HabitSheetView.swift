@@ -82,19 +82,22 @@ struct HabitSheetView: View {
                     }
                 }
             }
-            .animation(.easeInOut, value: habit.getCompletions(on: date))
             .frame(width: UIScreen.main.bounds.width * 0.75)
             Spacer()
             HStack {
                 Spacer()
                 Button("", systemImage: "minus") {
-                    habit.deleteCompletion(on: date)
+                    withAnimation {
+                        habit.deleteCompletion(on: date)
+                    }
                 }
                 .font(.title)
                 .disabled(habit.getCompletions(on: date) == 0)
                 Spacer()
                 Button("", systemImage: "plus") {
-                    habit.addCompletion(on: date)
+                    withAnimation {
+                        habit.addCompletion(on: date)
+                    }
                 }
                 .font(.title)
                 Spacer()

@@ -45,7 +45,6 @@ struct PlannerView: View {
                 Text(DateHelpers.getMonthSubheader(for: firstDayOfCurrentWeek))
                     .font(.callout)
             }
-            .animation(.easeInOut, value: firstDayOfCurrentWeek)
             .padding(.horizontal)
             // +---------------+
             // | week carousel |
@@ -64,9 +63,6 @@ struct PlannerView: View {
                                     .font(.system(.subheadline))
                                     .foregroundColor(.secondary)
                             }
-                            .onTapGesture {
-                                selectedDate = day
-                            }
                             .padding(10)
                             .foregroundColor(Calendar.current.isDateInToday(day) ? .accent : .primary)
                             .overlay(
@@ -77,6 +73,11 @@ struct PlannerView: View {
                                     }
                                 }
                             )
+                            .onTapGesture {
+                                withAnimation {
+                                    selectedDate = day
+                                }
+                            }
                             Spacer()
                         }
                     }
@@ -103,7 +104,9 @@ struct PlannerView: View {
                 if (currentWeek == numberOfWeeksToRender) {
                     numberOfWeeksToRender += 1
                 }
-                firstDayOfCurrentWeek = Calendar.current.date(byAdding: .day, value: 7 * currentWeek, to: startOfTime)!
+                withAnimation {
+                    firstDayOfCurrentWeek = Calendar.current.date(byAdding: .day, value: 7 * currentWeek, to: startOfTime)!
+                }
             }
             // +--------+
             // | habits |
@@ -173,7 +176,6 @@ struct PlannerView: View {
                 .frame(width: UIScreen.main.bounds.width)
             }
         }
-        .animation(.easeInOut, value: selectedDate)
     }
 }
 
@@ -227,7 +229,6 @@ struct HabitListItem: View {
                     .frame(width: 24, height: 24)
                 }
             }
-            .animation(.easeInOut, value: habit.getCompletions(on: selectedDate))
             .contentShape(Rectangle())
         }
         .padding()
@@ -236,7 +237,9 @@ struct HabitListItem: View {
         .listRowInsets(EdgeInsets())
         .swipeActions(edge: .leading) {
             Button {
-                habit.deleteCompletion(on: selectedDate)
+                withAnimation {
+                    habit.deleteCompletion(on: selectedDate)
+                }
             } label: {
                 Image(systemName: "minus")
             }
@@ -244,7 +247,9 @@ struct HabitListItem: View {
         }
         .swipeActions(edge: .trailing) {
             Button {
-                habit.addCompletion(on: selectedDate)
+                withAnimation {
+                    habit.addCompletion(on: selectedDate)
+                }
             } label: {
                 Image(systemName: "plus")
             }

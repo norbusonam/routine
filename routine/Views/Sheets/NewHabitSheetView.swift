@@ -165,11 +165,13 @@ struct NewHabitSheetView: View {
                                 .stroke(.accent, lineWidth: 2)
                         )
                         .onSubmit {
-                            if habit.name.count >= 3 {
-                                showNameError = false
+                            let isValid = habit.name.count >= 3
+                            withAnimation {
+                                showNameError = !isValid
+                            }
+                            if isValid {
                                 changePage(.emoji)
                             } else {
-                                showNameError = true
                                 nameFocused = true
                             }
                         }
@@ -179,7 +181,6 @@ struct NewHabitSheetView: View {
                     }
                 }
                 .transition(.scale)
-                .animation(.easeInOut, value: showNameError)
             } else if page == .emoji {
                 // +-------+
                 // | emoji |
@@ -198,16 +199,22 @@ struct NewHabitSheetView: View {
                                 .stroke(.accent, lineWidth: 2)
                         )
                         .onSubmit {
-                            if habit.emoji.count == 1 && habit.emoji.first!.isEmoji {
-                                showEmojiError = false
+                            let isValid = habit.emoji.count == 1 && habit.emoji.first!.isEmoji
+                            withAnimation {
+                                showEmojiError = !isValid
+                            }
+                            if isValid {
                                 changePage(.frequency)
                             } else {
-                                showEmojiError = true
                                 emojiFocused = true
                             }
                         }
                         .onChange(of: habit.emoji) { _, newEmoji in
-                            if newEmoji.count > 0 && newEmoji.last!.isEmoji {
+                            let isValid = newEmoji.count > 0 && newEmoji.last!.isEmoji
+                            withAnimation {
+                                showEmojiError = !isValid
+                            }
+                            if isValid {
                                 habit.emoji = "\(newEmoji.last!)"
                             } else {
                                 habit.emoji = ""
@@ -218,7 +225,6 @@ struct NewHabitSheetView: View {
                             .foregroundColor(.red)
                     }
                 }
-                .animation(.easeInOut, value: showEmojiError)
                 .transition(.scale)
             } else if page == .frequency {
                 // +-----------+
@@ -245,7 +251,9 @@ struct NewHabitSheetView: View {
                     }
                     HStack {
                         Button("", systemImage: "minus") {
-                            habit.goal = [habit.goal - 1, 0].max()!
+                            withAnimation {
+                                habit.goal = [habit.goal - 1, 0].max()!
+                            }
                         }
                         .disabled(habit.goal == 0)
                         Spacer()
@@ -258,10 +266,11 @@ struct NewHabitSheetView: View {
                                 .id(habit.goal == 1)
                             Text(" per day")
                         }
-                        .animation(.easeInOut, value: habit.goal)
                         Spacer()
                         Button("", systemImage: "plus") {
-                            habit.goal += 1
+                            withAnimation {
+                                habit.goal += 1
+                            }
                         }
                     }
                     Button("Done", action: onDone)
