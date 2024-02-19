@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import MCEmojiPicker
 
 enum NewHabitPage: String {
     case type, name, emoji, frequency
@@ -16,203 +17,68 @@ struct NewHabitSheetView: View {
     @Environment(\.dismiss) private var dismiss
     
     @State private var habit = Habit()
-    @State private var page = NewHabitPage.type
-    
-    @State private var showNameError = false
-    @State private var showEmojiError = false
+    @State private var isGoodHabit = true
+    @State private var showEmojiPicker = false
     
     @FocusState private var nameFocused: Bool
-    @FocusState private var emojiFocused: Bool
-    
-    func changePage(_ newPage: NewHabitPage) {
-        withAnimation {
-            page = newPage
-        }
-        if newPage == .name {
-            emojiFocused = false
-            nameFocused = true
-        } else if newPage == .emoji {
-            nameFocused = false
-            emojiFocused = true
-        } else {
-            nameFocused = false
-            emojiFocused = false
-        }
-    }
-    
-    func onBack() {
-        switch page {
-        case .name:
-            changePage(.type)
-        case .emoji:
-            changePage(.name)
-        case .frequency:
-            changePage(.emoji)
-        default:
-            break
-        }
-    }
-    
-    func onDone() {
-        modelContext.insert(habit)
-        dismiss()
-    }
     
     var body: some View {
-        VStack() {
-            HStack {
-                if page == .type {
-                    Button {
-                        dismiss()
-                    } label: {
-                        
-                        Image(systemName: "xmark.circle.fill")
-                            .imageScale(.large)
-                    }
-                    .transition(.scale)
-                } else {
-                    Button(action: onBack) {
-                        Image(systemName: "arrow.left.circle.fill")
-                            .imageScale(.large)
-                    }
-                    .transition(.scale)
-                }
-                Spacer()
-                Text("New Habit")
-                    .font(.headline)
-                Spacer()
-                // NOTE: the image is hidden and used to ensure title is center
-                Image(systemName: "xmark.circle.fill")
-                    .imageScale(.large)
-                    .opacity(0)
-            }
-            Spacer()
-            if page == .type {
-                // +------+
-                // | type |
-                // +------+
-                VStack(spacing: 32) {
-                    Text("Habit type")
-                        .font(.title)
-                        .multilineTextAlignment(.center)
+        NavigationView {
+            ScrollView {
+                VStack {
                     HStack {
-                        Spacer()
-                        Button {
-                            habit.type = .good
-                            changePage(.name)
-                        } label: {
-                            VStack {
-                                Text("🙂")
-                                    .font(.largeTitle)
-                                Text("Good habit")
-                                    .foregroundColor(.green)
-                            }
+                        Button(habit.emoji) {
+                            nameFocused = false
+                            showEmojiPicker = true
                         }
-                        Spacer()
-                        Button {
-                            habit.type = .bad
-                            changePage(.name)
-                        } label: {
-                            VStack {
-                                Text("😞")
-                                    .font(.largeTitle)
-                                Text("Bad habit")
-                                    .foregroundColor(.red)
-                            }
-                        }
-                        Spacer()
-                    }
-                }
-                .transition(.scale)
-            } else if page == .name {
-                // +------+
-                // | name |
-                // +------+
-                VStack(spacing: 32) {
-                    Text("Habit title")
-                        .font(.title)
-                        .multilineTextAlignment(.center)
-                    TextField("", text: $habit.name)
-                        .frame(height: 48)
-                        .foregroundColor(.accent)
-                        .font(.title2)
-                        .multilineTextAlignment(.center)
-                        .keyboardType(.asciiCapable)
-                        .focused($nameFocused)
-                        .overlay(
+                        .padding()
+                        .background {
                             RoundedRectangle(cornerRadius: 10)
-                                .stroke(.accent, lineWidth: 2)
+                                .foregroundColor(.primary)
+                                .opacity(0.1)
+                        }
+                        .emojiPicker(
+                            isPresented: $showEmojiPicker,
+                            selectedEmoji: $habit.emoji
                         )
-                        .onSubmit {
-                            let isValid = habit.name.count >= 3
-                            withAnimation {
-                                showNameError = !isValid
-                            }
-                            if isValid {
-                                changePage(.emoji)
-                            } else {
+                        TextField("Name", text: $habit.name)
+                            .keyboardType(.asciiCapable)
+                            .padding()
+                            .focused($nameFocused)
+                        
+                            .onAppear {
                                 nameFocused = true
                             }
-                        }
-                    if showNameError {
-                        Text("Habit titles must be 3 characters or longer")
-                            .foregroundColor(.red)
+                            .background {
+                                RoundedRectangle(cornerRadius: 10)
+                                    .foregroundColor(.primary)
+                                    .opacity(0.1)
+                            }
+                            .onChange(of: habit.name) { oldValue, newValue in
+                                if newValue.count > Habit.MaxNameLength {
+                                    habit.name = oldValue
+                                }
+                            }
                     }
-                }
-                .transition(.scale)
-            } else if page == .emoji {
-                // +-------+
-                // | emoji |
-                // +-------+
-                VStack(spacing: 32) {
-                    Text("Habit emoji")
-                        .font(.title)
-                        .multilineTextAlignment(.center)
-                    TextField("", text: $habit.emoji)
-                        .frame(width: 48, height: 48)
-                        .font(.title2)
-                        .multilineTextAlignment(.center)
-                        .focused($emojiFocused)
-                        .overlay(
-                            RoundedRectangle(cornerRadius: 10)
-                                .stroke(.accent, lineWidth: 2)
-                        )
-                        .onSubmit {
-                            let isValid = habit.emoji.count == 1 && habit.emoji.first!.isEmoji
-                            withAnimation {
-                                showEmojiError = !isValid
-                            }
-                            if isValid {
-                                changePage(.frequency)
-                            } else {
-                                emojiFocused = true
-                            }
-                        }
-                        .onChange(of: habit.emoji) { _, newEmoji in
-                            let isValid = newEmoji.count > 0 && newEmoji.last!.isEmoji
-                            withAnimation {
-                                showEmojiError = !isValid
-                            }
-                            if isValid {
-                                habit.emoji = "\(newEmoji.last!)"
-                            } else {
-                                habit.emoji = ""
-                            }
-                        }
-                    if showEmojiError {
-                        Text("Please enter a single emoji")
-                            .foregroundColor(.red)
+                    Toggle(
+                        habit.type == .good ? "Good habit" : "Bad habit",
+                        systemImage: habit.type == .good ? "checkmark.circle" : "x.circle",
+                        isOn: $isGoodHabit
+                    )
+                    .padding()
+                    .foregroundColor(habit.type == .good ? .green : .red)
+                    .background {
+                        RoundedRectangle(cornerRadius: 10)
+                            .foregroundColor(.primary)
+                            .opacity(0.1)
                     }
-                }
-                .transition(.scale)
-            } else if page == .frequency {
-                // +-----------+
-                // | frequency |
-                // +-----------+
-                VStack(spacing: 32) {
-                    Text("Habit goal")
-                        .font(.title)
-                        .multilineTextAlignment(.center)
+                    // Sync habit.type and isGoodHabit
+                    .onChange(of: isGoodHabit) { _, isGoodHabitNew in
+                        habit.type = isGoodHabitNew ? .good : .bad
+                    }
+                    .onChange(of: habit.type) { _, newHabitType in
+                        isGoodHabit = newHabitType == .good
+                    }
                     HStack {
                         DayButton(dayLabel: "M", dayEnumVal: .monday, selectedDays: $habit.days)
                         Spacer()
@@ -228,6 +94,12 @@ struct NewHabitSheetView: View {
                         Spacer()
                         DayButton(dayLabel: "S", dayEnumVal: .sunday, selectedDays: $habit.days)
                     }
+                    .padding()
+                    .background {
+                        RoundedRectangle(cornerRadius: 10)
+                            .foregroundColor(.primary)
+                            .opacity(0.1)
+                    }
                     HStack {
                         Button("", systemImage: "minus") {
                             withAnimation {
@@ -237,13 +109,10 @@ struct NewHabitSheetView: View {
                         .disabled(habit.goal == 0)
                         Spacer()
                         HStack(spacing: 0) {
-                            Text("\(habit.goal) ")
-                                .transition(.scale)
+                            Text("\(habit.goal)")
+                                .transition(.push(from: .top))
                                 .id(habit.goal)
-                            Text("\(habit.goal == 1 ? "time" : "times")")
-                                .transition(.scale)
-                                .id(habit.goal == 1)
-                            Text(" per day")
+                            Text(" / day")
                         }
                         Spacer()
                         Button("", systemImage: "plus") {
@@ -252,13 +121,38 @@ struct NewHabitSheetView: View {
                             }
                         }
                     }
-                    Button("Done", action: onDone)
+                    .padding()
+                    .background {
+                        RoundedRectangle(cornerRadius: 10)
+                            .foregroundColor(.primary)
+                            .opacity(0.1)
+                    }
                 }
-                .transition(.scale)
+                .padding()
             }
-            Spacer()
+            .navigationTitle("New Habit")
+            .navigationBarTitleDisplayMode(.inline)
+            .toolbar {
+                ToolbarItem(placement: .topBarLeading) {
+                    Button {
+                        dismiss()
+                    } label: {
+                        Image(systemName: "xmark.circle.fill")
+                            .imageScale(.large)
+                    }
+                }
+                ToolbarItem(placement: .topBarTrailing) {
+                    Button {
+                        modelContext.insert(habit)
+                        dismiss()
+                    } label: {
+                        Image(systemName: "plus.circle.fill")
+                            .imageScale(.large)
+                    }
+                    .disabled(!habit.isValid())
+                }
+            }
         }
-        .padding()
     }
 }
 
@@ -271,16 +165,19 @@ struct DayButton: View {
     var body: some View {
         Button(dayLabel) {
             if selectedDays.contains(dayEnumVal) {
-                if selectedDays.count > 1 {
-                    selectedDays = selectedDays.filter { day in
-                        return day != dayEnumVal
-                    }
+                selectedDays = selectedDays.filter { day in
+                    return day != dayEnumVal
                 }
             } else {
                 selectedDays.append(dayEnumVal)
             }
         }
-        .foregroundColor(selectedDays.contains(dayEnumVal) ? .accent : .primary)
+        .padding(10)
+        .background {
+            Circle()
+                .foregroundColor(selectedDays.contains(dayEnumVal) ? .accent : .clear)
+        }
+        .foregroundColor(.primary)
     }
 }
 

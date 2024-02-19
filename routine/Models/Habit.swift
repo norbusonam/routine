@@ -22,6 +22,9 @@ enum HabitState {
 
 @Model
 class Habit {
+    static let MinNameLength = 3
+    static let MaxNameLength = 30
+    
     var name: String
     var emoji: String
     var type: HabitType
@@ -100,6 +103,6 @@ class Habit {
     }
     
     func isValid() -> Bool {
-        return name.count >= 3 && emoji.count == 1 && days.count > 0 && goal >= 0
+        return name.count >= Habit.MinNameLength && name.count <= Habit.MaxNameLength && emoji.count == 1 && days.count > 0 && goal >= 0
     }
 }

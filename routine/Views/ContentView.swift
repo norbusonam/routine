@@ -43,7 +43,6 @@ struct ContentView: View {
                 )
                 .sheet(isPresented: $showNewHabitSheet, content: {
                     NewHabitSheetView()
-                        .interactiveDismissDisabled()
                 })
                 .sensoryFeedback(.impact, trigger: showNewHabitSheet) { _, newValue in
                     newValue == true
