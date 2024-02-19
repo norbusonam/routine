@@ -214,7 +214,7 @@ struct HabitListItem: View {
                     ZStack {
                         Circle()
                             .stroke(.accent, lineWidth: 3)
-                            .opacity(0.2)
+                            .opacity(0.4)
                         Circle()
                             .trim(
                                 from: 0,
