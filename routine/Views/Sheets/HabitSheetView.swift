@@ -20,91 +20,95 @@ struct HabitSheetView: View {
     }
     
     var body: some View {
-        VStack {
-            HStack {
-                Button {
-                    dismiss()
-                } label: {
-                    Image(systemName: "xmark.circle.fill")
-                        .imageScale(.large)
-                }
+        NavigationView {
+            VStack {
                 Spacer()
-                Text(date.formatted(.dateTime.day().month().year()))
-                    .font(.headline)
+                ZStack {
+                    Circle()
+                        .stroke(.accent, lineWidth: 20)
+                        .opacity(0.4)
+                    Circle()
+                        .trim(
+                            from: 0,
+                            to: [habit.getProgress(on: date), 0.00001].max()!
+                        )
+                        .stroke(.accent, style: StrokeStyle(lineWidth: 20, lineCap: .round))
+                        .rotationEffect(.degrees(-90))
+                    VStack(spacing: 10) {
+                        switch habit.getState(on: date) {
+                        case .success:
+                            Text("✅")
+                                .font(.largeTitle)
+                                .transition(.scale)
+                        case .fail:
+                            Text("❌")
+                                .font(.largeTitle)
+                                .transition(.scale)
+                        case .inProgress:
+                            Text(habit.emoji)
+                                .font(.largeTitle)
+                                .transition(.scale)
+                        }
+                        Text(habit.name)
+                            .font(.headline)
+                        HStack(spacing: 0) {
+                            Text("\(habit.getCompletions(on: date))")
+                                .font(.subheadline)
+                                .foregroundColor(.secondary)
+                                .transition(.scale)
+                                .id(habit.getCompletions(on: date))
+                            Text(" / \(habit.goal)")
+                                .font(.subheadline)
+                                .foregroundColor(.secondary)
+                        }
+                    }
+                }
+                .frame(width: UIScreen.main.bounds.width * 0.75)
                 Spacer()
-                Menu {
-                    Button(role: .destructive, action: deleteTask) {
-                        Text("Delete")
+                HStack {
+                    Spacer()
+                    Button("", systemImage: "minus") {
+                        withAnimation {
+                            habit.deleteCompletion(on: date)
+                        }
                     }
-                } label: {
-                    Image(systemName: "ellipsis.circle")
-                        .imageScale(.large)
+                    .font(.title)
+                    .disabled(habit.getCompletions(on: date) == 0)
+                    Spacer()
+                    Button("", systemImage: "plus") {
+                        withAnimation {
+                            habit.addCompletion(on: date)
+                        }
+                    }
+                    .font(.title)
+                    Spacer()
                 }
-            }
-            Spacer()
-            ZStack {
-                Circle()
-                    .stroke(.accent, lineWidth: 20)
-                    .opacity(0.4)
-                Circle()
-                    .trim(
-                        from: 0,
-                        to: [habit.getProgress(on: date), 0.00001].max()!
-                    )
-                    .stroke(.accent, style: StrokeStyle(lineWidth: 20, lineCap: .round))
-                    .rotationEffect(.degrees(-90))
-                VStack(spacing: 10) {
-                    switch habit.getState(on: date) {
-                    case .success:
-                        Text("✅")
-                            .font(.largeTitle)
-                            .transition(.scale)
-                    case .fail:
-                        Text("❌")
-                            .font(.largeTitle)
-                            .transition(.scale)
-                    case .inProgress:
-                        Text(habit.emoji)
-                            .font(.largeTitle)
-                            .transition(.scale)
-                    }
-                    Text(habit.name)
-                        .font(.headline)
-                    HStack(spacing: 0) {
-                        Text("\(habit.getCompletions(on: date))")
-                            .font(.subheadline)
-                            .foregroundColor(.secondary)
-                            .transition(.scale)
-                            .id(habit.getCompletions(on: date))
-                        Text(" / \(habit.goal)")
-                            .font(.subheadline)
-                            .foregroundColor(.secondary)
-                    }
-                }
-            }
-            .frame(width: UIScreen.main.bounds.width * 0.75)
-            Spacer()
-            HStack {
-                Spacer()
-                Button("", systemImage: "minus") {
-                    withAnimation {
-                        habit.deleteCompletion(on: date)
-                    }
-                }
-                .font(.title)
-                .disabled(habit.getCompletions(on: date) == 0)
-                Spacer()
-                Button("", systemImage: "plus") {
-                    withAnimation {
-                        habit.addCompletion(on: date)
-                    }
-                }
-                .font(.title)
                 Spacer()
             }
-            Spacer()
+            .navigationTitle(date.formatted(.dateTime.day().month().year()))
+            .navigationBarTitleDisplayMode(.inline)
+            .toolbar {
+                ToolbarItem(placement: .topBarLeading) {
+                    Button {
+                        dismiss()
+                    } label: {
+                        Image(systemName: "xmark.circle.fill")
+                            .imageScale(.large)
+                    }
+                }
+                ToolbarItem(placement: .topBarTrailing) {
+                    Menu {
+                        Button(role: .destructive, action: deleteTask) {
+                            Text("Delete")
+                        }
+                    } label: {
+                        Image(systemName: "ellipsis.circle")
+                            .imageScale(.large)
+                    }
+                }
+            }
+            .padding()
         }
-        .padding()
     }
 }
 
