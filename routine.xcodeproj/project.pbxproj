@@ -8,7 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		072240FD2B80027500C29D81 /* HabitSheetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 072240FC2B80027500C29D81 /* HabitSheetView.swift */; };
-		0770F2FD2B83E52500CECAC1 /* EmojiPicker in Frameworks */ = {isa = PBXBuildFile; productRef = 0770F2FC2B83E52500CECAC1 /* EmojiPicker */; };
+		074F2A4B2B83F96500A774D2 /* MCEmojiPicker in Frameworks */ = {isa = PBXBuildFile; productRef = 074F2A4A2B83F96500A774D2 /* MCEmojiPicker */; };
 		0793FCD92B6B5B7300300B50 /* StatsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0793FCD82B6B5B7300300B50 /* StatsView.swift */; };
 		0793FCDB2B6DF01F00300B50 /* NewHabitSheetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0793FCDA2B6DF01F00300B50 /* NewHabitSheetView.swift */; };
 		07B9D9632B53D61D00C5F8F5 /* Habit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07B9D9622B53D61D00C5F8F5 /* Habit.swift */; };
@@ -39,7 +39,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0770F2FD2B83E52500CECAC1 /* EmojiPicker in Frameworks */,
+				074F2A4B2B83F96500A774D2 /* MCEmojiPicker in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -137,7 +137,7 @@
 			);
 			name = routine;
 			packageProductDependencies = (
-				0770F2FC2B83E52500CECAC1 /* EmojiPicker */,
+				074F2A4A2B83F96500A774D2 /* MCEmojiPicker */,
 			);
 			productName = routine;
 			productReference = 07FC494D2B461D5F003A0E2D /* routine.app */;
@@ -168,7 +168,7 @@
 			);
 			mainGroup = 07FC49442B461D5F003A0E2D;
 			packageReferences = (
-				0770F2FB2B83E52500CECAC1 /* XCRemoteSwiftPackageReference "EmojiPicker" */,
+				074F2A492B83F96500A774D2 /* XCRemoteSwiftPackageReference "MCEmojiPicker" */,
 			);
 			productRefGroup = 07FC494E2B461D5F003A0E2D /* Products */;
 			projectDirPath = "";
@@ -426,21 +426,21 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		0770F2FB2B83E52500CECAC1 /* XCRemoteSwiftPackageReference "EmojiPicker" */ = {
+		074F2A492B83F96500A774D2 /* XCRemoteSwiftPackageReference "MCEmojiPicker" */ = {
 			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/Kelvas09/EmojiPicker.git";
+			repositoryURL = "https://github.com/izyumkin/MCEmojiPicker";
 			requirement = {
 				kind = upToNextMajorVersion;
-				minimumVersion = 1.0.1;
+				minimumVersion = 1.2.3;
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		0770F2FC2B83E52500CECAC1 /* EmojiPicker */ = {
+		074F2A4A2B83F96500A774D2 /* MCEmojiPicker */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 0770F2FB2B83E52500CECAC1 /* XCRemoteSwiftPackageReference "EmojiPicker" */;
-			productName = EmojiPicker;
+			package = 074F2A492B83F96500A774D2 /* XCRemoteSwiftPackageReference "MCEmojiPicker" */;
+			productName = MCEmojiPicker;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
