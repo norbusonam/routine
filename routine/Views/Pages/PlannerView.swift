@@ -129,6 +129,7 @@ struct PlannerView: View {
                                 openHabitSheet(habit)
                             }
                         }
+                        .padding(.bottom)
                     }
                     if badHabits.count > 0 {
                         Text("Bad Habits")
@@ -136,13 +137,13 @@ struct PlannerView: View {
                             .foregroundColor(.red)
                             .listRowSeparator(.hidden)
                             .listRowInsets(EdgeInsets())
-                            .padding(.top)
                             .padding(.horizontal)
                         ForEach(badHabits) { habit in
                             HabitListItem(habit: habit, selectedDate: selectedDate) {
                                 openHabitSheet(habit)
                             }
                         }
+                        .padding(.bottom)
                     }
                 }
                 .listStyle(.plain)
