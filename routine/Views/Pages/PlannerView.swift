@@ -101,7 +101,7 @@ struct PlannerView: View {
                 )
             )
             .onChange(of: currentWeek, initial: false) {
-                if (currentWeek == numberOfWeeksToRender) {
+                if currentWeek == numberOfWeeksToRender {
                     numberOfWeeksToRender += 1
                 }
                 withAnimation {

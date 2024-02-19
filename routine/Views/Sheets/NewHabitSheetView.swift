@@ -66,12 +66,15 @@ struct NewHabitSheetView: View {
     }
     
     func onBack() {
-        if page == .frequency {
-            changePage(.emoji)
-        } else if (page == .emoji) {
-            changePage(.name)
-        } else if (page == .name) {
+        switch page {
+        case .name:
             changePage(.type)
+        case .emoji:
+            changePage(.name)
+        case .frequency:
+            changePage(.emoji)
+        default:
+            break
         }
     }
     
@@ -291,7 +294,7 @@ struct DayButton: View {
     
     var body: some View {
         Button(dayLabel) {
-            if (selectedDays.contains(dayEnumVal)) {
+            if selectedDays.contains(dayEnumVal) {
                 if selectedDays.count > 1 {
                     selectedDays = selectedDays.filter { day in
                         return day != dayEnumVal
