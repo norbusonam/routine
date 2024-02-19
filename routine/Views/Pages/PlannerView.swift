@@ -220,7 +220,7 @@ struct HabitListItem: View {
                         Circle()
                             .trim(
                                 from: 0,
-                                to: habit.getProgress(on: selectedDate)
+                                to: [habit.getProgress(on: selectedDate), 0.00001].max()!
                             )
                             .stroke(.accent, style: StrokeStyle(lineWidth: 3, lineCap: .round))
                             .rotationEffect(.degrees(-90))

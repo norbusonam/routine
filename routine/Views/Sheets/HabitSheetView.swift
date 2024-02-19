@@ -49,7 +49,7 @@ struct HabitSheetView: View {
                 Circle()
                     .trim(
                         from: 0,
-                        to: habit.getProgress(on: date)
+                        to: [habit.getProgress(on: date), 0.00001].max()!
                     )
                     .stroke(.accent, style: StrokeStyle(lineWidth: 20, lineCap: .round))
                     .rotationEffect(.degrees(-90))
