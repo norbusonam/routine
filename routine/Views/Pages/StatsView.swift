@@ -26,6 +26,9 @@ struct StatsView: View {
             }
             .padding(.top)
             .padding(.horizontal)
+            Spacer()
+            Text("🚧 Under Construction 🚧")
+            Spacer()
         }
     }
 }
