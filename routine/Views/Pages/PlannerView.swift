@@ -38,16 +38,26 @@ struct PlannerView: View {
     }
     
     var body: some View {
-        VStack(alignment: .leading) {
+        VStack {
             // +--------+
             // | header |
             // +--------+
-            VStack(alignment: .leading) {
-                Text(DateHelpers.getYearHeader(for: firstDayOfCurrentWeek))
-                    .font(.largeTitle)
-                Text(DateHelpers.getMonthSubheader(for: firstDayOfCurrentWeek))
-                    .font(.callout)
+            HStack(alignment: .top) {
+                VStack(alignment: .leading) {
+                    Text(DateHelpers.getYearHeader(for: firstDayOfCurrentWeek))
+                        .font(.largeTitle)
+                    Text(DateHelpers.getMonthSubheader(for: firstDayOfCurrentWeek))
+                        .font(.callout)
+                }
+                Spacer()
+                ShareLink(
+                    item: URL(string: "https://testflight.apple.com/join/eviQ8Tiw")!,
+                    preview: SharePreview("Invite others to beta test Routine")
+                )
+                .padding([.top], 8)
+                .labelStyle(.iconOnly)
             }
+            .padding(.top)
             .padding(.horizontal)
             // +---------------+
             // | week carousel |
