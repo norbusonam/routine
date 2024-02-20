@@ -38,6 +38,10 @@ struct HabitSheetView: View {
                         .rotationEffect(.degrees(-90))
                     VStack(spacing: 10) {
                         switch habit.getState(on: date) {
+                        case .exceeded:
+                            Text("👏")
+                                .font(.largeTitle)
+                                .transition(.scale)
                         case .success:
                             Text("✅")
                                 .font(.largeTitle)

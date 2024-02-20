@@ -208,6 +208,9 @@ struct HabitListItem: View {
                 }
                 Spacer(minLength: 32)
                 switch habitState {
+                case .exceeded:
+                    Text("👏")
+                        .transition(.scale)
                 case .success:
                     Text("✅")
                         .transition(.scale)

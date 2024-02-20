@@ -17,7 +17,7 @@ enum DayOfTheWeek: String, Codable {
 }
 
 enum HabitState {
-    case success, fail, inProgress
+    case success, exceeded, fail, inProgress
 }
 
 @Model
@@ -93,6 +93,7 @@ class Habit {
         let daysFromToday = Calendar.current.dateComponents([.day], from: Date.now, to: date).day!
         let isBeforeToday = daysFromToday < 0
         if type == .good {
+            if getCompletions(on: date) > goal { return .exceeded }
             if getCompletions(on: date) >= goal { return .success }
             if isBeforeToday { return .fail }
         } else {
