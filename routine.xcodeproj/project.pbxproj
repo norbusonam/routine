@@ -25,6 +25,7 @@
 		0793FCDA2B6DF01F00300B50 /* EditHabitSheetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditHabitSheetView.swift; sourceTree = "<group>"; };
 		07B9D9622B53D61D00C5F8F5 /* Habit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Habit.swift; sourceTree = "<group>"; };
 		07B9D9662B64D5D100C5F8F5 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		07EA97922B84579A00A916D1 /* routineDebug.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = routineDebug.entitlements; sourceTree = "<group>"; };
 		07FC494D2B461D5F003A0E2D /* routine.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = routine.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		07FC49502B461D5F003A0E2D /* routineApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = routineApp.swift; sourceTree = "<group>"; };
 		07FC49522B461D5F003A0E2D /* PlannerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlannerView.swift; sourceTree = "<group>"; };
@@ -101,6 +102,7 @@
 		07FC494F2B461D5F003A0E2D /* routine */ = {
 			isa = PBXGroup;
 			children = (
+				07EA97922B84579A00A916D1 /* routineDebug.entitlements */,
 				07FC49502B461D5F003A0E2D /* routineApp.swift */,
 				07B9D9512B53411200C5F8F5 /* Views */,
 				07B9D9612B53D60C00C5F8F5 /* Models */,
@@ -333,7 +335,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_ENTITLEMENTS = routine/routine.entitlements;
+				CODE_SIGN_ENTITLEMENTS = routine/routineDebug.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"routine/Preview Content\"";

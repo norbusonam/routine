@@ -25,13 +25,19 @@ class Habit {
     static let MinNameLength = 3
     static let MaxNameLength = 30
     
-    var name: String
-    var emoji: String
-    var type: HabitType
-    var goal: Int
-    var days: [DayOfTheWeek]
-    var completions: [Date: Int]
-    var creationDate: Date
+    var name: String = ""
+    var emoji: String = "🏃‍♂️"
+    var type = HabitType.good
+    var goal: Int = 1
+    var days: [DayOfTheWeek] = [
+        DayOfTheWeek.monday,
+        DayOfTheWeek.tuesday,
+        DayOfTheWeek.wednesday,
+        DayOfTheWeek.thursday,
+        DayOfTheWeek.friday,
+    ]
+    var completions: [Date: Int] = [:]
+    var creationDate: Date = Date.now
     
     init() {
         self.name = ""
