@@ -266,7 +266,7 @@ struct HabitListItem: View {
             } label: {
                 Image(systemName: "minus")
             }
-            .tint(.clear)
+            .tint(habit.type == .good ? .red : .green)
         }
         .swipeActions(edge: .trailing) {
             Button {
@@ -276,7 +276,7 @@ struct HabitListItem: View {
             } label: {
                 Image(systemName: "plus")
             }
-            .tint(.clear)
+            .tint(habit.type == .good ? .green : .red)
         }
     }
 }
