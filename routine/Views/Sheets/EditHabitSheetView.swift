@@ -21,16 +21,15 @@ struct EditHabitSheetView: View {
     
     @FocusState private var nameFocused: Bool
     
-    init(isNewHabit: Bool = false, existingHabit: Habit? = nil) {
+    // new habit flow (isNewHabit is expected to always be true
+    init(isNewHabit: Bool) {
         _isNewHabit = State(initialValue: isNewHabit)
+    }
+    
+    // edit flow()
+    init(existingHabit: Habit) {
         _existingHabit = State(initialValue: existingHabit)
-        if !isNewHabit {
-            if let h = existingHabit {
-                _habit = State(initialValue: h.clone())
-            } else {
-                print("no no zone")
-            }
-        }
+        _habit = State(initialValue: existingHabit.clone())
     }
     
     var body: some View {
