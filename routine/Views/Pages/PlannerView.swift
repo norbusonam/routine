@@ -192,7 +192,6 @@ struct PlannerView: View {
                         .padding()
                     Spacer()
                 }
-                .frame(width: UIScreen.main.bounds.width)
             }
         }
     }

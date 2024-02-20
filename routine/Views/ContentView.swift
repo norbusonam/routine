@@ -16,7 +16,7 @@ struct ContentView: View {
     @State var showNewHabitSheet = false
     
     var body: some View {
-        VStack(alignment: .leading) {
+        VStack {
             // pages
             if currentPage == Page.planner {
                 PlannerView()
