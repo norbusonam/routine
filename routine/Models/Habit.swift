@@ -108,8 +108,7 @@ class Habit {
     }
     
     func getState(on date: Date) -> HabitState {
-        let daysFromToday = Calendar.current.dateComponents([.day], from: Date.now, to: date).day!
-        let isBeforeToday = daysFromToday < 0
+        let isBeforeToday = !Calendar.current.isDateInToday(date) && date < Date.now
         if type == .good {
             if getCompletions(on: date) > goal { return .exceeded }
             if getCompletions(on: date) >= goal { return .success }
