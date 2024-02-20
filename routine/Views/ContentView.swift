@@ -20,8 +20,10 @@ struct ContentView: View {
             // pages
             if currentPage == Page.planner {
                 PlannerView()
+                    .transition(.asymmetric(insertion: .push(from: .leading), removal: .push(from: .trailing)))
             } else if currentPage == Page.stats {
                 StatsView()
+                    .transition(.asymmetric(insertion: .push(from: .trailing), removal: .push(from: .leading)))
             }
             
             Spacer()
@@ -69,7 +71,9 @@ struct TabItem: View {
         }
         .padding()
         .onTapGesture {
-            currentPage = page
+            withAnimation {
+                currentPage = page
+            }
         }
     }
 }
