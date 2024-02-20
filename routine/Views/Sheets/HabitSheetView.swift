@@ -12,6 +12,7 @@ struct HabitSheetView: View {
     @Environment(\.dismiss) private var dismiss
     
     @State private var showEditSheet = false
+    @State private var showFutureEditAlert = false
 
     @Binding var habit: Habit
     @Binding var date: Date
@@ -78,7 +79,7 @@ struct HabitSheetView: View {
                     Spacer()
                     Button("", systemImage: "minus") {
                         withAnimation {
-                            habit.deleteCompletion(on: date)
+                            showFutureEditAlert = !habit.deleteCompletion(on: date)
                         }
                     }
                     .font(.title)
@@ -86,7 +87,7 @@ struct HabitSheetView: View {
                     Spacer()
                     Button("", systemImage: "plus") {
                         withAnimation {
-                            habit.addCompletion(on: date)
+                            showFutureEditAlert = !habit.addCompletion(on: date)
                         }
                     }
                     .font(.title)
@@ -123,6 +124,9 @@ struct HabitSheetView: View {
             }
             .sheet(isPresented: $showEditSheet) {
                 EditHabitSheetView(existingHabit: habit)
+            }
+            .alert("Nice try, but you can't do a habit in the future!", isPresented: $showFutureEditAlert) {
+                Button("Ok", role: .cancel, action: {})
             }
         }
     }

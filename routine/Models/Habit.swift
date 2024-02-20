@@ -59,20 +59,32 @@ class Habit {
         return Calendar.current.startOfDay(for: date)
     }
     
-    func addCompletion(on date: Date) {
-        let dateKey = getDateKey(for: date)
-        if let count = completions[dateKey] {
-            completions[dateKey] = count + 1
-        } else {
-            completions[dateKey] = 1
-        }
+    private func canLog(on date: Date) -> Bool {
+        return Calendar.current.isDateInToday(date) || date < Date.now
     }
     
-    func deleteCompletion(on date: Date) {
-        let dateKey = getDateKey(for: date)
-        if let count = completions[dateKey] {
-            completions[dateKey] = [count - 1, 0].max()
+    func addCompletion(on date: Date) -> Bool {
+        if canLog(on: date) {
+            let dateKey = getDateKey(for: date)
+            if let count = completions[dateKey] {
+                completions[dateKey] = count + 1
+            } else {
+                completions[dateKey] = 1
+            }
+            return true
         }
+        return false
+    }
+    
+    func deleteCompletion(on date: Date) -> Bool {
+        if canLog(on: date) {
+            let dateKey = getDateKey(for: date)
+            if let count = completions[dateKey] {
+                completions[dateKey] = [count - 1, 0].max()
+            }
+            return true
+        }
+        return false
     }
     
     func getCompletions(on date: Date) -> Int {

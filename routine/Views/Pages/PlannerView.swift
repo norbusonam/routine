@@ -24,6 +24,7 @@ struct PlannerView: View {
         from: Calendar.current.date(from: DateComponents(year: 2024, month: 1, day: 1))!,
         to: DateHelpers.getFirstDayOfTheWeek(for: Date.now))
         .weekOfYear!
+    @State private var showFutureEditAlert = false
     @State private var showGoodHabits = true
     @State private var showBadHabits = true
     @State var selectedHabit: Habit = Habit()
@@ -121,7 +122,7 @@ struct PlannerView: View {
                     if goodHabits.count > 0 {
                         Section(isExpanded: $showGoodHabits) {
                             ForEach(goodHabits) { habit in
-                                HabitListItem(habit: habit, selectedDate: selectedDate) {
+                                HabitListItem(habit: habit, selectedDate: selectedDate, showFutureEditAlert: $showFutureEditAlert) {
                                     openHabitSheet(habit)
                                 }
                             }
@@ -143,7 +144,7 @@ struct PlannerView: View {
                     if badHabits.count > 0 {
                         Section(isExpanded: $showBadHabits) {
                             ForEach(badHabits) { habit in
-                                HabitListItem(habit: habit, selectedDate: selectedDate) {
+                                HabitListItem(habit: habit, selectedDate: selectedDate, showFutureEditAlert: $showFutureEditAlert) {
                                     openHabitSheet(habit)
                                 }
                             }
@@ -170,6 +171,9 @@ struct PlannerView: View {
                 .sheet(isPresented: $showHabitSheet) {
                     HabitSheetView(habit: $selectedHabit, date: $selectedDate)
                 }
+                .alert("Nice try, but you can't do a habit in the future!", isPresented: $showFutureEditAlert) {
+                    Button("Ok", role: .cancel, action: {})
+                }
             } else {
                 VStack {
                     Spacer()
@@ -187,6 +191,7 @@ struct PlannerView: View {
 struct HabitListItem: View {
     var habit: Habit
     var selectedDate: Date
+    @Binding var showFutureEditAlert: Bool
     var action: () -> Void
     
     var body: some View {
@@ -247,7 +252,7 @@ struct HabitListItem: View {
         .swipeActions(edge: .leading) {
             Button {
                 withAnimation {
-                    habit.deleteCompletion(on: selectedDate)
+                    showFutureEditAlert = !habit.deleteCompletion(on: selectedDate)
                 }
             } label: {
                 Image(systemName: "minus")
@@ -257,7 +262,7 @@ struct HabitListItem: View {
         .swipeActions(edge: .trailing) {
             Button {
                 withAnimation {
-                    habit.addCompletion(on: selectedDate)
+                    showFutureEditAlert = !habit.addCompletion(on: selectedDate)
                 }
             } label: {
                 Image(systemName: "plus")
