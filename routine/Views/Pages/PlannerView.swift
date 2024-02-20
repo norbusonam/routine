@@ -24,6 +24,8 @@ struct PlannerView: View {
         from: Calendar.current.date(from: DateComponents(year: 2024, month: 1, day: 1))!,
         to: DateHelpers.getFirstDayOfTheWeek(for: Date.now))
         .weekOfYear!
+    @State private var showGoodHabits = true
+    @State private var showBadHabits = true
     @State var selectedHabit: Habit = Habit()
     @State var showHabitSheet = false
     
@@ -117,30 +119,46 @@ struct PlannerView: View {
             if goodHabits.count + badHabits.count > 0 {
                 List {
                     if goodHabits.count > 0 {
-                        Text("Good Habits")
-                            .font(.headline)
-                            .foregroundColor(.green)
-                            .listRowSeparator(.hidden)
-                            .listRowInsets(EdgeInsets())
-                            .padding(.top)
-                            .padding(.horizontal)
-                        ForEach(goodHabits) { habit in
-                            HabitListItem(habit: habit, selectedDate: selectedDate) {
-                                openHabitSheet(habit)
+                        Section(isExpanded: $showGoodHabits) {
+                            ForEach(goodHabits) { habit in
+                                HabitListItem(habit: habit, selectedDate: selectedDate) {
+                                    openHabitSheet(habit)
+                                }
+                            }
+                        } header: {
+                            HStack {
+                                Text("Good Habits")
+                                Spacer()
+                                Button {
+                                    withAnimation {
+                                        showGoodHabits.toggle()
+                                    }
+                                } label: {
+                                    Image(systemName: "chevron.down")
+                                        .rotationEffect(.degrees(showGoodHabits ? 180 : 0))
+                                }
                             }
                         }
                     }
                     if badHabits.count > 0 {
-                        Text("Bad Habits")
-                            .font(.headline)
-                            .foregroundColor(.red)
-                            .listRowSeparator(.hidden)
-                            .listRowInsets(EdgeInsets())
-                            .padding(.top)
-                            .padding(.horizontal)
-                        ForEach(badHabits) { habit in
-                            HabitListItem(habit: habit, selectedDate: selectedDate) {
-                                openHabitSheet(habit)
+                        Section(isExpanded: $showBadHabits) {
+                            ForEach(badHabits) { habit in
+                                HabitListItem(habit: habit, selectedDate: selectedDate) {
+                                    openHabitSheet(habit)
+                                }
+                            }
+                        } header: {
+                            HStack {
+                                Text("Bad Habits")
+                                Spacer()
+                                Button {
+                                    withAnimation {
+                                        showBadHabits.toggle()
+                                    }
+                                } label: {
+                                    Image(systemName: "chevron.down")
+                                        .rotationEffect(.degrees(showBadHabits ? 180 : 0))
+                                }
                             }
                         }
                     }
@@ -152,20 +170,6 @@ struct PlannerView: View {
                 .sheet(isPresented: $showHabitSheet) {
                     HabitSheetView(habit: $selectedHabit, date: $selectedDate)
                 }
-                .mask(
-                    LinearGradient(
-                        gradient: Gradient(
-                            stops: [
-                                .init(color: .clear, location: 0),
-                                .init(color: .primary, location: 0.05),
-                                .init(color: .primary, location: 0.95),
-                                .init(color: .clear, location: 1)
-                            ]
-                        ),
-                        startPoint: .top,
-                        endPoint: .bottom
-                    )
-                )
             } else {
                 VStack {
                     Spacer()
