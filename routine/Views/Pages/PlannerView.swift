@@ -101,7 +101,7 @@ struct PlannerView: View {
                     endPoint: .trailing
                 )
             )
-            .onChange(of: currentWeek, initial: false) {
+            .onChange(of: currentWeek) {
                 if currentWeek == numberOfWeeksToRender {
                     numberOfWeeksToRender += 1
                 }
