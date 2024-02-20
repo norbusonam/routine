@@ -1,5 +1,5 @@
 //
-//  NewHabitSheetView.swift
+//  EditHabitSheetView.swift
 //  routine
 //
 //  Created by Norbu Sonam on 2/2/24.
@@ -7,20 +7,31 @@
 
 import SwiftUI
 import MCEmojiPicker
+import SwiftData
 
-enum NewHabitPage: String {
-    case type, name, emoji, frequency
-}
-
-struct NewHabitSheetView: View {
+struct EditHabitSheetView: View {
     @Environment(\.modelContext) private var modelContext
     @Environment(\.dismiss) private var dismiss
     
-    @State private var habit = Habit()
+    @State var isNewHabit: Bool = false
+    @State var existingHabit: Habit?
+    @State private var habit: Habit = Habit()
     @State private var isGoodHabit = true
     @State private var showEmojiPicker = false
     
     @FocusState private var nameFocused: Bool
+    
+    init(isNewHabit: Bool = false, existingHabit: Habit? = nil) {
+        _isNewHabit = State(initialValue: isNewHabit)
+        _existingHabit = State(initialValue: existingHabit)
+        if !isNewHabit {
+            if let h = existingHabit {
+                _habit = State(initialValue: h.clone())
+            } else {
+                print("no no zone")
+            }
+        }
+    }
     
     var body: some View {
         NavigationView {
@@ -76,7 +87,7 @@ struct NewHabitSheetView: View {
                     .onChange(of: isGoodHabit) { _, isGoodHabitNew in
                         habit.type = isGoodHabitNew ? .good : .bad
                     }
-                    .onChange(of: habit.type) { _, newHabitType in
+                    .onChange(of: habit.type, initial: true) { _, newHabitType in
                         isGoodHabit = newHabitType == .good
                     }
                     HStack {
@@ -130,7 +141,7 @@ struct NewHabitSheetView: View {
                 }
                 .padding()
             }
-            .navigationTitle("New Habit")
+            .navigationTitle(isNewHabit ? "New Habit" : "Edit Habit")
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .topBarLeading) {
@@ -143,10 +154,20 @@ struct NewHabitSheetView: View {
                 }
                 ToolbarItem(placement: .topBarTrailing) {
                     Button {
-                        modelContext.insert(habit)
+                        if isNewHabit {
+                            modelContext.insert(habit)
+                        } else {
+                            if let h = existingHabit {
+                                h.name = habit.name
+                                h.emoji = habit.emoji
+                                h.type = habit.type
+                                h.goal = habit.goal
+                                h.days = habit.days
+                            }
+                        }
                         dismiss()
                     } label: {
-                        Image(systemName: "plus.circle.fill")
+                        Image(systemName: isNewHabit ? "plus.circle.fill" : "checkmark.circle.fill")
                             .imageScale(.large)
                     }
                     .disabled(!habit.isValid())

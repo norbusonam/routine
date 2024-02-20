@@ -109,4 +109,16 @@ class Habit {
         let daySelected = days.count > 0
         return validNameLength && validEmojiLength && validGoal && daySelected
     }
+    
+    func clone() -> Habit {
+        let habit = Habit()
+        habit.name = name
+        habit.emoji = emoji
+        habit.type = type
+        habit.goal = goal
+        habit.days = days
+        habit.completions = completions
+        habit.creationDate = creationDate
+        return habit
+    }
 }

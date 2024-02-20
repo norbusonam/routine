@@ -11,6 +11,8 @@ struct HabitSheetView: View {
     @Environment(\.modelContext) private var modelContext
     @Environment(\.dismiss) private var dismiss
     
+    @State private var showEditSheet = false
+
     @Binding var habit: Habit
     @Binding var date: Date
     
@@ -101,6 +103,11 @@ struct HabitSheetView: View {
                 }
                 ToolbarItem(placement: .topBarTrailing) {
                     Menu {
+                        Button {
+                            showEditSheet = true
+                        } label: {
+                            Text("Edit")
+                        }
                         Button(role: .destructive, action: deleteTask) {
                             Text("Delete")
                         }
@@ -109,6 +116,9 @@ struct HabitSheetView: View {
                             .imageScale(.large)
                     }
                 }
+            }
+            .sheet(isPresented: $showEditSheet) {
+                EditHabitSheetView(existingHabit: habit)
             }
         }
     }

@@ -42,7 +42,7 @@ struct ContentView: View {
                         .fill(.accent)
                 )
                 .sheet(isPresented: $showNewHabitSheet, content: {
-                    NewHabitSheetView()
+                    EditHabitSheetView(isNewHabit: true)
                 })
                 .sensoryFeedback(.impact, trigger: showNewHabitSheet) { _, newValue in
                     newValue == true
