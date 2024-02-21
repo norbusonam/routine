@@ -125,7 +125,10 @@ struct EditHabitSheetView: View {
                                 habit.goal = [habit.goal - 1, 0].max()!
                             }
                         }
-                        .disabled(habit.goal == 0)
+                        .disabled(
+                            habit.type == .good && habit.goal <= 1 ||
+                            habit.type == .bad && habit.goal <= 0
+                        )
                         Spacer()
                         HStack(spacing: 0) {
                             Text("\(habit.goal)")
