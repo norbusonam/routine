@@ -67,8 +67,8 @@ struct PlannerView: View {
             // | week carousel |
             // +---------------+
             TabView(selection: $currentWeek) {
-                ForEach(0...numberOfWeeksToRender, id: \.self) { weekRelativeToThisWeek in
-                    let firstDayOfWeek = Calendar.current.date(byAdding: .day, value: weekRelativeToThisWeek * 7, to: startOfTime)!
+                ForEach(0...numberOfWeeksToRender, id: \.self) { week in
+                    let firstDayOfWeek = Calendar.current.date(byAdding: .day, value: week * 7, to: startOfTime)!
                     HStack {
                         Spacer()
                         ForEach(0..<7, id: \.self) { index in
