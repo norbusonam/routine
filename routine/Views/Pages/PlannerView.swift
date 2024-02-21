@@ -169,6 +169,7 @@ struct PlannerView: View {
                                     Image(systemName: "chevron.down")
                                         .rotationEffect(.degrees(showGoodHabits ? 180 : 0))
                                 }
+                                .padding([.trailing], 4)
                             }
                         }
                     }
@@ -191,6 +192,7 @@ struct PlannerView: View {
                                     Image(systemName: "chevron.down")
                                         .rotationEffect(.degrees(showBadHabits ? 180 : 0))
                                 }
+                                .padding([.trailing], 4)
                             }
                         }
                     }
