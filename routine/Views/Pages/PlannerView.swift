@@ -46,8 +46,12 @@ struct PlannerView: View {
                 VStack(alignment: .leading) {
                     Text(DateHelpers.getYearHeader(for: firstDayOfCurrentWeek))
                         .font(.largeTitle)
+                        .transition(AnyTransition.asymmetric(insertion: .push(from: .leading), removal: .push(from: .trailing)))
+                        .id(DateHelpers.getYearHeader(for: firstDayOfCurrentWeek))
                     Text(DateHelpers.getMonthSubheader(for: firstDayOfCurrentWeek))
                         .font(.callout)
+                        .transition(AnyTransition.asymmetric(insertion: .push(from: .leading), removal: .push(from: .trailing)))
+                        .id(DateHelpers.getMonthSubheader(for: firstDayOfCurrentWeek))
                 }
                 Spacer()
                 ShareLink(
