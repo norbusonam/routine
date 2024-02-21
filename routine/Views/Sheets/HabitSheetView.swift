@@ -14,8 +14,8 @@ struct HabitSheetView: View {
     @State private var showEditSheet = false
     @State private var showFutureEditAlert = false
 
-    @Binding var habit: Habit
-    @Binding var selectedDate: Date
+    var habit: Habit
+    var date: Date
     
     func deleteTask() {
         modelContext.delete(habit)
@@ -33,12 +33,12 @@ struct HabitSheetView: View {
                     Circle()
                         .trim(
                             from: 0,
-                            to: [habit.getProgress(on: selectedDate), 0.00001].max()!
+                            to: [habit.getProgress(on: date), 0.00001].max()!
                         )
                         .stroke(.accent, style: StrokeStyle(lineWidth: 20, lineCap: .round))
                         .rotationEffect(.degrees(-90))
                     VStack(spacing: 10) {
-                        switch habit.getState(on: selectedDate) {
+                        switch habit.getState(on: date) {
                         case .exceeded:
                             Text("👏")
                                 .font(.largeTitle)
@@ -62,11 +62,11 @@ struct HabitSheetView: View {
                             .lineLimit(1)
                             .font(.headline)
                         HStack(spacing: 0) {
-                            Text("\(habit.getCompletions(on: selectedDate))")
+                            Text("\(habit.getCompletions(on: date))")
                                 .font(.subheadline)
                                 .foregroundColor(.secondary)
                                 .transition(.scale)
-                                .id(habit.getCompletions(on: selectedDate))
+                                .id(habit.getCompletions(on: date))
                             Text(" / \(habit.goal)")
                                 .font(.subheadline)
                                 .foregroundColor(.secondary)
@@ -79,15 +79,15 @@ struct HabitSheetView: View {
                     Spacer()
                     Button("", systemImage: "minus") {
                         withAnimation {
-                            showFutureEditAlert = !habit.deleteCompletion(on: selectedDate)
+                            showFutureEditAlert = !habit.deleteCompletion(on: date)
                         }
                     }
                     .font(.title)
-                    .disabled(habit.getCompletions(on: selectedDate) == 0)
+                    .disabled(habit.getCompletions(on: date) == 0)
                     Spacer()
                     Button("", systemImage: "plus") {
                         withAnimation {
-                            showFutureEditAlert = !habit.addCompletion(on: selectedDate)
+                            showFutureEditAlert = !habit.addCompletion(on: date)
                         }
                     }
                     .font(.title)
@@ -95,7 +95,7 @@ struct HabitSheetView: View {
                 }
                 Spacer()
             }
-            .navigationTitle(selectedDate.formatted(.dateTime.day().month().year()))
+            .navigationTitle(date.formatted(.dateTime.day().month().year()))
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .topBarLeading) {
@@ -134,8 +134,8 @@ struct HabitSheetView: View {
 
 #Preview {
     @State var habit = Habit()
-    @State var selectedDate = Date.now
+    @State var date = Date.now
     habit.name = "Running"
     habit.emoji = "🏃‍♂️"
-    return HabitSheetView(habit: $habit, selectedDate: $selectedDate)
+    return HabitSheetView(habit: habit, date: date)
 }

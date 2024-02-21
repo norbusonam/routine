@@ -179,7 +179,7 @@ struct PlannerView: View {
                     return newValue == true
                 })
                 .sheet(isPresented: $showHabitSheet) {
-                    HabitSheetView(habit: $selectedHabit, selectedDate: $selectedDate)
+                    HabitSheetView(habit: selectedHabit, date: selectedDate)
                 }
                 .alert("Nice try, but you can't do a habit in the future!", isPresented: $showFutureEditAlert) {
                     Button("Ok", role: .cancel, action: {})
