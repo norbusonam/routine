@@ -53,6 +53,23 @@ struct PlannerView: View {
                         .transition(AnyTransition.asymmetric(insertion: .push(from: .leading), removal: .push(from: .trailing)))
                         .id(DateHelpers.getMonthSubheader(for: firstDayOfCurrentWeek))
                 }
+                .onTapGesture {
+                    let weekForToday = Calendar.current.dateComponents(
+                        [.weekOfYear],
+                        from: Calendar.current.date(from: DateComponents(year: 2024, month: 1, day: 1))!,
+                        to: DateHelpers.getFirstDayOfTheWeek(for: Date.now))
+                        .weekOfYear!
+                    if !Calendar.current.isDateInToday(selectedDate) || currentWeek != weekForToday {
+                        withAnimation {
+                            selectedDate = Date.now
+                            currentWeek = Calendar.current.dateComponents(
+                                [.weekOfYear],
+                                from: Calendar.current.date(from: DateComponents(year: 2024, month: 1, day: 1))!,
+                                to: DateHelpers.getFirstDayOfTheWeek(for: Date.now))
+                            .weekOfYear!
+                        }
+                    }
+                }
                 Spacer()
                 ShareLink(
                     item: URL(string: "https://testflight.apple.com/join/eviQ8Tiw")!,
