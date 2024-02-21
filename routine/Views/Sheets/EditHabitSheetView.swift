@@ -119,6 +119,7 @@ struct EditHabitSheetView: View {
                             .foregroundColor(.primary)
                             .opacity(0.1)
                     }
+                    .sensoryFeedback(.selection, trigger: habit.days.count)
                     HStack {
                         Button("", systemImage: "minus") {
                             withAnimation {
@@ -148,6 +149,12 @@ struct EditHabitSheetView: View {
                         RoundedRectangle(cornerRadius: 10)
                             .foregroundColor(.primary)
                             .opacity(0.1)
+                    }
+                    .sensoryFeedback(.increase, trigger: habit.goal) { oldValue, newValue in
+                        return newValue > oldValue
+                    }
+                    .sensoryFeedback(.decrease, trigger: habit.goal) { oldValue, newValue in
+                        return newValue < oldValue
                     }
                 }
                 .padding()
@@ -205,11 +212,11 @@ struct DayButton: View {
             }
         }
         .padding(10)
+        .foregroundColor(.primary)
         .background {
             Circle()
                 .foregroundColor(selectedDays.contains(dayEnumVal) ? .accent : .clear)
         }
-        .foregroundColor(.primary)
     }
 }
 
