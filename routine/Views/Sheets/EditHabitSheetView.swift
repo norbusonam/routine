@@ -55,7 +55,6 @@ struct EditHabitSheetView: View {
                             .keyboardType(.asciiCapable)
                             .padding()
                             .focused($nameFocused)
-                        
                             .onAppear {
                                 nameFocused = true
                             }
@@ -88,6 +87,16 @@ struct EditHabitSheetView: View {
                     }
                     .onChange(of: habit.type, initial: true) { _, newHabitType in
                         isGoodHabit = newHabitType == .good
+                        if isGoodHabit && habit.goal == 0 {
+                            withAnimation {
+                                habit.goal = 1
+                            }
+                        }
+                        if !isGoodHabit {
+                            withAnimation {
+                                habit.goal = 0
+                            }
+                        }
                     }
                     HStack {
                         DayButton(dayLabel: "M", dayEnumVal: .monday, selectedDays: $habit.days)
