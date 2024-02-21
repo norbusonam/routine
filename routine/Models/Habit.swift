@@ -93,7 +93,11 @@ class Habit {
     }
     
     func getProgress(on date: Date) -> Double {
-        return goal == 0 ? 0 : Double(getCompletions(on: date)) / Double(goal)
+        let completionsOnDateDouble = Double(getCompletions(on: date))
+        if goal == 0 {
+            return completionsOnDateDouble
+        }
+        return completionsOnDateDouble / Double(goal)
     }
     
     func shouldShow(on date: Date) -> Bool {
