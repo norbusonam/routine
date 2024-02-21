@@ -240,7 +240,6 @@ struct HabitListItem: View {
     
     var body: some View {
         Button(action: action) {
-            let habitState = habit.getState(on: selectedDate)
             HStack {
                 Text("\(habit.emoji)")
                 VStack(alignment: .leading) {
@@ -263,16 +262,12 @@ struct HabitListItem: View {
                     }
                 }
                 Spacer(minLength: 32)
+                let habitState = habit.getState(on: selectedDate)
                 switch habitState {
-                case .exceeded:
-                    Text("👏")
+                case .exceeded, .success, .fail, .atLimit:
+                    Text(habitState.rawValue)
                         .transition(.scale)
-                case .success:
-                    Text("✅")
-                        .transition(.scale)
-                case .fail:
-                    Text("❌")
-                        .transition(.scale)
+                        .id(habitState)
                 case .inProgress:
                     ZStack {
                         Circle()

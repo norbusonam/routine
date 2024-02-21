@@ -13,7 +13,7 @@ struct HabitSheetView: View {
     
     @State private var showEditSheet = false
     @State private var showFutureEditAlert = false
-
+    
     var habit: Habit
     var date: Date
     
@@ -38,19 +38,13 @@ struct HabitSheetView: View {
                         .stroke(.accent, style: StrokeStyle(lineWidth: 20, lineCap: .round))
                         .rotationEffect(.degrees(-90))
                     VStack(spacing: 10) {
-                        switch habit.getState(on: date) {
-                        case .exceeded:
-                            Text("👏")
+                        let habitState = habit.getState(on: date)
+                        switch habitState {
+                        case .exceeded, .success, .fail, .atLimit:
+                            Text(habitState.rawValue)
                                 .font(.largeTitle)
                                 .transition(.scale)
-                        case .success:
-                            Text("✅")
-                                .font(.largeTitle)
-                                .transition(.scale)
-                        case .fail:
-                            Text("❌")
-                                .font(.largeTitle)
-                                .transition(.scale)
+                                .id(habitState)
                         case .inProgress:
                             Text(habit.emoji)
                                 .font(.largeTitle)
