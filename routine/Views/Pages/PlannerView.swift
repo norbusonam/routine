@@ -188,6 +188,18 @@ struct PlannerView: View {
                 .alert("Nice try, but you can't do a habit in the future!", isPresented: $showFutureEditAlert) {
                     Button("Ok", role: .cancel, action: {})
                 }
+                .mask(
+                    LinearGradient(
+                        gradient: Gradient(
+                            stops: [
+                                .init(color: .primary, location: 0.95),
+                                .init(color: .clear, location: 1)
+                            ]
+                        ),
+                        startPoint: .top,
+                        endPoint: .bottom
+                    )
+                )
             } else {
                 VStack {
                     Spacer()
