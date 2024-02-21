@@ -228,7 +228,10 @@ struct HabitListItem: View {
                     Text("\(habit.name)")
                         .font(.headline)
                         .lineLimit(1)
-                        .foregroundColor(habitState == .success || habitState == .fail || habitState == .exceeded ? .secondary : .primary)
+                        .foregroundColor(
+                            !Calendar.current.isDateInToday(selectedDate) && selectedDate > Date.now
+                            ? .secondary
+                            : .primary)
                     HStack(spacing: 0) {
                         Text("\(habit.getCompletions(on: selectedDate))")
                             .font(.subheadline)
