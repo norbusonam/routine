@@ -16,7 +16,6 @@ struct EditHabitSheetView: View {
     @State var isNewHabit: Bool = false
     @State var existingHabit: Habit?
     @State private var habit: Habit = Habit()
-    @State private var isGoodHabit = true
     @State private var showEmojiPicker = false
     
     @FocusState private var nameFocused: Bool
@@ -72,7 +71,10 @@ struct EditHabitSheetView: View {
                     Toggle(
                         habit.type == .good ? "Good habit" : "Bad habit",
                         systemImage: habit.type == .good ? "checkmark.circle" : "x.circle",
-                        isOn: $isGoodHabit
+                        isOn: Binding<Bool>(
+                            get: { habit.type == .good },
+                            set: { habit.type = $0 ? .good : .bad }
+                        )
                     )
                     .padding()
                     .foregroundColor(habit.type == .good ? .green : .red)
@@ -81,18 +83,13 @@ struct EditHabitSheetView: View {
                             .foregroundColor(.primary)
                             .opacity(0.1)
                     }
-                    // Sync habit.type and isGoodHabit
-                    .onChange(of: isGoodHabit) { _, isGoodHabitNew in
-                        habit.type = isGoodHabitNew ? .good : .bad
-                    }
-                    .onChange(of: habit.type, initial: true) { _, newHabitType in
-                        isGoodHabit = newHabitType == .good
-                        if isGoodHabit && habit.goal == 0 {
+                    .onChange(of: habit.type) { _, newHabitType in
+                        if newHabitType == .good && habit.goal == 0 {
                             withAnimation {
                                 habit.goal = 1
                             }
                         }
-                        if !isGoodHabit {
+                        if newHabitType == .bad {
                             withAnimation {
                                 habit.goal = 0
                             }
