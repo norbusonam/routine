@@ -255,6 +255,16 @@ struct HabitListItem: View {
         Button(action: action) {
             HStack {
                 Text("\(habit.emoji)")
+                    .overlay(alignment: .topLeading) {
+                        if Calendar.current.isDate(habit.creationDate, inSameDayAs: selectedDate) {
+                            Text("🏁")
+                                .font(.system(size: 8))
+                                .padding(2)
+                                .background(content: { Circle() })
+                                .offset(CGSize(width: -6, height: -6))
+                                .transition(.scale)
+                        }
+                    }
                 VStack(alignment: .leading) {
                     Text("\(habit.name)")
                         .font(.headline)
