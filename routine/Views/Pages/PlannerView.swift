@@ -50,6 +50,7 @@ struct PlannerView: View {
                         .id(DateHelpers.getYearHeader(for: firstDayOfCurrentWeek))
                     Text(DateHelpers.getMonthSubheader(for: firstDayOfCurrentWeek))
                         .font(.callout)
+                        .foregroundColor(.secondary)
                         .transition(AnyTransition.asymmetric(insertion: .push(from: .leading), removal: .push(from: .trailing)))
                         .id(DateHelpers.getMonthSubheader(for: firstDayOfCurrentWeek))
                 }
