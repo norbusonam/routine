@@ -30,7 +30,7 @@ struct PlannerView: View {
     @State var selectedHabit: Habit = Habit()
     @State var showHabitSheet = false
     
-    @Query var habits: [Habit]
+    @Query(sort: [SortDescriptor(\Habit.order), SortDescriptor(\Habit.creationDate)]) var habits: [Habit]
     
     func openHabitSheet(_ habit: Habit) {
         selectedHabit = habit
@@ -147,8 +147,8 @@ struct PlannerView: View {
             // +--------+
             // | habits |
             // +--------+
-            let goodHabits = habits.filter({ $0.shouldShow(on: selectedDate) && $0.type == .good })
-            let badHabits = habits.filter({ $0.shouldShow(on: selectedDate) && $0.type == .bad })
+            var goodHabits = habits.filter({ $0.shouldShow(on: selectedDate) && $0.type == .good })
+            var badHabits = habits.filter({ $0.shouldShow(on: selectedDate) && $0.type == .bad })
             if goodHabits.count + badHabits.count > 0 {
                 List {
                     if goodHabits.count > 0 {
@@ -156,6 +156,12 @@ struct PlannerView: View {
                             ForEach(goodHabits) { habit in
                                 HabitListItem(habit: habit, selectedDate: selectedDate, showFutureEditAlert: $showFutureEditAlert) {
                                     openHabitSheet(habit)
+                                }
+                            }
+                            .onMove { from, to in
+                                goodHabits.move(fromOffsets: from, toOffset: to)
+                                for (i, habit) in goodHabits.enumerated() {
+                                    habit.order = i
                                 }
                             }
                         } header: {
@@ -179,6 +185,12 @@ struct PlannerView: View {
                             ForEach(badHabits) { habit in
                                 HabitListItem(habit: habit, selectedDate: selectedDate, showFutureEditAlert: $showFutureEditAlert) {
                                     openHabitSheet(habit)
+                                }
+                            }
+                            .onMove { from, to in
+                                badHabits.move(fromOffsets: from, toOffset: to)
+                                for (i, habit) in badHabits.enumerated() {
+                                    habit.order = i
                                 }
                             }
                         } header: {

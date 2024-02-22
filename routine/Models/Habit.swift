@@ -37,6 +37,7 @@ class Habit {
         DayOfTheWeek.friday,
     ]
     var completions: [Date: Int] = [:]
+    var order = 1024
     var creationDate: Date = Date.now
     
     init() {
@@ -52,6 +53,7 @@ class Habit {
             .friday,
         ]
         self.completions = [:]
+        self.order = 1024
         self.creationDate = Date.now
     }
     
