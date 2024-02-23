@@ -14,6 +14,7 @@ struct HabitSheetView: View {
     @State private var showEditSheet = false
     @State private var showFutureEditAlert = false
     
+    private let haptic = UINotificationFeedbackGenerator()
     var habit: Habit
     var date: Date
     
@@ -89,6 +90,15 @@ struct HabitSheetView: View {
                 }
                 Spacer()
             }
+            .onChange(of: habit.getState(on: date), { _, newValue in
+                if newValue == .success || newValue == .exceeded {
+                    haptic.notificationOccurred(.success)
+                } else if newValue == .atLimit || newValue == .inProgress {
+                    haptic.notificationOccurred(.warning)
+                } else if newValue == .fail {
+                    haptic.notificationOccurred(.error)
+                }
+            })
             .navigationTitle(date.formatted(.dateTime.day().month().year()))
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {

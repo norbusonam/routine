@@ -295,7 +295,6 @@ struct PlannerView: View {
 }
 
 struct HabitListItem: View {
-    private let haptic = UINotificationFeedbackGenerator()
     var habit: Habit
     var selectedDate: Date
     @Binding var showFutureEditAlert: Bool
@@ -364,15 +363,6 @@ struct HabitListItem: View {
         .buttonStyle(.plain)
         .listRowSeparator(.hidden)
         .listRowInsets(EdgeInsets())
-        .onChange(of: habit.getState(on: selectedDate), { _, newValue in
-            if newValue == .success || newValue == .exceeded {
-                haptic.notificationOccurred(.success)
-            } else if newValue == .atLimit || newValue == .inProgress {
-                haptic.notificationOccurred(.warning)
-            } else if newValue == .fail {
-                haptic.notificationOccurred(.error)
-            }
-        })
         .swipeActions(edge: .leading) {
             Button {
                 withAnimation {
