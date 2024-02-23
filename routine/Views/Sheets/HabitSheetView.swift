@@ -11,6 +11,7 @@ struct HabitSheetView: View {
     @Environment(\.modelContext) private var modelContext
     @Environment(\.dismiss) private var dismiss
     
+    
     @State private var showEditSheet = false
     @State private var showFutureEditAlert = false
     
@@ -25,70 +26,97 @@ struct HabitSheetView: View {
     
     var body: some View {
         NavigationView {
-            VStack {
-                Spacer()
-                ZStack {
-                    Circle()
-                        .stroke(.accent, lineWidth: 20)
-                        .opacity(0.4)
-                    Circle()
-                        .trim(
-                            from: 0,
-                            to: [habit.getProgress(on: date), 0.00001].max()!
-                        )
-                        .stroke(.accent, style: StrokeStyle(lineWidth: 20, lineCap: .round))
-                        .rotationEffect(.degrees(-90))
-                    VStack(spacing: 10) {
-                        let habitState = habit.getState(on: date)
-                        switch habitState {
-                        case .exceeded, .success, .fail, .atLimit:
-                            Text(habitState.rawValue)
-                                .font(.largeTitle)
-                                .transition(.scale)
-                                .id(habitState)
-                        case .inProgress:
-                            Text(habit.emoji)
-                                .font(.largeTitle)
-                                .transition(.scale)
+            GeometryReader { geometry in
+                ScrollView {
+                    LazyVStack(spacing: 0) {
+                        VStack {
+                            Spacer()
+                            ZStack {
+                                Circle()
+                                    .stroke(.accent, lineWidth: 20)
+                                    .opacity(0.4)
+                                Circle()
+                                    .trim(
+                                        from: 0,
+                                        to: [habit.getProgress(on: date), 0.00001].max()!
+                                    )
+                                    .stroke(.accent, style: StrokeStyle(lineWidth: 20, lineCap: .round))
+                                    .rotationEffect(.degrees(-90))
+                                VStack(spacing: 10) {
+                                    let habitState = habit.getState(on: date)
+                                    switch habitState {
+                                    case .exceeded, .success, .fail, .atLimit:
+                                        Text(habitState.rawValue)
+                                            .font(.largeTitle)
+                                            .transition(.scale)
+                                            .id(habitState)
+                                    case .inProgress:
+                                        Text(habit.emoji)
+                                            .font(.largeTitle)
+                                            .transition(.scale)
+                                    }
+                                    Text(habit.name)
+                                        .padding(.horizontal)
+                                        .multilineTextAlignment(.center)
+                                        .lineLimit(1)
+                                        .font(.headline)
+                                    HStack(spacing: 0) {
+                                        Text("\(habit.getCompletions(on: date))")
+                                            .font(.subheadline)
+                                            .foregroundColor(.secondary)
+                                            .transition(.scale)
+                                            .id(habit.getCompletions(on: date))
+                                        Text(" / \(habit.goal)")
+                                            .font(.subheadline)
+                                            .foregroundColor(.secondary)
+                                    }
+                                }
+                            }
+                            .frame(width: UIScreen.main.bounds.width * 0.75)
+                            Spacer()
+                            HStack {
+                                Spacer()
+                                Button("", systemImage: "minus") {
+                                    withAnimation {
+                                        showFutureEditAlert = !habit.deleteCompletion(on: date)
+                                    }
+                                }
+                                .font(.title)
+                                .disabled(habit.getCompletions(on: date) == 0)
+                                Spacer()
+                                Button("", systemImage: "plus") {
+                                    withAnimation {
+                                        showFutureEditAlert = !habit.addCompletion(on: date)
+                                    }
+                                }
+                                .font(.title)
+                                Spacer()
+                            }
+                            Spacer()
+                            HStack {
+                                Spacer()
+                                Image(systemName: "chevron.down")
+                                Spacer()
+                                Text("Swipe down for stats")
+                                Spacer()
+                                Image(systemName: "chevron.down")
+                                Spacer()
+                            }
+                            .padding(.bottom)
+                            .foregroundColor(.secondary)
                         }
-                        Text(habit.name)
-                            .padding(.horizontal)
-                            .multilineTextAlignment(.center)
-                            .lineLimit(1)
-                            .font(.headline)
-                        HStack(spacing: 0) {
-                            Text("\(habit.getCompletions(on: date))")
-                                .font(.subheadline)
-                                .foregroundColor(.secondary)
-                                .transition(.scale)
-                                .id(habit.getCompletions(on: date))
-                            Text(" / \(habit.goal)")
-                                .font(.subheadline)
-                                .foregroundColor(.secondary)
+                        .frame(height: geometry.size.height)
+                        .padding(geometry.safeAreaInsets)
+                        VStack {
+                            Text("🚧 Under Construction 🚧")
                         }
+                        .frame(height: geometry.size.height)
+                        .padding(geometry.safeAreaInsets)
                     }
                 }
-                .frame(width: UIScreen.main.bounds.width * 0.75)
-                Spacer()
-                HStack {
-                    Spacer()
-                    Button("", systemImage: "minus") {
-                        withAnimation {
-                            showFutureEditAlert = !habit.deleteCompletion(on: date)
-                        }
-                    }
-                    .font(.title)
-                    .disabled(habit.getCompletions(on: date) == 0)
-                    Spacer()
-                    Button("", systemImage: "plus") {
-                        withAnimation {
-                            showFutureEditAlert = !habit.addCompletion(on: date)
-                        }
-                    }
-                    .font(.title)
-                    Spacer()
-                }
-                Spacer()
+                .ignoresSafeArea()
+                .scrollTargetBehavior(.paging)
+                .scrollIndicators(.hidden)
             }
             .onChange(of: habit.getState(on: date), { _, newValue in
                 if newValue == .success || newValue == .exceeded {
