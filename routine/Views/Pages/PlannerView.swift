@@ -37,6 +37,36 @@ struct PlannerView: View {
         showHabitSheet = true
     }
     
+    func getCircleColor(for date: Date) -> Color {
+        let isOnOrAfterToday = Calendar.current.isDateInToday(date) || date > Date.now
+        if isOnOrAfterToday {
+            return .clear
+        }
+        let habitStatesOnDay = habits
+            .filter { habit in
+                habit.shouldShow(on: date)
+            }
+            .map { habit in
+                habit.getState(on: date)
+            }
+        if habitStatesOnDay.count == 0 {
+            return .clear
+        }
+        // all success
+        if habitStatesOnDay.allSatisfy({ habitState in
+            habitState == .success || habitState == .exceeded
+        }) {
+            return .green
+        }
+        // all failed
+        if habitStatesOnDay.allSatisfy({ habitState in
+            habitState == .fail
+        }) {
+            return .red
+        }
+        return .yellow
+    }
+    
     var body: some View {
         VStack {
             // +--------+
@@ -91,7 +121,7 @@ struct PlannerView: View {
                         Spacer()
                         ForEach(0..<7, id: \.self) { index in
                             let day = Calendar.current.date(byAdding: .day, value: index, to: firstDayOfWeek)!
-                            VStack(spacing: 10) {
+                            VStack(spacing: 14) {
                                 Text(DateHelpers.getFirstLetterOfDay(for: day))
                                     .font(.system(.headline))
                                 Text(DateHelpers.getDayOfMonth(for: day))
@@ -101,13 +131,15 @@ struct PlannerView: View {
                             .padding(10)
                             .foregroundColor(Calendar.current.isDateInToday(day) ? .accent : .primary)
                             .overlay {
-                                Group {
-                                    if Calendar.current.isDate(day, inSameDayAs: selectedDate) {
-                                        RoundedRectangle(cornerRadius: 10)
-                                            .stroke(.accent, lineWidth: 2)
-                                            .transition(.push(from: .leading))
-                                    }
+                                if Calendar.current.isDate(day, inSameDayAs: selectedDate) {
+                                    RoundedRectangle(cornerRadius: 10)
+                                        .stroke(.accent, lineWidth: 2)
                                 }
+                            }
+                            .background {
+                                Circle()
+                                    .frame(width: 4, height: 4)
+                                    .foregroundColor(getCircleColor(for: day))
                             }
                             .onTapGesture {
                                 withAnimation {
