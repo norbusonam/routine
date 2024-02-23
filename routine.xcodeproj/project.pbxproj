@@ -13,6 +13,7 @@
 		0793FCDB2B6DF01F00300B50 /* EditHabitSheetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0793FCDA2B6DF01F00300B50 /* EditHabitSheetView.swift */; };
 		07B9D9632B53D61D00C5F8F5 /* Habit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07B9D9622B53D61D00C5F8F5 /* Habit.swift */; };
 		07B9D9672B64D5D100C5F8F5 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07B9D9662B64D5D100C5F8F5 /* ContentView.swift */; };
+		07CB89142B886BF50076A101 /* PreviewSampleData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07CB89132B886BF50076A101 /* PreviewSampleData.swift */; };
 		07FC49512B461D5F003A0E2D /* routineApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07FC49502B461D5F003A0E2D /* routineApp.swift */; };
 		07FC49532B461D5F003A0E2D /* PlannerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07FC49522B461D5F003A0E2D /* PlannerView.swift */; };
 		07FC49572B461D60003A0E2D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 07FC49562B461D60003A0E2D /* Assets.xcassets */; };
@@ -25,6 +26,7 @@
 		0793FCDA2B6DF01F00300B50 /* EditHabitSheetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditHabitSheetView.swift; sourceTree = "<group>"; };
 		07B9D9622B53D61D00C5F8F5 /* Habit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Habit.swift; sourceTree = "<group>"; };
 		07B9D9662B64D5D100C5F8F5 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		07CB89132B886BF50076A101 /* PreviewSampleData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreviewSampleData.swift; sourceTree = "<group>"; };
 		07EA97922B84579A00A916D1 /* routineDebug.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = routineDebug.entitlements; sourceTree = "<group>"; };
 		07FC494D2B461D5F003A0E2D /* routine.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = routine.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		07FC49502B461D5F003A0E2D /* routineApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = routineApp.swift; sourceTree = "<group>"; };
@@ -83,6 +85,14 @@
 			path = Models;
 			sourceTree = "<group>";
 		};
+		07CB89112B886BB30076A101 /* Support */ = {
+			isa = PBXGroup;
+			children = (
+				07CB89132B886BF50076A101 /* PreviewSampleData.swift */,
+			);
+			path = Support;
+			sourceTree = "<group>";
+		};
 		07FC49442B461D5F003A0E2D = {
 			isa = PBXGroup;
 			children = (
@@ -106,6 +116,7 @@
 				07FC49502B461D5F003A0E2D /* routineApp.swift */,
 				07B9D9512B53411200C5F8F5 /* Views */,
 				07B9D9612B53D60C00C5F8F5 /* Models */,
+				07CB89112B886BB30076A101 /* Support */,
 				07FC49562B461D60003A0E2D /* Assets.xcassets */,
 				07FC495B2B461D60003A0E2D /* routine.entitlements */,
 				07FC495C2B461D60003A0E2D /* Info.plist */,
@@ -198,6 +209,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				07CB89142B886BF50076A101 /* PreviewSampleData.swift in Sources */,
 				07B9D9672B64D5D100C5F8F5 /* ContentView.swift in Sources */,
 				07FC49532B461D5F003A0E2D /* PlannerView.swift in Sources */,
 				072240FD2B80027500C29D81 /* HabitSheetView.swift in Sources */,

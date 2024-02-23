@@ -444,4 +444,5 @@ fileprivate struct DateHelpers {
 
 #Preview {
     ContentView()
+        .modelContainer(previewContainer)
 }

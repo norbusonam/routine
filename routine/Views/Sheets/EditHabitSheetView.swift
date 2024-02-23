@@ -219,4 +219,5 @@ struct DayButton: View {
 
 #Preview {
     ContentView(showNewHabitSheet: true)
+        .modelContainer(previewContainer)
 }

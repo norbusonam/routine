@@ -80,4 +80,5 @@ struct TabItem: View {
 
 #Preview {
     ContentView()
+        .modelContainer(previewContainer)
 }

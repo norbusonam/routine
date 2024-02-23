@@ -35,4 +35,5 @@ struct StatsView: View {
 
 #Preview {
     ContentView(currentPage: Page.stats)
+        .modelContainer(previewContainer)
 }

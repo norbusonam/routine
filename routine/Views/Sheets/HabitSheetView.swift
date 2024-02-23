@@ -165,9 +165,6 @@ struct HabitSheetView: View {
 }
 
 #Preview {
-    @State var habit = Habit()
-    @State var date = Date.now
-    habit.name = "Running"
-    habit.emoji = "🏃‍♂️"
-    return HabitSheetView(habit: habit, date: date)
+    return ContentView()
+        .modelContainer(previewContainer)
 }
