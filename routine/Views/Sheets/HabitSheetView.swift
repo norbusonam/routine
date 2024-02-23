@@ -11,7 +11,6 @@ struct HabitSheetView: View {
     @Environment(\.modelContext) private var modelContext
     @Environment(\.dismiss) private var dismiss
     
-    
     @State private var showEditSheet = false
     @State private var showFutureEditAlert = false
     
