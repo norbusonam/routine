@@ -124,6 +124,13 @@ struct PlannerView: View {
                             VStack(spacing: 14) {
                                 Text(DateHelpers.getFirstLetterOfDay(for: day))
                                     .font(.system(.headline))
+                                    .foregroundColor(
+                                        Calendar.current.isDateInToday(day)
+                                        ? .accent
+                                        : day < Date.now
+                                        ? .primary
+                                        : .secondary
+                                    )
                                 Text(DateHelpers.getDayOfMonth(for: day))
                                     .font(.system(.subheadline))
                                     .foregroundColor(.secondary)
