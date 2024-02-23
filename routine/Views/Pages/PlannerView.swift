@@ -207,13 +207,18 @@ struct PlannerView: View {
                             HStack {
                                 Text("Good Habits")
                                 Spacer()
+                                if !showGoodHabits {
+                                    Text("\(goodHabits.count)")
+                                        .font(.subheadline)
+                                        .transition(.asymmetric(insertion: .push(from: .trailing), removal: .push(from: .leading)))
+                                }
                                 Button {
                                     withAnimation {
                                         showGoodHabits.toggle()
                                     }
                                 } label: {
                                     Image(systemName: "chevron.down")
-                                        .rotationEffect(.degrees(showGoodHabits ? 180 : 0))
+                                        .rotationEffect(.degrees(showGoodHabits ? 0 : -90))
                                 }
                                 .padding([.trailing], 4)
                             }
@@ -236,13 +241,18 @@ struct PlannerView: View {
                             HStack {
                                 Text("Bad Habits")
                                 Spacer()
+                                if !showBadHabits {
+                                    Text("\(badHabits.count)")
+                                        .font(.subheadline)
+                                        .transition(.asymmetric(insertion: .push(from: .trailing), removal: .push(from: .leading)))
+                                }
                                 Button {
                                     withAnimation {
                                         showBadHabits.toggle()
                                     }
                                 } label: {
                                     Image(systemName: "chevron.down")
-                                        .rotationEffect(.degrees(showBadHabits ? 180 : 0))
+                                        .rotationEffect(.degrees(showBadHabits ? 0 : -90))
                                 }
                                 .padding([.trailing], 4)
                             }
