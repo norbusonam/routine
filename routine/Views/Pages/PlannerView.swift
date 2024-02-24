@@ -44,7 +44,7 @@ struct PlannerView: View {
         }
         let habitStatesOnDay = habits
             .filter { habit in
-                habit.shouldShow(on: date)
+                habit.isActive(on: date)
             }
             .map { habit in
                 habit.getState(on: date)
@@ -186,8 +186,8 @@ struct PlannerView: View {
             // +--------+
             // | habits |
             // +--------+
-            var goodHabits = habits.filter({ $0.shouldShow(on: selectedDate) && $0.type == .good })
-            var badHabits = habits.filter({ $0.shouldShow(on: selectedDate) && $0.type == .bad })
+            var goodHabits = habits.filter({ $0.isActive(on: selectedDate) && $0.type == .good })
+            var badHabits = habits.filter({ $0.isActive(on: selectedDate) && $0.type == .bad })
             if goodHabits.count + badHabits.count > 0 {
                 List {
                     if goodHabits.count > 0 {

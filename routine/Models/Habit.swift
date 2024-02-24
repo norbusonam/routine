@@ -102,7 +102,7 @@ class Habit {
         return completionsOnDateDouble / Double(goal)
     }
     
-    func shouldShow(on date: Date) -> Bool {
+    func isActive(on date: Date) -> Bool {
         let isOnOrAfterCreation = Calendar.current.isDate(creationDate, inSameDayAs: date) || date > creationDate
         var isOnHabitDay = false
         let weekdayStyle = Date.FormatStyle().weekday(.wide)
