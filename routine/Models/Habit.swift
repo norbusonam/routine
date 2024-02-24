@@ -128,6 +128,24 @@ class Habit {
         return .inProgress
     }
     
+    func getActiveStreak() -> Int {
+        let stateOnToday = getState(on: Date.now)
+        if stateOnToday == .fail {
+            return 0
+        }
+        var streak = stateOnToday == .success || stateOnToday == .exceeded ?  1 : 0
+        var day = Calendar.current.date(byAdding: .day, value: -1, to: Date.now)!
+        while day > creationDate || Calendar.current.isDate(day, inSameDayAs: creationDate) {
+            print("\(name) \(streak) \(day)")
+            let isActiveOnDay = isActive(on: day)
+            let stateOnDay = getState(on: day)
+            if isActiveOnDay && stateOnDay == .fail { break }
+            if isActiveOnDay && stateOnDay == .success || stateOnDay == .exceeded { streak += 1 }
+            day = Calendar.current.date(byAdding: .day, value: -1, to: day)!
+        }
+        return streak
+    }
+    
     func isValid() -> Bool {
         let validNameLength = name.count >= Habit.MinNameLength && name.count <= Habit.MaxNameLength
         let validEmojiLength = emoji.count == 1

@@ -334,6 +334,11 @@ struct HabitListItem: View {
                     }
                 }
                 Spacer(minLength: 32)
+                if Calendar.current.isDateInToday(selectedDate) && habit.getActiveStreak() > 0 {
+                    Text("\(habit.getActiveStreak()) 🔥")
+                        .font(.subheadline)
+                        .transition(.asymmetric(insertion: .push(from: .trailing), removal: .push(from: .leading)))
+                }
                 let habitState = habit.getState(on: selectedDate)
                 switch habitState {
                 case .exceeded, .success, .fail, .atLimit:
