@@ -29,6 +29,9 @@ struct HabitSheetView: View {
             GeometryReader { geometry in
                 ScrollView {
                     LazyVStack(spacing: 0) {
+                        // +--------------+
+                        // | habit logger |
+                        // +--------------+
                         VStack {
                             Spacer()
                             ZStack {
@@ -125,6 +128,9 @@ struct HabitSheetView: View {
                                 }
                             }
                         }
+                        // +--------------+
+                        // | habit logger |
+                        // +--------------+
                         VStack {
                             Text("🚧 Under Construction 🚧")
                         }
