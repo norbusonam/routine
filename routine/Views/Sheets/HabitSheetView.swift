@@ -13,6 +13,7 @@ struct HabitSheetView: View {
     
     @State private var showEditSheet = false
     @State private var showFutureEditAlert = false
+    @State private var showSwipeUpMessage = false
     
     private let haptic = UINotificationFeedbackGenerator()
     var habit: Habit
@@ -92,20 +93,38 @@ struct HabitSheetView: View {
                                 Spacer()
                             }
                             Spacer()
-                            HStack {
-                                Spacer()
-                                Image(systemName: "chevron.down")
-                                Spacer()
-                                Text("Swipe down for stats")
-                                Spacer()
-                                Image(systemName: "chevron.down")
-                                Spacer()
-                            }
-                            .padding()
-                            .foregroundColor(.secondary)
                         }
                         .frame(height: geometry.size.height)
                         .padding(geometry.safeAreaInsets)
+                        .overlay(alignment: .bottom) {
+                            Group {
+                                if showSwipeUpMessage {
+                                    HStack {
+                                        Spacer()
+                                        Image(systemName: "chevron.down")
+                                        Spacer()
+                                        Text("Swipe up for stats")
+                                        Spacer()
+                                        Image(systemName: "chevron.down")
+                                        Spacer()
+                                    }
+                                    .font(.footnote)
+                                    .bold()
+                                    .transition(.asymmetric(insertion: .push(from: .bottom), removal: .opacity))
+                                }
+                            }
+                            .padding(.bottom, geometry.safeAreaInsets.bottom + 10)
+                        }
+                        .onAppear {
+                            withAnimation(.easeOut(duration: 3)) {
+                                showSwipeUpMessage = true
+                            }
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+                                withAnimation(.easeOut(duration: 1)) {
+                                    showSwipeUpMessage = false
+                                }
+                            }
+                        }
                         VStack {
                             Text("🚧 Under Construction 🚧")
                         }
@@ -116,6 +135,14 @@ struct HabitSheetView: View {
                 .ignoresSafeArea()
                 .scrollTargetBehavior(.paging)
                 .scrollIndicators(.hidden)
+                .gesture(
+                    DragGesture()
+                        .onChanged({ _ in
+                            withAnimation {
+                                showSwipeUpMessage = false
+                            }
+                        })
+                )
             }
             .onChange(of: habit.getState(on: date), { _, newValue in
                 if newValue == .success || newValue == .exceeded {
