@@ -167,6 +167,7 @@ class Habit {
         habit.completions = completions
         habit.enableReminders = enableReminders
         habit.reminderTime = reminderTime
+        habit.order = order
         habit.creationDate = creationDate
         return habit
     }
