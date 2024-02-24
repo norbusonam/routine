@@ -14,6 +14,7 @@ struct HabitSheetView: View {
     @State private var showEditSheet = false
     @State private var showFutureEditAlert = false
     @State private var showSwipeUpMessage = false
+    @State private var isOnStatsPage = false
     
     private let haptic = UINotificationFeedbackGenerator()
     var habit: Habit
@@ -137,18 +138,23 @@ struct HabitSheetView: View {
                         .frame(height: geometry.size.height)
                         .padding(geometry.safeAreaInsets)
                     }
+                    .background {
+                        // invisible geometry reader for scrollview tracking
+                        GeometryReader { pageTracker in
+                            Color.clear
+                                .onChange(of: pageTracker.frame(in: .named("scroll")).midY) { _, newValue in
+                                    isOnStatsPage = newValue < geometry.size.height / 2
+                                    withAnimation {
+                                        showSwipeUpMessage = false
+                                    }
+                                }
+                        }
+                        .frame(height: 0)
+                    }
                 }
                 .ignoresSafeArea()
                 .scrollTargetBehavior(.paging)
                 .scrollIndicators(.hidden)
-                .gesture(
-                    DragGesture()
-                        .onChanged({ _ in
-                            withAnimation {
-                                showSwipeUpMessage = false
-                            }
-                        })
-                )
             }
             .onChange(of: habit.getState(on: date), { _, newValue in
                 if newValue == .success || newValue == .exceeded {
@@ -159,7 +165,7 @@ struct HabitSheetView: View {
                     haptic.notificationOccurred(.error)
                 }
             })
-            .navigationTitle(date.formatted(.dateTime.day().month().year()))
+            .navigationTitle(isOnStatsPage ? habit.name : date.formatted(.dateTime.day().month().year()))
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .topBarLeading) {
