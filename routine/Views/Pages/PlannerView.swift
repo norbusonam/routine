@@ -324,14 +324,12 @@ struct HabitListItem: View {
                             : .primary)
                     HStack(spacing: 0) {
                         Text("\(habit.getCompletions(on: selectedDate))")
-                            .font(.subheadline)
-                            .foregroundColor(.secondary)
                             .transition(.scale)
                             .id(habit.getCompletions(on: selectedDate))
                         Text(" / \(habit.goal)")
-                            .font(.subheadline)
-                            .foregroundColor(.secondary)
                     }
+                    .font(.subheadline)
+                    .foregroundColor(.secondary)
                 }
                 Spacer(minLength: 32)
                 if Calendar.current.isDateInToday(selectedDate) && habit.getActiveStreak() > 0 {

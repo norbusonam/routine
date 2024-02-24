@@ -101,7 +101,7 @@ struct HabitSheetView: View {
                                 Image(systemName: "chevron.down")
                                 Spacer()
                             }
-                            .padding(.bottom)
+                            .padding()
                             .foregroundColor(.secondary)
                         }
                         .frame(height: geometry.size.height)
