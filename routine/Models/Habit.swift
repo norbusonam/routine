@@ -37,6 +37,8 @@ class Habit {
         DayOfTheWeek.friday,
     ]
     var completions: [Date: Int] = [:]
+    var enableReminders = false
+    var reminderTime: Date = Date.now
     var order = 1024
     var creationDate: Date = Date.now
     
@@ -53,6 +55,8 @@ class Habit {
             .friday,
         ]
         self.completions = [:]
+        self.enableReminders = false
+        self.reminderTime = Date.now
         self.order = 1024
         self.creationDate = Date.now
     }
@@ -161,6 +165,8 @@ class Habit {
         habit.goal = goal
         habit.days = days
         habit.completions = completions
+        habit.enableReminders = enableReminders
+        habit.reminderTime = reminderTime
         habit.creationDate = creationDate
         return habit
     }
