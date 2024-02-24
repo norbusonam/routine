@@ -24,10 +24,10 @@ let previewContainer: ModelContainer = {
         
         
         let junkFoodHabit = Habit()
-        runningHabit.emoji = "🍔"
-        runningHabit.name = "Junk Food"
-        runningHabit.type = .bad
-        runningHabit.goal = 0
+        junkFoodHabit.emoji = "🍔"
+        junkFoodHabit.name = "Junk Food"
+        junkFoodHabit.type = .bad
+        junkFoodHabit.goal = 0
         container.mainContext.insert(junkFoodHabit)
         
         return container
