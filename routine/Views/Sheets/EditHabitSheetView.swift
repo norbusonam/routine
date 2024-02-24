@@ -208,7 +208,7 @@ struct EditHabitSheetView: View {
                         Image(systemName: isNewHabit ? "plus.circle.fill" : "checkmark.circle.fill")
                             .imageScale(.large)
                     }
-                    .disabled(!habit.isValid())
+                    .disabled(!habit.isValid)
                 }
             }
         }

@@ -61,6 +61,35 @@ class Habit {
         self.creationDate = Date.now
     }
     
+    var activeStreak: Int {
+        get {
+            let stateOnToday = getState(on: Date.now)
+            if stateOnToday == .fail {
+                return 0
+            }
+            var streak = stateOnToday == .success || stateOnToday == .exceeded ?  1 : 0
+            var day = Calendar.current.date(byAdding: .day, value: -1, to: Date.now)!
+            while day > creationDate || Calendar.current.isDate(day, inSameDayAs: creationDate) {
+                let isActiveOnDay = isActive(on: day)
+                let stateOnDay = getState(on: day)
+                if isActiveOnDay && stateOnDay == .fail { break }
+                if isActiveOnDay && stateOnDay == .success || stateOnDay == .exceeded { streak += 1 }
+                day = Calendar.current.date(byAdding: .day, value: -1, to: day)!
+            }
+            return streak
+        }
+    }
+    
+    var isValid: Bool {
+        get {
+            let validNameLength = name.count >= Habit.MinNameLength && name.count <= Habit.MaxNameLength
+            let validEmojiLength = emoji.count == 1
+            let validGoal = type == .good && goal > 0 || type == .bad && goal >= 0
+            let daySelected = days.count > 0
+            return validNameLength && validEmojiLength && validGoal && daySelected
+        }
+    }
+    
     private func getDateKey(for date: Date) -> Date {
         return Calendar.current.startOfDay(for: date)
     }
@@ -130,31 +159,6 @@ class Habit {
             if isBeforeToday { return .success }
         }
         return .inProgress
-    }
-    
-    func getActiveStreak() -> Int {
-        let stateOnToday = getState(on: Date.now)
-        if stateOnToday == .fail {
-            return 0
-        }
-        var streak = stateOnToday == .success || stateOnToday == .exceeded ?  1 : 0
-        var day = Calendar.current.date(byAdding: .day, value: -1, to: Date.now)!
-        while day > creationDate || Calendar.current.isDate(day, inSameDayAs: creationDate) {
-            let isActiveOnDay = isActive(on: day)
-            let stateOnDay = getState(on: day)
-            if isActiveOnDay && stateOnDay == .fail { break }
-            if isActiveOnDay && stateOnDay == .success || stateOnDay == .exceeded { streak += 1 }
-            day = Calendar.current.date(byAdding: .day, value: -1, to: day)!
-        }
-        return streak
-    }
-    
-    func isValid() -> Bool {
-        let validNameLength = name.count >= Habit.MinNameLength && name.count <= Habit.MaxNameLength
-        let validEmojiLength = emoji.count == 1
-        let validGoal = type == .good && goal > 0 || type == .bad && goal >= 0
-        let daySelected = days.count > 0
-        return validNameLength && validEmojiLength && validGoal && daySelected
     }
     
     func clone() -> Habit {

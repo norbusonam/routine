@@ -332,8 +332,8 @@ struct HabitListItem: View {
                     .foregroundColor(.secondary)
                 }
                 Spacer(minLength: 32)
-                if Calendar.current.isDateInToday(selectedDate) && habit.getActiveStreak() > 0 {
-                    Text("\(habit.getActiveStreak()) 🔥")
+                if Calendar.current.isDateInToday(selectedDate) && habit.activeStreak > 0 {
+                    Text("\(habit.activeStreak) 🔥")
                         .font(.subheadline)
                         .transition(.asymmetric(insertion: .push(from: .trailing), removal: .push(from: .leading)))
                 }
