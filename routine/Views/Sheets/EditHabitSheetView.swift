@@ -17,6 +17,7 @@ struct EditHabitSheetView: View {
     @State var existingHabit: Habit?
     @State private var habit: Habit = Habit()
     @State private var showEmojiPicker = false
+    @State var date = Date.now
     
     @FocusState private var nameFocused: Bool
     
@@ -153,6 +154,26 @@ struct EditHabitSheetView: View {
                     .sensoryFeedback(.decrease, trigger: habit.goal) { oldValue, newValue in
                         return newValue < oldValue
                     }
+                    VStack {
+                        Toggle(
+                            "Reminder",
+                            systemImage: "alarm",
+                            isOn: $habit.enableReminders
+                        )
+                        .padding()
+                        if habit.enableReminders {
+                            DatePicker("At time", selection: $habit.reminderTime, displayedComponents: .hourAndMinute)
+                                .padding([.bottom, .horizontal])
+                                .transition(.asymmetric(insertion: .push(from: .top), removal: .push(from: .bottom)))
+                        }
+                    }
+                    .background {
+                        RoundedRectangle(cornerRadius: 10)
+                            .foregroundColor(.primary)
+                            .opacity(0.1)
+                    }
+                    .animation(.default, value: habit.enableReminders)
+                    .transition(AnyTransition.move(edge: .top))
                 }
                 .padding()
             }
@@ -178,6 +199,8 @@ struct EditHabitSheetView: View {
                                 h.type = habit.type
                                 h.goal = habit.goal
                                 h.days = habit.days
+                                h.enableReminders = habit.enableReminders
+                                h.reminderTime = habit.reminderTime
                             }
                         }
                         dismiss()
