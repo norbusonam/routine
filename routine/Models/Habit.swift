@@ -136,7 +136,6 @@ class Habit {
         var streak = stateOnToday == .success || stateOnToday == .exceeded ?  1 : 0
         var day = Calendar.current.date(byAdding: .day, value: -1, to: Date.now)!
         while day > creationDate || Calendar.current.isDate(day, inSameDayAs: creationDate) {
-            print("\(name) \(streak) \(day)")
             let isActiveOnDay = isActive(on: day)
             let stateOnDay = getState(on: day)
             if isActiveOnDay && stateOnDay == .fail { break }
