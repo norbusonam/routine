@@ -6,8 +6,8 @@
 //
 
 import SwiftUI
-import MCEmojiPicker
 import SwiftData
+import MCEmojiPicker
 
 struct EditHabitSheetView: View {
     @Environment(\.modelContext) private var modelContext
@@ -72,7 +72,7 @@ struct EditHabitSheetView: View {
                     Toggle(
                         habit.type == .good ? "Good habit" : "Bad habit",
                         systemImage: habit.type == .good ? "checkmark.circle" : "x.circle",
-                        isOn: Binding<Bool>(
+                        isOn: Binding(
                             get: { habit.type == .good },
                             set: { habit.type = $0 ? .good : .bad }
                         )
