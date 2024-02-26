@@ -18,6 +18,7 @@ struct EditHabitSheetView: View {
     @State var date = Date.now
     @State private var habit: Habit = Habit()
     @State private var showEmojiPicker = false
+    @State private var showNotificationsNotAllowedAlert = false
     
     @FocusState private var nameFocused: Bool
     
@@ -174,6 +175,22 @@ struct EditHabitSheetView: View {
                     }
                     .animation(.default, value: habit.enableTimeReminder)
                     .transition(AnyTransition.move(edge: .top))
+                    .onChange(of: habit.enableTimeReminder) { _, newValue in
+                        if newValue {
+                            UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .badge, .sound]) { success, error in
+                                if !success {
+                                    habit.enableTimeReminder = false
+                                    showNotificationsNotAllowedAlert = true
+                                }
+                            }
+                        }
+                    }
+                    .alert("You need to turn on push notifications to allow this functionality.", isPresented: $showNotificationsNotAllowedAlert) {
+                        Button("Nevermind", role: .cancel, action: {})
+                        Button("Open Settings") {
+                            UIApplication.shared.open(URL(string: UIApplication.openSettingsURLString)!)
+                        }
+                    }
                 }
                 .padding()
             }
