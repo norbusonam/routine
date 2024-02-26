@@ -158,10 +158,10 @@ struct EditHabitSheetView: View {
                         Toggle(
                             "Reminder",
                             systemImage: "alarm",
-                            isOn: $habit.enableReminders
+                            isOn: $habit.enableTimeReminder
                         )
                         .padding()
-                        if habit.enableReminders {
+                        if habit.enableTimeReminder {
                             DatePicker("At time", selection: $habit.reminderTime, displayedComponents: .hourAndMinute)
                                 .padding([.bottom, .horizontal])
                                 .transition(.asymmetric(insertion: .push(from: .top), removal: .push(from: .bottom)))
@@ -172,7 +172,7 @@ struct EditHabitSheetView: View {
                             .foregroundColor(.primary)
                             .opacity(0.1)
                     }
-                    .animation(.default, value: habit.enableReminders)
+                    .animation(.default, value: habit.enableTimeReminder)
                     .transition(AnyTransition.move(edge: .top))
                 }
                 .padding()
@@ -199,7 +199,7 @@ struct EditHabitSheetView: View {
                                 h.type = habit.type
                                 h.goal = habit.goal
                                 h.days = habit.days
-                                h.enableReminders = habit.enableReminders
+                                h.enableTimeReminder = habit.enableTimeReminder
                                 h.reminderTime = habit.reminderTime
                             }
                         }
