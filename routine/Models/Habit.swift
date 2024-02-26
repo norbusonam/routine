@@ -29,6 +29,7 @@ class Habit {
     var emoji: String = "🏃‍♂️"
     var type = HabitType.good
     var goal: Int = 1
+    // TODO: update to set
     var days: [DayOfTheWeek] = [
         DayOfTheWeek.monday,
         DayOfTheWeek.tuesday,
