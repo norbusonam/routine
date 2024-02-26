@@ -37,8 +37,8 @@ class Habit {
         DayOfTheWeek.friday,
     ]
     var completions: [Date: Int] = [:]
-    var reminderTime: Date = Date.now
     var enableTimeReminder = false
+    var reminderTime: Date = Calendar.current.date(from: DateComponents(hour: 9, minute: 0))!
     var order = 1024
     var creationDate: Date = Date.now
     
@@ -55,8 +55,8 @@ class Habit {
             .friday,
         ]
         self.completions = [:]
-        self.reminderTime = Date.now
         self.enableTimeReminder = false
+        self.reminderTime = Calendar.current.date(from: DateComponents(hour: 9, minute: 0))!
         self.order = 1024
         self.creationDate = Date.now
     }
