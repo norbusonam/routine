@@ -15,9 +15,9 @@ struct EditHabitSheetView: View {
     
     @State var isNewHabit: Bool = false
     @State var existingHabit: Habit?
+    @State var date = Date.now
     @State private var habit: Habit = Habit()
     @State private var showEmojiPicker = false
-    @State var date = Date.now
     
     @FocusState private var nameFocused: Bool
     
