@@ -7,6 +7,7 @@
 
 import Foundation
 import SwiftData
+import UserNotifications
 
 enum HabitType: String, Codable {
     case good, bad
@@ -193,5 +194,58 @@ class Habit {
         habit.order = order
         habit.creationDate = creationDate
         return habit
+    }
+}
+
+func updateHabitNotifications(_ modelContext: ModelContext) {
+    let fetchDescriptor = FetchDescriptor<Habit>()
+    let center = UNUserNotificationCenter.current()
+    do {
+        let habits = try modelContext.fetch(fetchDescriptor)
+        center.removeAllPendingNotificationRequests()
+        print("xyz \(habits.count)")
+        for habit in habits {
+            if habit.enableTimeReminder {
+                for day in habit.days {
+                    if habit.enableTimeReminder {
+                        let content = UNMutableNotificationContent()
+                        content.title = "\(habit.type == .good ? "🟢" : "🔴") \(habit.name) \(habit.emoji)"
+                        content.body = [
+                            "Just checking in.",
+                            "Time for action.",
+                            "Gentle nudge.",
+                            "Friendly Reminder.",
+                            "Stay on track.",
+                            "Keep going!",
+                            "Don't forget!",
+                            "Consistency is key.",
+                            "Make it count.",
+                            "One step at a time.",
+                            "Today matters.",
+                            "Stay focused.",
+                            "Keep pushing."
+                        ].randomElement()!
+                        content.sound = UNNotificationSound.default
+                        
+                        var dateComponents = DateComponents()
+                        dateComponents.weekday = day.weekday()
+                        dateComponents.hour = Calendar.current.component(.hour, from: habit.reminderTime)
+                        dateComponents.minute = Calendar.current.component(.minute, from: habit.reminderTime)
+                        
+                        let trigger = UNCalendarNotificationTrigger(dateMatching: dateComponents, repeats: true)
+                        
+                        let request = UNNotificationRequest(identifier: UUID().uuidString, content: content, trigger: trigger)
+                        
+                        UNUserNotificationCenter.current().add(request) { error in
+                                    if let error = error {
+                                        print("Error scheduling notification: \(error)")
+                                    }
+                                }
+                    }
+                }
+            }
+        }
+    } catch {
+        print("unable to update notifications")
     }
 }
