@@ -16,24 +16,24 @@ enum HabitType: String, Codable {
 enum DayOfTheWeek: String, Codable {
     case monday, tuesday, wednesday, thursday, friday, saturday, sunday
     func weekday() -> Int {
-            switch self {
-            case .monday:
-                return 1
-            case .tuesday:
-                return 2
-            case .wednesday:
-                return 3
-            case .thursday:
-                return 4
-            case .friday:
-                return 5
-            case .saturday:
-                return 6
-            case .sunday:
-                return 7
-            }
+        switch self {
+        case .monday:
+            return 1
+        case .tuesday:
+            return 2
+        case .wednesday:
+            return 3
+        case .thursday:
+            return 4
+        case .friday:
+            return 5
+        case .saturday:
+            return 6
+        case .sunday:
+            return 7
         }
     }
+}
 
 enum HabitState: String {
     case success = "✅", exceeded = "👏", atLimit = "⚠️", fail = "❌", inProgress = "⏳"
@@ -237,10 +237,10 @@ func updateHabitNotifications(_ modelContext: ModelContext) {
                         let request = UNNotificationRequest(identifier: UUID().uuidString, content: content, trigger: trigger)
                         
                         UNUserNotificationCenter.current().add(request) { error in
-                                    if let error = error {
-                                        print("Error scheduling notification: \(error)")
-                                    }
-                                }
+                            if let error = error {
+                                print("Error scheduling notification: \(error)")
+                            }
+                        }
                     }
                 }
             }
