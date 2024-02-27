@@ -203,7 +203,6 @@ func updateHabitNotifications(_ modelContext: ModelContext) {
     do {
         let habits = try modelContext.fetch(fetchDescriptor)
         center.removeAllPendingNotificationRequests()
-        print("xyz \(habits.count)")
         for habit in habits {
             if habit.enableTimeReminder {
                 for day in habit.days {
