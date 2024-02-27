@@ -220,6 +220,7 @@ struct EditHabitSheetView: View {
                                 h.reminderTime = habit.reminderTime
                             }
                         }
+                        updateHabitNotifications(modelContext)
                         dismiss()
                     } label: {
                         Image(systemName: isNewHabit ? "plus.circle.fill" : "checkmark.circle.fill")
