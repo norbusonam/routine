@@ -57,7 +57,7 @@ struct EditHabitSheetView: View {
                             .padding()
                             .focused($nameFocused)
                             .onAppear {
-                                nameFocused = true
+                                nameFocused = isNewHabit
                             }
                             .background {
                                 RoundedRectangle(cornerRadius: 10)
