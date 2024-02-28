@@ -282,13 +282,7 @@ struct PlannerView: View {
                     )
                 )
             } else {
-                VStack {
-                    Spacer()
-                    Text("No habits for this day. Press + below to create one!")
-                        .multilineTextAlignment(.center)
-                        .padding()
-                    Spacer()
-                }
+                NoResultsView()
             }
         }
     }
@@ -385,6 +379,30 @@ struct HabitListItem: View {
                 Image(systemName: "plus")
             }
             .tint(habit.type == .good ? .green : .red)
+        }
+    }
+}
+
+struct NoResultsView: View {
+    @State private var isAnimating = false
+    @State private var opacity = 1.0
+    var body: some View {
+        VStack {
+            Spacer()
+            Text("No habits for this day. Press + below to create one!")
+                .multilineTextAlignment(.center)
+                .padding()
+            Spacer()
+            Image(systemName: "arrow.down")
+                .imageScale(.large)
+                .offset(y: isAnimating ? -10 : 0)
+                .opacity(opacity)
+                .onAppear() {
+                    withAnimation(.easeInOut(duration: 0.8).repeatForever(autoreverses: true)) {
+                        isAnimating = true
+                        opacity = 0.5
+                    }
+                }
         }
     }
 }
