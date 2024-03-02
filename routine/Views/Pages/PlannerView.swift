@@ -121,7 +121,7 @@ struct PlannerView: View {
                         Spacer()
                         ForEach(0..<7, id: \.self) { index in
                             let day = Calendar.current.date(byAdding: .day, value: index, to: firstDayOfWeek)!
-                            VStack(spacing: 14) {
+                            VStack(spacing: 8) {
                                 Text(DateHelpers.getFirstLetterOfDay(for: day))
                                     .font(.system(.headline))
                                     .foregroundColor(
@@ -131,6 +131,9 @@ struct PlannerView: View {
                                         ? .primary
                                         : .secondary
                                     )
+                                Circle()
+                                    .frame(width: 4, height: 4)
+                                    .foregroundColor(getCircleColor(for: day))
                                 Text(DateHelpers.getDayOfMonth(for: day))
                                     .font(.system(.subheadline))
                                     .foregroundColor(.secondary)
@@ -142,11 +145,6 @@ struct PlannerView: View {
                                     RoundedRectangle(cornerRadius: 10)
                                         .stroke(.accent, lineWidth: 2)
                                 }
-                            }
-                            .background {
-                                Circle()
-                                    .frame(width: 4, height: 4)
-                                    .foregroundColor(getCircleColor(for: day))
                             }
                             .onTapGesture {
                                 withAnimation {
