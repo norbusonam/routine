@@ -132,8 +132,7 @@ struct EditHabitSheetView: View {
                         Spacer()
                         HStack(spacing: 0) {
                             Text("\(habit.goal)")
-                                .transition(.push(from: .top))
-                                .id(habit.goal)
+                                .contentTransition(.numericText(value: Double(habit.goal)))
                             Text(" / day")
                         }
                         Spacer()
